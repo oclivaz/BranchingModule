@@ -67,7 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
-    <Compile Include="Logic\Adapters\AdeNet\AdeNetAdapter.cs" />
+    <Compile Include="Logic\Adapters\AdeNet\AdeNetAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Logic\Adapters\AdeNet\IAdeNetAdapter.cs" />
     <Compile Include="Logic\Adapters\SourceControl\ISourceControlAdapter.cs" />
     <Compile Include="Logic\Adapters\SourceControl\TeamFoundationAdapter.cs" />
