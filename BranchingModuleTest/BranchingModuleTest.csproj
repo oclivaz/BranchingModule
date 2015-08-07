@@ -63,7 +63,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Framework\Modules\TestInjectionModule.cs" />
+    <Compile Include="AssemblyInitialize.cs" />
+    <Compile Include="DependencyInjection\Factories\TestSettingsFactory.cs" />
+    <Compile Include="DependencyInjection\TestInjectionModule.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\MSConventionTest.cs" />
     <Compile Include="SettingsTest.cs" />

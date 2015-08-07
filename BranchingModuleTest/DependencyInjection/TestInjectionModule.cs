@@ -1,4 +1,5 @@
 ﻿using System;
+using BranchingModule.Logic;
 using Ninject.Modules;
 
 namespace BranchingModuleTest.Framework.Modules
@@ -7,7 +8,7 @@ namespace BranchingModuleTest.Framework.Modules
 	{
 		public override void Load()
 		{
-			throw new NotImplementedException("Dependencies should be delivered in the Unit Test");
+			Bind<ISettings>().ToProvider(new TestSettingsFactory()).InSingletonScope();
 		}
 	}
 }

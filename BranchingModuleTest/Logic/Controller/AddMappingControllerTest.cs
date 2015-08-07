@@ -8,18 +8,18 @@ namespace BranchingModuleTest.Logic.Controller
 	public class AddMappingControllerTest
 	{
 		#region Properties
-		internal AddMappingController AddMappingController { get; set; }
+		private AddMappingController AddMappingController { get; set; }
 		private ISourceControlAdapter SourceControl { get; set; }
-		private ISettings Settings { get; set; }
+		private IAdeNetAdapter AdeNet { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.Settings = Substitute.For<ISettings>();
 			this.SourceControl = Substitute.For<ISourceControlAdapter>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.Settings);
+			this.AdeNet = Substitute.For<IAdeNetAdapter>();
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet);
 		}
 		#endregion
 
@@ -32,6 +32,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 			// Assert
 			this.SourceControl.Received().CreateMapping("AkisBVBL", "1.2.3");
+			this.AdeNet.Received().InstallPackages("AkisBVBL", "1.2.3");
 		}
 		#endregion
 	}

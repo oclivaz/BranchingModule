@@ -6,23 +6,28 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private ISourceControlAdapter SourceControl { get; set; }
-		private ISettings Settings { get; set; }
+		private IAdeNetAdapter AdeNet { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddMappingController(ISourceControlAdapter sourceControlAdapter, ISettings settings)
+		public AddMappingController(ISourceControlAdapter sourceControlAdapter, IAdeNetAdapter adeNetAdapter)
 		{
-			if(settings == null) throw new ArgumentNullException("settings");
+			if(sourceControlAdapter == null) throw new ArgumentNullException("sourceControlAdapter");
 
 			this.SourceControl = sourceControlAdapter;
-			this.Settings = settings;
+			this.AdeNet = adeNetAdapter;
 		}
 		#endregion
 
 		#region Publics
 		public void Process(string strTeamProject, string strBranch)
 		{
+			if(strTeamProject == null) throw new ArgumentNullException("strTeamProject");
+			if(strBranch == null) throw new ArgumentNullException("strBranch");
+
 			this.SourceControl.CreateMapping(strTeamProject, strBranch);
+
+			this.AdeNet.InstallPackages(strTeamProject, strBranch);
 		}
 		#endregion
 	}

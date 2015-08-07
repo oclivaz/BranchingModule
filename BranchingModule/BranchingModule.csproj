@@ -67,8 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
-    <Compile Include="Logic\Adapters\ISourceControlAdapter.cs" />
-    <Compile Include="Logic\Adapters\TeamFoundationAdapter.cs" />
+    <Compile Include="Logic\Adapters\AdeNet\AdeNetAdapter.cs" />
+    <Compile Include="Logic\Adapters\AdeNet\IAdeNetAdapter.cs" />
+    <Compile Include="Logic\Adapters\SourceControl\ISourceControlAdapter.cs" />
+    <Compile Include="Logic\Adapters\SourceControl\TeamFoundationAdapter.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\InjectionModule.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\SettingsFactory.cs" />

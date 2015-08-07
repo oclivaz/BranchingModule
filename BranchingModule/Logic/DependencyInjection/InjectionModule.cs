@@ -9,6 +9,7 @@ namespace BranchingModule.Logic
 		{
 			Bind<IConvention>().To<MSConvention>().InSingletonScope();
 			Bind<ISourceControlAdapter>().To<TeamFoundationAdapter>().InSingletonScope();
+			Bind<IAdeNetAdapter>().To<AdeNetAdapter>();
 			Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();
 		}
 		#endregion
