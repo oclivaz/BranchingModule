@@ -65,9 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
-    <Compile Include="Logic\Controller\AddMappingController.cs" />
+    <Compile Include="Logic\Adapters\ISourceControlAdapter.cs" />
+    <Compile Include="Logic\Adapters\SourceControlAdapter.cs" />
+    <Compile Include="Logic\Controllers\AddMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\InjectionModule.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\SettingsFactory.cs" />
+    <Compile Include="Logic\IConvention.cs" />
+    <Compile Include="Logic\MSConvention.cs" />
     <Compile Include="Logic\Settings\Settings.cs" />
     <Compile Include="Logic\Settings\TeamProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

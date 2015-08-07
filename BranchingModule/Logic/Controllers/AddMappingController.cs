@@ -20,7 +20,10 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void Process(string strTeamProject, string strBranch)
 		{
-			Console.WriteLine(this.Settings.TeamFoundationServerPath);
+			
+
+
+
 		}
 		#endregion
 	}

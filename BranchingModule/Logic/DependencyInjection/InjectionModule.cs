@@ -7,6 +7,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public override void Load()
 		{
+			Bind<IConvention>().To<MSConvention>();
 			Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();
 		}
 		#endregion
