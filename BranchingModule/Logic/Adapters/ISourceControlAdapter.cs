@@ -2,6 +2,6 @@
 {
 	public interface ISourceControlAdapter
 	{
-		void CreateMapping(string localPath, string serverPath);
+		void CreateMapping(string strTeamproject, string strBranch);
 	}
 }

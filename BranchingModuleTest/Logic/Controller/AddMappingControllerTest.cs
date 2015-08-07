@@ -27,11 +27,11 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestMethod]
 		public void TestProcess()
 		{
-			// Arrange
-			this.Settings.TeamFoundationServerPath.Returns("schubidu");
-
 			// Act
 			this.AddMappingController.Process("AkisBVBL", "1.2.3");
+
+			// Assert
+			this.SourceControl.Received().CreateMapping("AkisBVBL", "1.2.3");
 		}
 		#endregion
 	}

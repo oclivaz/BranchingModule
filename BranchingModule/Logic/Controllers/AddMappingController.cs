@@ -22,6 +22,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void Process(string strTeamProject, string strBranch)
 		{
+			this.SourceControl.CreateMapping(strTeamProject, strBranch);
 		}
 		#endregion
 	}

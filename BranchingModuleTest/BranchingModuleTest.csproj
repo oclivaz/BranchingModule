@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Framework\Modules\TestInjectionModule.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
+    <Compile Include="Logic\MSConventionTest.cs" />
     <Compile Include="SettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />
