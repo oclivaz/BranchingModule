@@ -70,13 +70,13 @@
     <Compile Include="TestDoubles\SettingsDummy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BranchingModule\BranchingModule.csproj">
       <Project>{BA56C753-A91C-42E3-846C-4AF57A435DBA}</Project>
       <Name>BranchingModule</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

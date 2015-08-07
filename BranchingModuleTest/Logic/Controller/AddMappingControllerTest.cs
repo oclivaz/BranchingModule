@@ -9,6 +9,7 @@ namespace BranchingModuleTest.Logic.Controller
 	{
 		#region Properties
 		internal AddMappingController AddMappingController { get; set; }
+		private ISourceControlAdapter SourceControl { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
@@ -17,7 +18,8 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.Settings = Substitute.For<ISettings>();
-			this.AddMappingController = new AddMappingController(this.Settings);
+			this.SourceControl = Substitute.For<ISourceControlAdapter>();
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.Settings);
 		}
 		#endregion
 
