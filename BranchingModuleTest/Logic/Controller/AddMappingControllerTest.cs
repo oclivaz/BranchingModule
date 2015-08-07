@@ -40,6 +40,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.Received().InstallPackages(branch);
 			this.ConfigFileService.Received().CreateIndivConfig(branch);
 			this.SourceControl.Received().CreateAppConfig(branch);
+			this.AdeNet.Received().BuildWebConfig(branch);
 		}
 		#endregion
 	}

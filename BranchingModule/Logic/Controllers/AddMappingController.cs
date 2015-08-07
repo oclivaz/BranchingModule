@@ -31,6 +31,8 @@ namespace BranchingModule.Logic
 			this.ConfigFileService.CreateIndivConfig(branch);
 
 			this.SourceControl.CreateAppConfig(branch);
+
+			this.AdeNet.BuildWebConfig(branch);
 		}
 		#endregion
 	}

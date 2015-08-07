@@ -38,6 +38,23 @@ namespace BranchingModule.Logic
 				if(process != null) process.WaitForExit();
 			}
 		}
+
+		public void BuildWebConfig(BranchInfo branch)
+		{
+			string strArguments = string.Format(@"/C {0}\AdeNet.exe -workingdirectory {1} -buildwebconfig -development", this.Settings.AdeNetExePath, this.Convention.GetLocalPath(branch));
+
+			ProcessStartInfo startInfo = new ProcessStartInfo("cmd.exe")
+			{
+				Arguments = strArguments,
+				CreateNoWindow = true,
+				UseShellExecute = false
+			};
+
+			using(Process process = Process.Start(startInfo))
+			{
+				if(process != null) process.WaitForExit();
+			}
+		}
 		#endregion
 	}
 }

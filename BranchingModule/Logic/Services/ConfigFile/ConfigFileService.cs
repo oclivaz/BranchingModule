@@ -7,7 +7,6 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IConvention Convention { get; set; }
-		private ISourceControlAdapter SourceControl { get; set; }
 		private ISettings Settings { get; set; }
 		private IFileWriter FileWriter { get; set; }
 		#endregion
