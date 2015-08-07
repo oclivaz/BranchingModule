@@ -10,6 +10,8 @@ namespace BranchingModule.Logic
 			Bind<IConvention>().To<MSConvention>().InSingletonScope();
 			Bind<ISourceControlAdapter>().To<TeamFoundationAdapter>().InSingletonScope();
 			Bind<IAdeNetAdapter>().To<AdeNetAdapter>();
+			Bind<IConfigFileService>().To<ConfigFileService>();
+			Bind<IFileWriter>().To<FileWriter>();
 			Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();
 		}
 		#endregion

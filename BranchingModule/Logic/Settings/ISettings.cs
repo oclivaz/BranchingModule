@@ -9,6 +9,7 @@
 		string BuildConfigurationUrl { get; }
 		string DumpRepositoryPath { get; }
 		string LogfilePath { get; }
+		string AppConfigServerPath { get; }
 
 		ITeamProjectSettings GetTeamProjectSettings(string strTeamproject);
 	}

@@ -11,6 +11,7 @@ namespace BranchingModule.Logic
 		public string AdeNetPath { get; set; }
 		public string BuildConfigurationUrl { get; set; }
 		public string DumpRepositoryPath { get; set; }
+		public string AppConfigServerPath { get; set; }
 		public string LogfilePath { get; set; }
 
 		public Dictionary<string, TeamProjectSettingsDTO> Teamprojects { get; set; }

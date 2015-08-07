@@ -23,7 +23,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void CreateMapping(string strTeamproject, string strBranch)
+		public void CreateMapping(BranchInfo branch)
 		{
 			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
 			server.Authenticate();
@@ -31,8 +31,8 @@ namespace BranchingModule.Logic
 			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
 			Workspace workspace = versioncontrol.GetWorkspace(Environment.MachineName, Environment.UserName);
 
-			string strLocalPath = this.Convention.GetLocalPath(strTeamproject, strBranch);
-			string strServerPath = this.Convention.GetServerPath(strTeamproject, strBranch);
+			string strLocalPath = this.Convention.GetLocalPath(branch);
+			string strServerPath = this.Convention.GetServerPath(branch);
 
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
@@ -40,6 +40,18 @@ namespace BranchingModule.Logic
 
 			GetRequest getRequest = new GetRequest(strServerPath, RecursionType.Full, VersionSpec.Latest);
 			workspace.Get(getRequest, GetOptions.None);
+		}
+
+		public void DownloadFile(string strServerpath, string strLocalpath)
+		{
+			if(strServerpath == null) throw new ArgumentNullException("strServerpath");
+			if(strLocalpath == null) throw new ArgumentNullException("strLocalpath");
+
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+
+			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
+			versioncontrol.DownloadFile(strServerpath, strLocalpath);
 		}
 		#endregion
 	}

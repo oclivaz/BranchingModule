@@ -11,6 +11,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private AddMappingController AddMappingController { get; set; }
 		private ISourceControlAdapter SourceControl { get; set; }
 		private IAdeNetAdapter AdeNet { get; set; }
+		private IConfigFileService ConfigFileService { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -19,7 +20,8 @@ namespace BranchingModuleTest.Logic.Controller
 		{
 			this.SourceControl = Substitute.For<ISourceControlAdapter>();
 			this.AdeNet = Substitute.For<IAdeNetAdapter>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet);
+			this.ConfigFileService = Substitute.For<IConfigFileService>();
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.ConfigFileService);
 		}
 		#endregion
 
@@ -27,12 +29,17 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestMethod]
 		public void TestProcess()
 		{
+			// Arrange
+			BranchInfo branch = new BranchInfo("AkisBVBL", "1.2.3");
+
 			// Act
-			this.AddMappingController.Process("AkisBVBL", "1.2.3");
+			this.AddMappingController.Process(branch);
 
 			// Assert
-			this.SourceControl.Received().CreateMapping("AkisBVBL", "1.2.3");
-			this.AdeNet.Received().InstallPackages("AkisBVBL", "1.2.3");
+			this.SourceControl.Received().CreateMapping(branch);
+			this.AdeNet.Received().InstallPackages(branch);
+			this.ConfigFileService.Received().CreateIndivConfig(branch);
+			this.ConfigFileService.Received().CreateAppConfig(branch);
 		}
 		#endregion
 	}

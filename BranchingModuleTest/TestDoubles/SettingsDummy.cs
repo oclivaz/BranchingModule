@@ -35,6 +35,11 @@ namespace BranchingModuleTest.TestDoubles
 		{
 			get { return "bullshit"; }
 		}
+
+		public string AppConfigServerPath 
+		{
+			get { return "bullshit"; }
+		}
 		#endregion
 
 		#region Publics

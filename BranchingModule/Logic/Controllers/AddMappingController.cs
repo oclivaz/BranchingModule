@@ -7,27 +7,30 @@ namespace BranchingModule.Logic
 		#region Properties
 		private ISourceControlAdapter SourceControl { get; set; }
 		private IAdeNetAdapter AdeNet { get; set; }
+		private IConfigFileService ConfigFileService { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddMappingController(ISourceControlAdapter sourceControlAdapter, IAdeNetAdapter adeNetAdapter)
+		public AddMappingController(ISourceControlAdapter sourceControlAdapter, IAdeNetAdapter adeNetAdapter, IConfigFileService configFileService)
 		{
 			if(sourceControlAdapter == null) throw new ArgumentNullException("sourceControlAdapter");
 
 			this.SourceControl = sourceControlAdapter;
 			this.AdeNet = adeNetAdapter;
+			this.ConfigFileService = configFileService;
 		}
 		#endregion
 
 		#region Publics
-		public void Process(string strTeamProject, string strBranch)
+		public void Process(BranchInfo branch)
 		{
-			if(strTeamProject == null) throw new ArgumentNullException("strTeamProject");
-			if(strBranch == null) throw new ArgumentNullException("strBranch");
+			this.SourceControl.CreateMapping(branch);
 
-			this.SourceControl.CreateMapping(strTeamProject, strBranch);
+			this.AdeNet.InstallPackages(branch);
 
-			this.AdeNet.InstallPackages(strTeamProject, strBranch);
+			this.ConfigFileService.CreateIndivConfig(branch);
+
+			this.ConfigFileService.CreateAppConfig(branch);
 		}
 		#endregion
 	}

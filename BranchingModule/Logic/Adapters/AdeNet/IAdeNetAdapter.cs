@@ -2,6 +2,6 @@
 {
 	public interface IAdeNetAdapter
 	{
-		void InstallPackages(string strTeamproject, string strBranch);
+		void InstallPackages(BranchInfo branch);
 	}
 }

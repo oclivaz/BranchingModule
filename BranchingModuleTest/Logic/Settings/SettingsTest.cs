@@ -21,6 +21,7 @@ namespace BranchingModuleTest
 				                  BuildConfigurationUrl = "BuildConfigurationUrl",
 				                  DumpRepositoryPath = "DumpRepositoryPath",
 				                  LogfilePath = "LogfilePath",
+								  AppConfigServerPath = "AppConfigServerPath",
 				                  Teamprojects = new Dictionary<string, TeamProjectSettingsDTO>()
 			                  };
 
@@ -41,6 +42,7 @@ namespace BranchingModuleTest
 			Assert.AreEqual(dto.BuildConfigurationUrl, settings.BuildConfigurationUrl);
 			Assert.AreEqual(dto.DumpRepositoryPath, settings.DumpRepositoryPath);
 			Assert.AreEqual(dto.LogfilePath, settings.LogfilePath);
+			Assert.AreEqual(dto.AppConfigServerPath, settings.AppConfigServerPath);
 
 			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings("a_teamproject");
 			Assert.IsNotNull(teamProjectSettings);

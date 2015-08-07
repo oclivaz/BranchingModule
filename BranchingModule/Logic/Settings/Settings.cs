@@ -17,6 +17,7 @@ namespace BranchingModule.Logic
 		public string BuildConfigurationUrl { get; private set; }
 		public string DumpRepositoryPath { get; private set; }
 		public string LogfilePath { get; private set; }
+		public string AppConfigServerPath { get; private set; }
 		private Dictionary<string, ITeamProjectSettings> TeamprojectSettings { get; set; }
 		#endregion
 
@@ -30,6 +31,7 @@ namespace BranchingModule.Logic
 			this.BuildConfigurationUrl = settingsDTO.BuildConfigurationUrl;
 			this.DumpRepositoryPath = settingsDTO.DumpRepositoryPath;
 			this.LogfilePath = settingsDTO.LogfilePath;
+			this.AppConfigServerPath = settingsDTO.AppConfigServerPath;
 
 			this.TeamprojectSettings = new Dictionary<string, ITeamProjectSettings>();
 			foreach(string strTeamproject in settingsDTO.Teamprojects.Keys)

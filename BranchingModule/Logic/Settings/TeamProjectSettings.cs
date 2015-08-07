@@ -9,6 +9,7 @@ namespace BranchingModule.Logic
 		public string RefDB { get; private set; }
 		#endregion
 
+		#region Constructors
 		public TeamProjectSettings(TeamProjectSettingsDTO settingsDTO)
 		{
 			if(settingsDTO == null) throw new ArgumentNullException("settingsDTO");
@@ -16,5 +17,6 @@ namespace BranchingModule.Logic
 			this.LocalDB = settingsDTO.LocalDB;
 			this.RefDB = settingsDTO.RefDB;
 		}
+		#endregion
 	}
 }
