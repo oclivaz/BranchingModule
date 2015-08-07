@@ -42,7 +42,16 @@ namespace BranchingModule.Logic
 			workspace.Get(getRequest, GetOptions.None);
 		}
 
-		public void DownloadFile(string strServerpath, string strLocalpath)
+		public void CreateAppConfig(BranchInfo branch)
+		{
+			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));
+
+			DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
+		}
+		#endregion
+
+		#region Privates
+		private void DownloadFile(string strServerpath, string strLocalpath)
 		{
 			if(strServerpath == null) throw new ArgumentNullException("strServerpath");
 			if(strLocalpath == null) throw new ArgumentNullException("strLocalpath");

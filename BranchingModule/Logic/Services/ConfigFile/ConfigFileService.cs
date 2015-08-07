@@ -13,12 +13,11 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public ConfigFileService(IConvention convention, ISourceControlAdapter sourceControl, ISettings settings, IFileWriter fileWriter)
+		public ConfigFileService(IConvention convention, ISettings settings, IFileWriter fileWriter)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.Convention = convention;
-			this.SourceControl = sourceControl;
 			this.Settings = settings;
 			this.FileWriter = fileWriter;
 		}
@@ -41,13 +40,6 @@ namespace BranchingModule.Logic
 
 			string strIndivConfig = String.Format(@"{0}\Web\Indiv\indiv.config", this.Convention.GetLocalPath(branch));
 			this.FileWriter.Write(strIndivConfig, strContent, Encoding.UTF8);
-		}
-
-		public void CreateAppConfig(BranchInfo branch)
-		{
-			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));
-
-			this.SourceControl.DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
 		}
 		#endregion
 	}

@@ -30,7 +30,7 @@ namespace BranchingModule.Logic
 
 			this.ConfigFileService.CreateIndivConfig(branch);
 
-			this.ConfigFileService.CreateAppConfig(branch);
+			this.SourceControl.CreateAppConfig(branch);
 		}
 		#endregion
 	}

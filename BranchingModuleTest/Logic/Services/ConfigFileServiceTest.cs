@@ -26,7 +26,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings = Substitute.For<ISettings>();
 			this.SourceControl = Substitute.For<ISourceControlAdapter>();
 			this.FileWriter = Substitute.For<IFileWriter>();
-			this.ConfigFileService = new ConfigFileService(this.Convention, this.SourceControl, this.Settings, this.FileWriter);
+			this.ConfigFileService = new ConfigFileService(this.Convention, this.Settings, this.FileWriter);
 		}
 		#endregion
 
@@ -43,22 +43,6 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.FileWriter.Received().Write(@"c:\somewhere\Web\Indiv\indiv.config", CreateSampleIndivConfig(), Encoding.UTF8);
-		}
-
-		[TestMethod]
-		public void TestCreateAppConfig()
-		{
-			// Arrange
-			this.Settings.AppConfigServerPath.Returns("$/somwhereOnTheTFS/app.config");
-
-			BranchInfo branch = new BranchInfo("AkisBVPK", "5.0.34");
-			this.Convention.GetLocalPath(branch).Returns(@"c:\somwhereLocally");
-
-			// Act
-			this.ConfigFileService.CreateAppConfig(branch);
-
-			// Assert
-			this.SourceControl.Received().DownloadFile("$/somwhereOnTheTFS/app.config", @"c:\somwhereLocally\Web\app.config");
 		}
 		#endregion
 

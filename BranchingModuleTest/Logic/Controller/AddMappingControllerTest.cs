@@ -39,7 +39,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.SourceControl.Received().CreateMapping(branch);
 			this.AdeNet.Received().InstallPackages(branch);
 			this.ConfigFileService.Received().CreateIndivConfig(branch);
-			this.ConfigFileService.Received().CreateAppConfig(branch);
+			this.SourceControl.Received().CreateAppConfig(branch);
 		}
 		#endregion
 	}
