@@ -71,6 +71,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logic\Adapters\AdeNet\IAdeNetAdapter.cs" />
+    <Compile Include="Logic\Adapters\BuildEngine\IBuildEngineAdapter.cs" />
+    <Compile Include="Logic\Adapters\BuildEngine\MSBuildAdapter.cs" />
     <Compile Include="Logic\Adapters\SourceControl\ISourceControlAdapter.cs" />
     <Compile Include="Logic\Adapters\SourceControl\TeamFoundationAdapter.cs" />
     <Compile Include="Logic\BranchInfo.cs" />

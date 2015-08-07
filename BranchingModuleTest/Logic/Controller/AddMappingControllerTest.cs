@@ -10,6 +10,7 @@ namespace BranchingModuleTest.Logic.Controller
 		#region Properties
 		private AddMappingController AddMappingController { get; set; }
 		private ISourceControlAdapter SourceControl { get; set; }
+		private IBuildEngineAdapter BuildEngine { get; set; }
 		private IAdeNetAdapter AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
 		#endregion
@@ -20,8 +21,9 @@ namespace BranchingModuleTest.Logic.Controller
 		{
 			this.SourceControl = Substitute.For<ISourceControlAdapter>();
 			this.AdeNet = Substitute.For<IAdeNetAdapter>();
+			this.BuildEngine = Substitute.For<IBuildEngineAdapter>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.ConfigFileService);
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService);
 		}
 		#endregion
 
@@ -41,6 +43,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.ConfigFileService.Received().CreateIndivConfig(branch);
 			this.SourceControl.Received().CreateAppConfig(branch);
 			this.AdeNet.Received().BuildWebConfig(branch);
+			this.BuildEngine.Received().Build(branch);
 		}
 		#endregion
 	}
