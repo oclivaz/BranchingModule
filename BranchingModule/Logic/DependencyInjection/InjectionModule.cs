@@ -7,12 +7,15 @@ namespace BranchingModule.Logic
 		#region Publics
 		public override void Load()
 		{
-			Bind<IConvention>().To<MSConvention>().InSingletonScope();
+			// Services
 			Bind<ISourceControlService>().To<TeamFoundationService>().InSingletonScope();
-			Bind<IAdeNetService>().To<AdeNetService>();
-			Bind<IBuildEngineService>().To<MsBuildService>();
-			Bind<IConfigFileService>().To<ConfigFileService>();
-			Bind<IFileWriter>().To<FileWriter>();
+			Bind<IAdeNetService>().To<AdeNetService>().InSingletonScope();
+			Bind<IBuildEngineService>().To<MsBuildService>().InSingletonScope();
+			Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
+
+			// Other
+			Bind<IConvention>().To<MSConvention>().InSingletonScope();
+			Bind<IFileWriter>().To<FileWriter>().InSingletonScope();
 			Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();
 		}
 		#endregion

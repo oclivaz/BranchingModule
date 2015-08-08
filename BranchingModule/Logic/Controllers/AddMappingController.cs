@@ -40,6 +40,8 @@ namespace BranchingModule.Logic
 			this.AdeNet.BuildWebConfig(branch);
 
 			this.BuildEngine.Build(branch);
+
+			this.AdeNet.InitializeIIS(branch);
 		}
 		#endregion
 	}

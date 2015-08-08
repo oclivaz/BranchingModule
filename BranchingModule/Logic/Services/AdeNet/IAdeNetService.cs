@@ -4,5 +4,6 @@
 	{
 		void InstallPackages(BranchInfo branch);
 		void BuildWebConfig(BranchInfo branch);
+		void InitializeIIS(BranchInfo branch);
 	}
 }

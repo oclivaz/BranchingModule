@@ -44,6 +44,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.SourceControl.Received().CreateAppConfig(branch);
 			this.AdeNet.Received().BuildWebConfig(branch);
 			this.BuildEngine.Received().Build(branch);
+			this.AdeNet.Received().InitializeIIS(branch);
 		}
 		#endregion
 	}

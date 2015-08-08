@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BranchingModule.Logic
+﻿namespace BranchingModule.Logic
 {
 	internal class MSConvention : IConvention
 	{
