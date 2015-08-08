@@ -1,6 +1,6 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface ISourceControlAdapter
+	public interface ISourceControlService
 	{
 		void CreateMapping(BranchInfo branch);
 		void CreateAppConfig(BranchInfo branch);

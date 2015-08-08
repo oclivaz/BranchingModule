@@ -1,6 +1,6 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface IAdeNetAdapter
+	public interface IAdeNetService
 	{
 		void InstallPackages(BranchInfo branch);
 		void BuildWebConfig(BranchInfo branch);

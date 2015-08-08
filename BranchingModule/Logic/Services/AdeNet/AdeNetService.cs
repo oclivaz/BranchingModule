@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace BranchingModule.Logic
 {
-	internal class AdeNetAdapter : IAdeNetAdapter
+	internal class AdeNetService : IAdeNetService
 	{
 		#region Properties
 		private IConvention Convention { get; set; }
@@ -11,7 +11,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public AdeNetAdapter(IConvention convention, ISettings settings)
+		public AdeNetService(IConvention convention, ISettings settings)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 			if(settings == null) throw new ArgumentNullException("settings");

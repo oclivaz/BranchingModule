@@ -5,23 +5,23 @@ namespace BranchingModule.Logic
 	internal class AddMappingController
 	{
 		#region Properties
-		private ISourceControlAdapter SourceControl { get; set; }
-		private IAdeNetAdapter AdeNet { get; set; }
-		public IBuildEngineAdapter BuildEngine { get; set; }
+		private ISourceControlService SourceControl { get; set; }
+		private IAdeNetService AdeNet { get; set; }
+		public IBuildEngineService BuildEngine { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddMappingController(ISourceControlAdapter sourceControlAdapter, IAdeNetAdapter adeNetAdapter, IBuildEngineAdapter buildEngineAdapter, IConfigFileService configFileService)
+		public AddMappingController(ISourceControlService sourceControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService)
 		{
-			if(sourceControlAdapter == null) throw new ArgumentNullException("sourceControlAdapter");
-			if(adeNetAdapter == null) throw new ArgumentNullException("adeNetAdapter");
-			if(buildEngineAdapter == null) throw new ArgumentNullException("buildEngineAdapter");
+			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
+			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
+			if(buildEngineService == null) throw new ArgumentNullException("buildEngineService");
 			if(configFileService == null) throw new ArgumentNullException("configFileService");
 
-			this.SourceControl = sourceControlAdapter;
-			this.AdeNet = adeNetAdapter;
-			this.BuildEngine = buildEngineAdapter;
+			this.SourceControl = sourceControlService;
+			this.AdeNet = adeNetService;
+			this.BuildEngine = buildEngineService;
 			this.ConfigFileService = configFileService;
 		}
 		#endregion

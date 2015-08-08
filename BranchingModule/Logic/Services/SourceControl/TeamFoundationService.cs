@@ -4,7 +4,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BranchingModule.Logic
 {
-	internal class TeamFoundationAdapter : ISourceControlAdapter
+	internal class TeamFoundationService : ISourceControlService
 	{
 		#region Properties
 		private IConvention Convention { get; set; }
@@ -12,7 +12,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public TeamFoundationAdapter(IConvention convention, ISettings settings)
+		public TeamFoundationService(IConvention convention, ISettings settings)
 		{
 			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");

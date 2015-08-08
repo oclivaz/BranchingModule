@@ -8,9 +8,9 @@ namespace BranchingModule.Logic
 		public override void Load()
 		{
 			Bind<IConvention>().To<MSConvention>().InSingletonScope();
-			Bind<ISourceControlAdapter>().To<TeamFoundationAdapter>().InSingletonScope();
-			Bind<IAdeNetAdapter>().To<AdeNetAdapter>();
-			Bind<IBuildEngineAdapter>().To<MSBuildAdapter>();
+			Bind<ISourceControlService>().To<TeamFoundationService>().InSingletonScope();
+			Bind<IAdeNetService>().To<AdeNetService>();
+			Bind<IBuildEngineService>().To<MsBuildService>();
 			Bind<IConfigFileService>().To<ConfigFileService>();
 			Bind<IFileWriter>().To<FileWriter>();
 			Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();

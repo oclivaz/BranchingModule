@@ -1,6 +1,6 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface IBuildEngineAdapter
+	public interface IBuildEngineService
 	{
 		void Build(BranchInfo branch);
 	}

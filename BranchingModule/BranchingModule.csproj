@@ -67,14 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
-    <Compile Include="Logic\Adapters\AdeNet\AdeNetAdapter.cs">
+    <Compile Include="Logic\Services\AdeNet\AdeNetService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logic\Adapters\AdeNet\IAdeNetAdapter.cs" />
-    <Compile Include="Logic\Adapters\BuildEngine\IBuildEngineAdapter.cs" />
-    <Compile Include="Logic\Adapters\BuildEngine\MSBuildAdapter.cs" />
-    <Compile Include="Logic\Adapters\SourceControl\ISourceControlAdapter.cs" />
-    <Compile Include="Logic\Adapters\SourceControl\TeamFoundationAdapter.cs" />
+    <Compile Include="Logic\Services\AdeNet\IAdeNetService.cs" />
+    <Compile Include="Logic\Services\BuildEngine\IBuildEngineService.cs" />
+    <Compile Include="Logic\Services\BuildEngine\MsBuildService.cs" />
+    <Compile Include="Logic\Services\SourceControl\ISourceControlService.cs" />
+    <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
     <Compile Include="Logic\BranchInfo.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\InjectionModule.cs" />
