@@ -13,7 +13,7 @@ namespace BranchingModuleTest.Logic.Services
 		#region Properties
 		private IConfigFileService ConfigFileService { get; set; }
 		private IConvention Convention { get; set; }
-		private ISourceControlAdapter SourceControl { get; set; }
+		private ISourceControlService SourceControl { get; set; }
 		private ISettings Settings { get; set; }
 		private IFileWriter FileWriter { get; set; }
 		#endregion
@@ -24,7 +24,7 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.SourceControl = Substitute.For<ISourceControlAdapter>();
+			this.SourceControl = Substitute.For<ISourceControlService>();
 			this.FileWriter = Substitute.For<IFileWriter>();
 			this.ConfigFileService = new ConfigFileService(this.Convention, this.Settings, this.FileWriter);
 		}
