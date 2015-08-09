@@ -9,6 +9,18 @@ namespace BranchingModuleTest.Logic.Services
 	[TestClass]
 	public class ConfigFileServiceTest : BranchingModuleTestBase
 	{
+		#region Constants
+		private const string INDIV_CONFIG_AKISBVPK_5_0_34 = @"<?xml version=""1.0"" encoding=""utf-8""?>
+    <appSettings>
+        <add key=""ConnectionString"" value=""server=localhost;Database=AskNet;User ID=sa;Pwd=password-123"" />
+        <add key=""SMTPServer"" value=""193.135.175.18"" /> 
+        <add key=""AppTitle"" value=""AkisBVPK Release 5.0.34"" />
+        <add key=""Company"" value=""M-S¦Pension"" />
+        <add key=""EnableUserThemes"" value=""true"" />
+        <add key=""SessionKeepAlive"" value=""true"" />
+    </appSettings>";
+		#endregion
+
 		#region Properties
 		private IConfigFileService ConfigFileService { get; set; }
 		private IConvention Convention { get; set; }
@@ -39,22 +51,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.ConfigFileService.CreateIndivConfig(new BranchInfo("AkisBVPK", "5.0.34"));
 
 			// Assert
-			this.FileWriter.Received().Write(@"c:\somewhere\Web\Indiv\indiv.config", CreateSampleIndivConfig(), Encoding.UTF8);
-		}
-		#endregion
-
-		#region Privates
-		private static string CreateSampleIndivConfig()
-		{
-			return @"<?xml version=""1.0"" encoding=""utf-8""?>
-    <appSettings>
-        <add key=""ConnectionString"" value=""server=localhost;Database=AskNet;User ID=sa;Pwd=password-123"" />
-        <add key=""SMTPServer"" value=""193.135.175.18"" /> 
-        <add key=""AppTitle"" value=""AkisBVPK Release 5.0.34"" />
-        <add key=""Company"" value=""M-S¦Pension"" />
-        <add key=""EnableUserThemes"" value=""true"" />
-        <add key=""SessionKeepAlive"" value=""true"" />
-    </appSettings>";
+			this.FileWriter.Received().Write(@"c:\somewhere\Web\Indiv\indiv.config", INDIV_CONFIG_AKISBVPK_5_0_34, Encoding.UTF8);
 		}
 		#endregion
 	}

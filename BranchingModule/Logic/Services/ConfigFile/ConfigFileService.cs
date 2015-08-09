@@ -35,7 +35,7 @@ namespace BranchingModule.Logic
         <add key=""Company"" value=""M-S¦Pension"" />
         <add key=""EnableUserThemes"" value=""true"" />
         <add key=""SessionKeepAlive"" value=""true"" />
-    </appSettings>", teamProjectSettings.LocalDB, branch.TeamProject, branch.Branch);
+    </appSettings>", teamProjectSettings.LocalDB, branch.TeamProject, branch.Name);
 
 			string strIndivConfig = String.Format(@"{0}\Web\Indiv\indiv.config", this.Convention.GetLocalPath(branch));
 			this.FileWriter.Write(strIndivConfig, strContent, Encoding.UTF8);

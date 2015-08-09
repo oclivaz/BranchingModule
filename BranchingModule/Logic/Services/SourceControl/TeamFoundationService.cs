@@ -32,7 +32,7 @@ namespace BranchingModule.Logic
 			Workspace workspace = versioncontrol.GetWorkspace(Environment.MachineName, Environment.UserName);
 
 			string strLocalPath = this.Convention.GetLocalPath(branch);
-			string strServerPath = this.Convention.GetServerPath(branch);
+			string strServerPath = this.Convention.GetBuildserverPath(branch);
 
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
@@ -48,9 +48,28 @@ namespace BranchingModule.Logic
 
 			DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
 		}
+
+		public DateTime GetCreationTime(BranchInfo branch)
+		{
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+
+			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
+			VersionSpec versionSpec = VersionSpec.ParseSingleSpec(string.Format("L{0}", GetLabel(branch)), null);
+
+			Item nuspecFileItem = versioncontrol.GetItem(string.Format(@"{0}/{1}.nuspec", this.Convention.GetBuildserverPath(BranchInfo.Main(branch.TeamProject)), branch.TeamProject), versionSpec);
+			if(nuspecFileItem == null) throw new Exception(string.Format("Kein Checkin zum Label {0} gefunden", GetLabel(branch)));
+
+			return nuspecFileItem.CheckinDate;
+		}
 		#endregion
 
 		#region Privates
+		private string GetLabel(BranchInfo branch)
+		{
+			return string.Format("{0}.0", branch.Name);
+		}
+
 		private void DownloadFile(string strServerpath, string strLocalpath)
 		{
 			if(strServerpath == null) throw new ArgumentNullException("strServerpath");

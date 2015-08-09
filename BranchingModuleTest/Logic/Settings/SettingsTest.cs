@@ -22,6 +22,9 @@ namespace BranchingModuleTest
 				                  DumpRepositoryPath = "DumpRepositoryPath",
 				                  LogfilePath = "LogfilePath",
 								  AppConfigServerPath = "AppConfigServerPath",
+								  TempDirectory = "TempDirectory",
+								  SQLScriptPath = "SQLScriptPath",
+								  SQLConnectionString = "SQLConnectionString",
 				                  Teamprojects = new Dictionary<string, TeamProjectSettingsDTO>()
 			                  };
 
@@ -43,6 +46,9 @@ namespace BranchingModuleTest
 			Assert.AreEqual(dto.DumpRepositoryPath, settings.DumpRepositoryPath);
 			Assert.AreEqual(dto.LogfilePath, settings.LogfilePath);
 			Assert.AreEqual(dto.AppConfigServerPath, settings.AppConfigServerPath);
+			Assert.AreEqual(dto.TempDirectory, settings.TempDirectory);
+			Assert.AreEqual(dto.SQLScriptPath, settings.SQLScriptPath);
+			Assert.AreEqual(dto.SQLConnectionString, settings.SQLConnectionString);
 
 			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings("a_teamproject");
 			Assert.IsNotNull(teamProjectSettings);

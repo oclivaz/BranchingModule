@@ -12,7 +12,10 @@ namespace BranchingModule.Logic
 		public string BuildConfigurationUrl { get; set; }
 		public string DumpRepositoryPath { get; set; }
 		public string AppConfigServerPath { get; set; }
+		public string TempDirectory { get; set; }
 		public string LogfilePath { get; set; }
+		public string SQLScriptPath { get; set; }
+		public string SQLConnectionString { get; set; }
 
 		public Dictionary<string, TeamProjectSettingsDTO> Teamprojects { get; set; }
 		#endregion

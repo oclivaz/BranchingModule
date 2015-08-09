@@ -10,6 +10,9 @@
 		string DumpRepositoryPath { get; }
 		string LogfilePath { get; }
 		string AppConfigServerPath { get; }
+		string TempDirectory { get; }
+		string SQLConnectionString { get; }
+		string SQLScriptPath { get; }
 
 		ITeamProjectSettings GetTeamProjectSettings(string strTeamproject);
 	}

@@ -15,28 +15,48 @@ namespace BranchingModuleTest.TestDoubles
 		{
 			get { return "bullshit"; }
 		}
+
 		public string TFExePath
 		{
 			get { return "bullshit"; }
 		}
+
 		public string AdeNetExePath
 		{
 			get { return "bullshit"; }
 		}
+
 		public string BuildConfigurationUrl
 		{
 			get { return "bullshit"; }
 		}
+
 		public string DumpRepositoryPath
 		{
 			get { return "bullshit"; }
 		}
+
 		public string LogfilePath
 		{
 			get { return "bullshit"; }
 		}
 
-		public string AppConfigServerPath 
+		public string AppConfigServerPath
+		{
+			get { return "bullshit"; }
+		}
+
+		public string TempDirectory
+		{
+			get { return "bullshit"; }
+		}
+
+		public string SQLConnectionString
+		{
+			get { return "bullshit"; }
+		}
+
+		public string SQLScriptPath
 		{
 			get { return "bullshit"; }
 		}

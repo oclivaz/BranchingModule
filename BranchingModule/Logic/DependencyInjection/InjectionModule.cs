@@ -12,6 +12,8 @@ namespace BranchingModule.Logic
 			Bind<IAdeNetService>().To<AdeNetService>().InSingletonScope();
 			Bind<IBuildEngineService>().To<MsBuildService>().InSingletonScope();
 			Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
+			Bind<IDumpService>().To<DumpService>().InSingletonScope();
+			Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
 
 			// Other
 			Bind<IConvention>().To<MSConvention>().InSingletonScope();

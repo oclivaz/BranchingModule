@@ -5,14 +5,16 @@ namespace BranchingModule.Logic
 	internal class AddMappingController
 	{
 		#region Properties
+		public IBuildEngineService BuildEngine { get; set; }
+		public IDumpService Dump { get; set; }
 		private ISourceControlService SourceControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
-		public IBuildEngineService BuildEngine { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddMappingController(ISourceControlService sourceControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService)
+		public AddMappingController(ISourceControlService sourceControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService,
+		                            IDumpService dumpService)
 		{
 			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
@@ -23,6 +25,7 @@ namespace BranchingModule.Logic
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
 			this.ConfigFileService = configFileService;
+			this.Dump = dumpService;
 		}
 		#endregion
 
@@ -42,6 +45,8 @@ namespace BranchingModule.Logic
 			this.BuildEngine.Build(branch);
 
 			this.AdeNet.InitializeIIS(branch);
+
+			this.Dump.RestoreDump(branch);
 		}
 		#endregion
 	}

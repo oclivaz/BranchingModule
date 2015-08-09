@@ -13,6 +13,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IBuildEngineService BuildEngine { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
+		private IDumpService Dump { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -23,7 +24,8 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService);
+			this.Dump = Substitute.For<IDumpService>();
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump);
 		}
 		#endregion
 
@@ -45,6 +47,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.Received().BuildWebConfig(branch);
 			this.BuildEngine.Received().Build(branch);
 			this.AdeNet.Received().InitializeIIS(branch);
+			this.Dump.Received().RestoreDump(branch);
 		}
 		#endregion
 	}
