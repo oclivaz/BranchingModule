@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
 using SmartFormat;
 
 namespace BranchingModule.Logic
@@ -8,6 +7,7 @@ namespace BranchingModule.Logic
 	{
 		#region Constants
 		private const string MASTER = "master";
+
 		private const string SCRIPT_RESTORE_DATABASE = "RestoreDatabase.sql";
 		private const string SCRIPT_KILL_CONNECTIONS = "KillConnections.sql";
 		private const string SCRIPT_POST_RESTORE_UPDATES = "PostRestoreUpdates.sql";
@@ -16,15 +16,17 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IDumpRepositoryService DumpRepository { get; set; }
 		private IFileSystemService FileSystem { get; set; }
+		public ISQLServerService SQLServer { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, IConvention convention, ISettings settings)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, ISQLServerService sqlServerService, IConvention convention, ISettings settings)
 		{
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemService;
+			this.SQLServer = sqlServerService;
 			this.Convention = convention;
 			this.Settings = settings;
 		}
@@ -46,9 +48,9 @@ namespace BranchingModule.Logic
 
 			if(this.FileSystem.Exists(strLocalDump)) return;
 
-			string strBuildServerDump = this.Convention.GetBuildserverPath(branch);
+			string strBuildServerDump = this.Convention.GetBuildserverDump(branch);
 
-			if(this.FileSystem.Exists(strBuildServerDump)) this.FileSystem.Move(strBuildServerDump, strLocalDump);
+			if(this.FileSystem.Exists(strBuildServerDump)) this.FileSystem.Copy(strBuildServerDump, strLocalDump);
 			else this.DumpRepository.CopyDump(branch, strLocalDump);
 		}
 
@@ -57,47 +59,27 @@ namespace BranchingModule.Logic
 			if(strDump == null) throw new ArgumentNullException("strDump");
 			if(strDB == null) throw new ArgumentNullException("strDB");
 
-			using(SqlConnection connection = new SqlConnection(this.Settings.SQLConnectionString))
-			{
-				connection.Open();
-
-				ExecuteKillConnections(strDB, connection);
-				ExecuteRestoreDatabase(strDump, strDB, connection);
-				ExecutePostRestore(strDB, connection);
-			}
+			this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
+			this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
+			this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);
 		}
 
-		private void ExecuteKillConnections(string strDB, SqlConnection connection)
+		private string GetKillConnectionsScript(string strDB)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_KILL_CONNECTIONS);
-			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
-
-			connection.ChangeDatabase(MASTER);
-			ExecuteScript(connection, strScript);
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 		}
 
-		private void ExecuteRestoreDatabase(string strDump, string strDB, SqlConnection connection)
+		private string GetRestoreDatabaseScript(string strDump, string strDB)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_RESTORE_DATABASE);
-			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
-
-			connection.ChangeDatabase(MASTER);
-			ExecuteScript(connection, strScript);
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
 		}
 
-		private void ExecutePostRestore(string strDB, SqlConnection connection)
+		private string GetPostRestoreScript(string strDB)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_POST_RESTORE_UPDATES);
-			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
-
-			connection.ChangeDatabase(strDB);
-			ExecuteScript(connection, strScript);
-		}
-
-		private void ExecuteScript(SqlConnection connection, string strScript)
-		{
-			SqlCommand command = new SqlCommand(strScript, connection);
-			command.ExecuteNonQuery();
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 		}
 
 		private string GetScriptPath(string strScriptName)

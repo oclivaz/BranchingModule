@@ -37,6 +37,7 @@ namespace BranchingModule.Logic
 				Bind<IDumpService>().To<DumpService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
 				Bind<IFileSystemService>().To<FileSystemService>().InSingletonScope();
+				Bind<ISQLServerService>().To<MSSQLServerService>();
 
 				// Other
 				Bind<IConvention>().To<MSConvention>().InSingletonScope();

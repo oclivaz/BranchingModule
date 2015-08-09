@@ -41,7 +41,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverPath_Release()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetBuildserverPath(AKISBV_2_5_3);
+			string strServerPath = this.MSConvention.GetServerPath(AKISBV_2_5_3);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Release/2.5.3/Source", strServerPath, true);
@@ -51,7 +51,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverPath_Main()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetBuildserverPath(BranchInfo.Main("AkisBV"));
+			string strServerPath = this.MSConvention.GetServerPath(BranchInfo.Main("AkisBV"));
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Main/Source", strServerPath, true);

@@ -78,6 +78,11 @@ namespace BranchingModule.Logic
 		{
 			return File.Exists(strFile);
 		}
+
+		public string[] GetFiles(string strDirectory)
+		{
+			return Directory.GetFiles(strDirectory);
+		}
 		#endregion
 	}
 }

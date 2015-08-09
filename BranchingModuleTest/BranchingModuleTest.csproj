@@ -83,7 +83,10 @@
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
+    <Compile Include="Logic\Services\DumpServiceTest.cs" />
     <Compile Include="Logic\Services\ConfigFileServiceTest.cs" />
+    <Compile Include="Logic\Services\AdeNetServiceTest.cs" />
+    <Compile Include="Logic\Services\MsBuildServiceTest.cs" />
     <Compile Include="Logic\Settings\SettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />

@@ -110,6 +110,8 @@
     <Compile Include="Logic\Conventions\MSConvention.cs" />
     <Compile Include="Logic\Services\ConfigFile\ConfigFileService.cs" />
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
+    <Compile Include="Logic\Services\SQLServer\ISQLServerService.cs" />
+    <Compile Include="Logic\Services\SQLServer\MSSQLServerService.cs" />
     <Compile Include="Logic\Settings\Settings.cs" />
     <Compile Include="Logic\Settings\TeamProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

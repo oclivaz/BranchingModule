@@ -19,7 +19,7 @@
 			return string.Format(@"C:\inetpub\wwwroot\{0}_{1}", branch.TeamProject, branch.Name.Replace('.', '_'));
 		}
 
-		public string GetBuildserverPath(BranchInfo branch)
+		public string GetServerPath(BranchInfo branch)
 		{
 			if(branch.Name == BranchInfo.MAIN) return string.Format(@"$/{0}/Main/Source", branch.TeamProject);
 			return string.Format(@"$/{0}/Release/{1}/Source", branch.TeamProject, branch.Name);

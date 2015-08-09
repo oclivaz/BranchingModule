@@ -32,7 +32,7 @@ namespace BranchingModule.Logic
 
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 
-			var archivesBevoreCreation = from dumpArchive in Directory.GetFiles(this.Settings.DumpRepositoryPath)
+			var archivesBevoreCreation = from dumpArchive in this.FileSystem.GetFiles(this.Settings.DumpRepositoryPath)
 			                             let fileInfo = new FileInfo(dumpArchive)
 			                             where fileInfo.Name.StartsWith(teamProjectSettings.RefDB)
 			                                   && fileInfo.CreationTime < dtBranchCreation
