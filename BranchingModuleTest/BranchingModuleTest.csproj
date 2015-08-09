@@ -79,7 +79,7 @@
     <Compile Include="Base\BranchingModuleTestBase.cs" />
     <Compile Include="DependencyInjection\Factories\SettingsFactory.cs" />
     <Compile Include="DependencyInjection\InjectionModule.cs" />
-    <Compile Include="DependencyInjection\InjectionModuleIntegrationTest.cs" />
+    <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />

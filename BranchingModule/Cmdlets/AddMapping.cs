@@ -26,8 +26,8 @@ namespace BranchingModule.Cmdlets
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
-			IKernel kernel = new StandardKernel(new InjectionModule());
-			AddMappingController controller = kernel.Get<AddMappingController>();
+			IObjectFactory factory = new ObjectFactory();
+			AddMappingController controller = factory.Get<AddMappingController>();
 
 			try
 			{

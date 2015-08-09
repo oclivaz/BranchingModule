@@ -87,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
+    <Compile Include="Logic\DependencyInjection\Factories\IObjectFactory.cs" />
+    <Compile Include="Logic\DependencyInjection\Factories\ObjectFactory.cs" />
     <Compile Include="Logic\Services\AdeNet\AdeNetService.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,7 +103,6 @@
     <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
     <Compile Include="Logic\BranchInfo.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
-    <Compile Include="Logic\DependencyInjection\InjectionModule.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\SettingsFactory.cs" />
     <Compile Include="Logic\Conventions\IConvention.cs" />
     <Compile Include="Logic\Conventions\MSConvention.cs" />

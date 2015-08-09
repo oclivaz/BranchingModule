@@ -1,21 +1,19 @@
 ﻿using BranchingModule.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ninject;
 
 namespace BranchingModuleTest.DependencyInjection
 {
 	[TestClass]
-	public class InjectionModuleIntegrationTest
+	public class DependencyInjectionTest
 	{
 		[TestMethod]
 		public void TestCreate_AddMappingController()
 		{
 			// Arrange
-			IKernel kernel = new StandardKernel(new BranchingModule.Logic.InjectionModule());
+			IObjectFactory factory = new ObjectFactory();
 
 			// Act
-			kernel.Get<AddMappingController>();
-
+			factory.Get<AddMappingController>();
 		}
 	}
 }
