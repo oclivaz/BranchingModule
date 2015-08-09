@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.IO;
 using SmartFormat;
 
 namespace BranchingModule.Logic
@@ -16,14 +15,16 @@ namespace BranchingModule.Logic
 
 		#region Properties
 		private IDumpRepositoryService DumpRepository { get; set; }
+		private IFileSystemService FileSystem { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IConvention convention, ISettings settings)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, IConvention convention, ISettings settings)
 		{
 			this.DumpRepository = dumpRepositoryService;
+			this.FileSystem = fileSystemService;
 			this.Convention = convention;
 			this.Settings = settings;
 		}
@@ -43,11 +44,11 @@ namespace BranchingModule.Logic
 		{
 			string strLocalDump = this.Convention.GetLocalDump(branch);
 
-			if(File.Exists(strLocalDump)) return;
+			if(this.FileSystem.Exists(strLocalDump)) return;
 
 			string strBuildServerDump = this.Convention.GetBuildserverPath(branch);
 
-			if(File.Exists(strBuildServerDump)) File.Move(strBuildServerDump, strLocalDump);
+			if(this.FileSystem.Exists(strBuildServerDump)) this.FileSystem.Move(strBuildServerDump, strLocalDump);
 			else this.DumpRepository.CopyDump(branch, strLocalDump);
 		}
 
@@ -69,7 +70,7 @@ namespace BranchingModule.Logic
 		private void ExecuteKillConnections(string strDB, SqlConnection connection)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_KILL_CONNECTIONS);
-			string strScript = Smart.Format(File.ReadAllText(strScriptPath), new { Database = strDB });
+			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 
 			connection.ChangeDatabase(MASTER);
 			ExecuteScript(connection, strScript);
@@ -78,7 +79,7 @@ namespace BranchingModule.Logic
 		private void ExecuteRestoreDatabase(string strDump, string strDB, SqlConnection connection)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_RESTORE_DATABASE);
-			string strScript = Smart.Format(File.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
+			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
 
 			connection.ChangeDatabase(MASTER);
 			ExecuteScript(connection, strScript);
@@ -87,7 +88,7 @@ namespace BranchingModule.Logic
 		private void ExecutePostRestore(string strDB, SqlConnection connection)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_POST_RESTORE_UPDATES);
-			string strScript = Smart.Format(File.ReadAllText(strScriptPath), new { Database = strDB });
+			string strScript = Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 
 			connection.ChangeDatabase(strDB);
 			ExecuteScript(connection, strScript);

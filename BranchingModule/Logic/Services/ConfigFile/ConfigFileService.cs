@@ -8,17 +8,17 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
-		private IFileWriter FileWriter { get; set; }
+		private IFileSystemService FileSystem { get; set; }
 		#endregion
 
 		#region Constructors
-		public ConfigFileService(IConvention convention, ISettings settings, IFileWriter fileWriter)
+		public ConfigFileService(IConvention convention, ISettings settings, IFileSystemService fileSystemService)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.Convention = convention;
 			this.Settings = settings;
-			this.FileWriter = fileWriter;
+			this.FileSystem = fileSystemService;
 		}
 		#endregion
 
@@ -38,7 +38,7 @@ namespace BranchingModule.Logic
     </appSettings>", teamProjectSettings.LocalDB, branch.TeamProject, branch.Name);
 
 			string strIndivConfig = String.Format(@"{0}\Web\Indiv\indiv.config", this.Convention.GetLocalPath(branch));
-			this.FileWriter.Write(strIndivConfig, strContent, Encoding.UTF8);
+			this.FileSystem.WriteAllText(strIndivConfig, strContent, Encoding.UTF8);
 		}
 		#endregion
 	}

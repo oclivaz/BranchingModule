@@ -36,10 +36,10 @@ namespace BranchingModule.Logic
 				Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
 				Bind<IDumpService>().To<DumpService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
+				Bind<IFileSystemService>().To<FileSystemService>().InSingletonScope();
 
 				// Other
 				Bind<IConvention>().To<MSConvention>().InSingletonScope();
-				Bind<IFileWriter>().To<FileWriter>().InSingletonScope();
 				Bind<ISettings>().ToProvider(new SettingsFactory()).InSingletonScope();
 			}
 			#endregion

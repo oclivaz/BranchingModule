@@ -25,7 +25,7 @@ namespace BranchingModuleTest.Logic.Services
 		private IConfigFileService ConfigFileService { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
-		private IFileWriter FileWriter { get; set; }
+		private IFileSystemService FileSystem { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -34,8 +34,8 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.FileWriter = Substitute.For<IFileWriter>();
-			this.ConfigFileService = new ConfigFileService(this.Convention, this.Settings, this.FileWriter);
+			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.ConfigFileService = new ConfigFileService(this.Convention, this.Settings, this.FileSystem);
 		}
 		#endregion
 
@@ -51,7 +51,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.ConfigFileService.CreateIndivConfig(new BranchInfo("AkisBVPK", "5.0.34"));
 
 			// Assert
-			this.FileWriter.Received().Write(@"c:\somewhere\Web\Indiv\indiv.config", INDIV_CONFIG_AKISBVPK_5_0_34, Encoding.UTF8);
+			this.FileSystem.Received().WriteAllText(@"c:\somewhere\Web\Indiv\indiv.config", INDIV_CONFIG_AKISBVPK_5_0_34, Encoding.UTF8);
 		}
 		#endregion
 	}

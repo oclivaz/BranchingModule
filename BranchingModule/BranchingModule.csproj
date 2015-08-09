@@ -99,6 +99,8 @@
     <Compile Include="Logic\Services\Dump\DumpService.cs" />
     <Compile Include="Logic\Services\Dump\IDumpRepositoryService.cs" />
     <Compile Include="Logic\Services\Dump\IDumpService.cs" />
+    <Compile Include="Logic\Services\FileSystem\FileSystemService.cs" />
+    <Compile Include="Logic\Services\FileSystem\IFileSystemService.cs" />
     <Compile Include="Logic\Services\SourceControl\ISourceControlService.cs" />
     <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
     <Compile Include="Logic\BranchInfo.cs" />
@@ -107,9 +109,7 @@
     <Compile Include="Logic\Conventions\IConvention.cs" />
     <Compile Include="Logic\Conventions\MSConvention.cs" />
     <Compile Include="Logic\Services\ConfigFile\ConfigFileService.cs" />
-    <Compile Include="Logic\Services\ConfigFile\FileWriter.cs" />
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
-    <Compile Include="Logic\Services\ConfigFile\IFileWriter.cs" />
     <Compile Include="Logic\Settings\Settings.cs" />
     <Compile Include="Logic\Settings\TeamProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

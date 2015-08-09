@@ -8,7 +8,8 @@ namespace BranchingModule.Logic
 	{
 		protected override ISettings CreateInstance(IContext context)
 		{
-			SettingsDTO settingsDTO = JsonConvert.DeserializeObject<SettingsDTO>(File.OpenText(Settings.DEFAULT_SETTINGS_FILE).ReadToEnd());
+			IFileSystemService fileSystem = new FileSystemService();
+			SettingsDTO settingsDTO = JsonConvert.DeserializeObject<SettingsDTO>(fileSystem.ReadAllText(Settings.DEFAULT_SETTINGS_FILE));
 			return new Settings(settingsDTO);
 		}
 	}

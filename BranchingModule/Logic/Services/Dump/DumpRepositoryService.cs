@@ -9,16 +9,18 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private ISourceControlService SourceControl { get; set; }
+		public IFileSystemService FileSystem { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpRepositoryService(ISourceControlService sourceControlService, ISettings settings)
+		public DumpRepositoryService(ISourceControlService sourceControlService, IFileSystemService fileSystemService, ISettings settings)
 		{
 			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
 			if(settings == null) throw new ArgumentNullException("settings");
 
 			this.SourceControl = sourceControlService;
+			this.FileSystem = fileSystemService;
 			this.Settings = settings;
 		}
 		#endregion
@@ -42,13 +44,13 @@ namespace BranchingModule.Logic
 			if(strTargetDirectory == null) throw new Exception("Couldn't determine target directory");
 
 			string strLocalArchive = String.Format(@"{0}\{1}",strTargetDirectory, newestArchive.Name);
-			File.Copy(newestArchive.FullName, strLocalArchive, true);
+			this.FileSystem.Copy(newestArchive.FullName, strLocalArchive);
 
 			FastZip fastZip = new FastZip();
 			fastZip.ExtractZip(strLocalArchive, this.Settings.TempDirectory, null);
 
-			File.Move(string.Format(@"{0}\{1}.bak", this.Settings.TempDirectory, teamProjectSettings.RefDB), strTarget);
-			File.Delete(strLocalArchive);
+			this.FileSystem.Move(string.Format(@"{0}\{1}.bak", this.Settings.TempDirectory, teamProjectSettings.RefDB), strTarget);
+			this.FileSystem.Delete(strLocalArchive);
 		}
 		#endregion
 	}

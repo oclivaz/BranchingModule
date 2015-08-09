@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace BranchingModule.Logic
 {
 	internal class AdeNetService : IAdeNetService
 	{
 		#region Properties
+		private IFileSystemService FileSystem { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public AdeNetService(IConvention convention, ISettings settings)
+		public AdeNetService(IFileSystemService fileSystemService, IConvention convention, ISettings settings)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 			if(settings == null) throw new ArgumentNullException("settings");
 
+			this.FileSystem = fileSystemService;
 			this.Convention = convention;
 			this.Settings = settings;
 		}
@@ -24,53 +25,24 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void InstallPackages(BranchInfo branch)
 		{
-			string strArguments = string.Format(@"/C {0}\AdeNet.exe -workingdirectory {1} -deploy -development", this.Settings.AdeNetExePath, this.Convention.GetLocalPath(branch));
-
-			ProcessStartInfo startInfo = new ProcessStartInfo("cmd.exe")
-			                             {
-				                             Arguments = strArguments,
-				                             CreateNoWindow = true,
-											 UseShellExecute = false
-			                             };
-
-			using(Process process = Process.Start(startInfo))
-			{
-				if(process != null) process.WaitForExit();
-			}
+			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -deploy -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void BuildWebConfig(BranchInfo branch)
 		{
-			string strArguments = string.Format(@"/C {0}\AdeNet.exe -workingdirectory {1} -buildwebconfig -development", this.Settings.AdeNetExePath, this.Convention.GetLocalPath(branch));
-
-			ProcessStartInfo startInfo = new ProcessStartInfo("cmd.exe")
-			{
-				Arguments = strArguments,
-				CreateNoWindow = true,
-				UseShellExecute = false
-			};
-
-			using(Process process = Process.Start(startInfo))
-			{
-				if(process != null) process.WaitForExit();
-			}
+			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -buildwebconfig -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void InitializeIIS(BranchInfo branch)
 		{
-			string strArguments = string.Format(@"/C {0}\AdeNet.exe -workingdirectory {1} -initializeiis -development", this.Settings.AdeNetExePath, this.Convention.GetLocalPath(branch));
+			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
+		}
+		#endregion
 
-			ProcessStartInfo startInfo = new ProcessStartInfo("cmd.exe")
-			{
-				Arguments = strArguments,
-				CreateNoWindow = true,
-				UseShellExecute = false
-			};
-
-			using(Process process = Process.Start(startInfo))
-			{
-				if(process != null) process.WaitForExit();
-			}
+		#region Privates
+		private string GetAdeNetExe()
+		{
+			return string.Format(@"{0}\AdeNet.exe", this.Settings.AdeNetExePath);
 		}
 		#endregion
 	}
