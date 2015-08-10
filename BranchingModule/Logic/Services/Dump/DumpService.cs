@@ -41,6 +41,17 @@ namespace BranchingModule.Logic
 
 			RestoreLocalDump(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
 		}
+
+		public void InstallBuildserverDump(BranchInfo branch)
+		{
+			if(this.FileSystem.Exists(this.Convention.GetBuildserverDump(branch)))
+			{
+				this.TextOutput.WriteVerbose("Dump already exists on buildserver. Skipping...");
+				return;
+			}
+
+			this.DumpRepository.CopyDump(branch, this.Convention.GetBuildserverDump(branch));
+		}
 		#endregion
 
 		#region Privates
@@ -50,7 +61,7 @@ namespace BranchingModule.Logic
 
 			if(this.FileSystem.Exists(strLocalDump))
 			{
-				this.TextOutput.WriteVerbose("Dump already exists locally");
+				this.TextOutput.WriteVerbose("Dump already exists locally. Skipping...");
 				return;
 			}
 

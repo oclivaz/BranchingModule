@@ -8,10 +8,33 @@ namespace BranchingModule.Logic
 {
 	internal class TeamFoundationService : ISourceControlService
 	{
+		#region Fields
+		private TfsTeamProjectCollection _server;
+		private VersionControlServer _versionControlServer;
+		private Workspace _workspace;
+		#endregion
+
 		#region Properties
-		private IConvention Convention { get; set; }
-		private ISettings Settings { get; set; }
 		public ITextOutputService TextOutput { get; set; }
+
+		private IConvention Convention { get; set; }
+
+		private ISettings Settings { get; set; }
+
+		private TfsTeamProjectCollection TeamProjectCollection
+		{
+			get { return _server ?? (_server = CreateTeamProjectCollection()); }
+		}
+
+		private VersionControlServer VersionControlServer
+		{
+			get { return _versionControlServer ?? (_versionControlServer = this.TeamProjectCollection.GetService<VersionControlServer>()); }
+		}
+
+		private Workspace Workspace
+		{
+			get { return _workspace ?? (_workspace = this.VersionControlServer.GetWorkspace(Environment.MachineName, Environment.UserName)); }
+		}
 		#endregion
 
 		#region Constructors
@@ -29,38 +52,26 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void CreateMapping(BranchInfo branch)
 		{
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			Workspace workspace = versioncontrol.GetWorkspace(Environment.MachineName, Environment.UserName);
-
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
-			workspace.CreateMapping(folder);
+			this.Workspace.CreateMapping(folder);
 
 			GetRequest getRequest = new GetRequest(strServerPath, RecursionType.Full, VersionSpec.Latest);
-			workspace.Get(getRequest, GetOptions.None);
+			this.Workspace.Get(getRequest, GetOptions.None);
 		}
 
 		public void DeleteMapping(BranchInfo branch)
 		{
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			Workspace workspace = versioncontrol.GetWorkspace(Environment.MachineName, Environment.UserName);
-
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
-			if(workspace.Folders.Contains(folder)) workspace.DeleteMapping(folder);
-			workspace.Get();
+			if(this.Workspace.Folders.Contains(folder)) this.Workspace.DeleteMapping(folder);
+			this.Workspace.Get();
 		}
 
 		public void CreateAppConfig(BranchInfo branch)
@@ -72,13 +83,9 @@ namespace BranchingModule.Logic
 
 		public DateTime GetCreationTime(BranchInfo branch)
 		{
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
 			VersionSpec versionSpec = GetVersionSpec(branch);
 
-			Item nuspecFileItem = versioncontrol.GetItem(string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject)), branch.TeamProject), versionSpec);
+			Item nuspecFileItem = this.VersionControlServer.GetItem(string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject)), branch.TeamProject), versionSpec);
 			if(nuspecFileItem == null) throw new Exception(string.Format("Kein Checkin zum Label {0} gefunden", GetLabel(branch)));
 
 			return nuspecFileItem.CheckinDate;
@@ -86,13 +93,9 @@ namespace BranchingModule.Logic
 
 		public void CreateBranch(BranchInfo branch)
 		{
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
 			string strTargetBranch = this.Convention.GetServerPath(branch);
 
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			if(versioncontrol.ServerItemExists(strTargetBranch, ItemType.Any))
+			if(this.VersionControlServer.ServerItemExists(strTargetBranch, ItemType.Any))
 			{
 				this.TextOutput.WriteVerbose(string.Format("Branch {0} already exists. Skipping...", strTargetBranch));
 				return;
@@ -101,29 +104,37 @@ namespace BranchingModule.Logic
 			string strSourceBranch = this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject));
 
 			VersionSpec versionByLabel = GetVersionSpec(branch);
-			versioncontrol.CreateBranch(strSourceBranch, strTargetBranch, versionByLabel);
+			this.VersionControlServer.CreateBranch(strSourceBranch, strTargetBranch, versionByLabel);
 		}
 
 		public void DeleteBranch(BranchInfo branch)
 		{
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
 			string strBranchBasePath = this.Convention.GetServerBasePath(branch);
 
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			if(!versioncontrol.ServerItemExists(strBranchBasePath, ItemType.Any))
+			if(!this.VersionControlServer.ServerItemExists(strBranchBasePath, ItemType.Any))
 			{
 				this.TextOutput.WriteVerbose(string.Format("{0} is already deleted. Skipping...", strBranchBasePath));
 				return;
 			}
 
 			this.TextOutput.WriteVerbose(string.Format("Destroying {0}", strBranchBasePath));
-			versioncontrol.Destroy(new ItemSpec(strBranchBasePath, RecursionType.Full), VersionSpec.Latest, null, DestroyFlags.Silent);
+			this.VersionControlServer.Destroy(new ItemSpec(strBranchBasePath, RecursionType.Full), VersionSpec.Latest, null, DestroyFlags.Silent);
+		}
+
+		public void CreateBuildConfiguration(BranchInfo branch)
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 
 		#region Privates
+		private TfsTeamProjectCollection CreateTeamProjectCollection()
+		{
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+			return server;
+		}
+
 		private VersionSpec GetVersionSpec(BranchInfo branch)
 		{
 			return VersionSpec.ParseSingleSpec(string.Format("L{0}", GetLabel(branch)), null);

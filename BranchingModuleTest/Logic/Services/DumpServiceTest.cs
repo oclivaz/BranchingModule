@@ -101,6 +101,35 @@ namespace BranchingModuleTest.Logic.Services
 			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
+
+		[TestMethod]
+		public void TestInstallBuildserverDump()
+		{
+			// Arrange
+			this.Convention.GetLocalDump(AKISBV_5_0_35).Returns(LOCAL_DUMP);
+			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
+			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
+
+			// Act
+			this.DumpService.InstallBuildserverDump(AKISBV_5_0_35);
+
+			// Assert
+			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, BUILDSERVER_DUMP);
+		}
+
+		[TestMethod]
+		public void TestInstallBuildserverDump_dump_already_on_Buildserver()
+		{
+			// Arrange
+			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
+			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(true);
+
+			// Act
+			this.DumpService.InstallBuildserverDump(AKISBV_5_0_35);
+
+			// Assert
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+		}
 		#endregion
 	}
 }

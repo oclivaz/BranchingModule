@@ -13,6 +13,8 @@ namespace BranchingModuleTest.Logic.Controller
 		#endregion
 
 		#region Properties
+		public IDumpService Dump { get; set; }
+
 		private AddReleasebranchController AddReleasebranchController { get; set; }
 		private ISourceControlService SourceControl { get; set; }
 		#endregion
@@ -22,7 +24,9 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.SourceControl = Substitute.For<ISourceControlService>();
-			this.AddReleasebranchController = new AddReleasebranchController(this.SourceControl, new TextOutputServiceDummy());
+			this.Dump = Substitute.For<IDumpService>();
+
+			this.AddReleasebranchController = new AddReleasebranchController(this.SourceControl, this.Dump, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -35,6 +39,8 @@ namespace BranchingModuleTest.Logic.Controller
 
 			// Assert
 			this.SourceControl.Received().CreateBranch(AKISBV_5_0_35);
+			this.Dump.Received().InstallBuildserverDump(AKISBV_5_0_35);
+			//this.SourceControl.Received().CreateBuildConfiguration(AKISBV_5_0_35);
 		}
 		#endregion
 	}
