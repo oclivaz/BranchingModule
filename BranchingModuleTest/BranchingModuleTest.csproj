@@ -77,12 +77,14 @@
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
     <Compile Include="Base\BranchingModuleTestBase.cs" />
+    <Compile Include="Builder\DateTimeBuilder.cs" />
     <Compile Include="DependencyInjection\Factories\SettingsFactory.cs" />
     <Compile Include="DependencyInjection\InjectionModule.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
+    <Compile Include="Logic\Services\DumpRepositoryServiceTest.cs" />
     <Compile Include="Logic\Services\DumpServiceTest.cs" />
     <Compile Include="Logic\Services\ConfigFileServiceTest.cs" />
     <Compile Include="Logic\Services\AdeNetServiceTest.cs" />

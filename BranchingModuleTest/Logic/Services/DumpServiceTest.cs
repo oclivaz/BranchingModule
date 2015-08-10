@@ -1,7 +1,6 @@
 ﻿using BranchingModule.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using NSubstitute.Core.Arguments;
 
 namespace BranchingModuleTest.Logic.Services
 {

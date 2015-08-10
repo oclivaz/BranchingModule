@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace BranchingModule.Logic
 {
@@ -79,9 +81,47 @@ namespace BranchingModule.Logic
 			return File.Exists(strFile);
 		}
 
-		public string[] GetFiles(string strDirectory)
+		public IFileInfo[] GetFiles(string strDirectory)
 		{
-			return Directory.GetFiles(strDirectory);
+			var dir = new DirectoryInfo(strDirectory);
+			return dir.GetFiles().Select(systemFileinfo => (IFileInfo) (new FileInfo(systemFileinfo))).ToArray();
+		}
+
+		public void ExtractZip(string strFile, string strTargetDirectory)
+		{
+			FastZip fastZip = new FastZip();
+			fastZip.ExtractZip(strFile, strTargetDirectory, null);
+		}
+		#endregion
+
+		#region Struct FileInfo
+		private struct FileInfo : IFileInfo
+		{
+			#region Properties
+			public string FileName
+			{
+				get { return this.FrameworkFileInfo.Name; }
+			}
+
+			public string FullName
+			{
+				get { return this.FrameworkFileInfo.FullName; }
+			}
+
+			public DateTime CreationTime
+			{
+				get { return this.FrameworkFileInfo.CreationTime; }
+			}
+
+			private System.IO.FileInfo FrameworkFileInfo { get; set; }
+			#endregion
+
+			#region Constructors
+			public FileInfo(System.IO.FileInfo fileInfo) : this()
+			{
+				this.FrameworkFileInfo = fileInfo;
+			}
+			#endregion
 		}
 		#endregion
 	}

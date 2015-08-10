@@ -37,7 +37,7 @@ namespace BranchingModule.Logic
 		{
 			EnsureLocalDump(branch);
 
-			RestoreDump(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
+			RestoreLocalDump(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
 		}
 		#endregion
 
@@ -54,7 +54,7 @@ namespace BranchingModule.Logic
 			else this.DumpRepository.CopyDump(branch, strLocalDump);
 		}
 
-		private void RestoreDump(string strDump, string strDB)
+		private void RestoreLocalDump(string strDump, string strDB)
 		{
 			if(strDump == null) throw new ArgumentNullException("strDump");
 			if(strDB == null) throw new ArgumentNullException("strDB");

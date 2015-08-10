@@ -33,21 +33,19 @@ namespace BranchingModule.Logic
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 
 			var archivesBevoreCreation = from dumpArchive in this.FileSystem.GetFiles(this.Settings.DumpRepositoryPath)
-			                             let fileInfo = new FileInfo(dumpArchive)
-			                             where fileInfo.Name.StartsWith(teamProjectSettings.RefDB)
-			                                   && fileInfo.CreationTime < dtBranchCreation
-			                             select fileInfo;
+										 where dumpArchive.FileName.StartsWith(teamProjectSettings.RefDB)
+											   && dumpArchive.CreationTime < dtBranchCreation
+										 select dumpArchive;
 
-			FileInfo newestArchive = archivesBevoreCreation.OrderByDescending(fileInfo => fileInfo.CreationTime).First();
+			IFileInfo newestArchive = archivesBevoreCreation.OrderByDescending(fileInfo => fileInfo.CreationTime).First();
 
 			string strTargetDirectory = Path.GetDirectoryName(strTarget);
 			if(strTargetDirectory == null) throw new Exception("Couldn't determine target directory");
 
-			string strLocalArchive = String.Format(@"{0}\{1}",strTargetDirectory, newestArchive.Name);
+			string strLocalArchive = String.Format(@"{0}\{1}", this.Settings.TempDirectory, newestArchive.FileName);
 			this.FileSystem.Copy(newestArchive.FullName, strLocalArchive);
 
-			FastZip fastZip = new FastZip();
-			fastZip.ExtractZip(strLocalArchive, this.Settings.TempDirectory, null);
+			this.FileSystem.ExtractZip(strLocalArchive, this.Settings.TempDirectory);
 
 			this.FileSystem.Move(string.Format(@"{0}\{1}.bak", this.Settings.TempDirectory, teamProjectSettings.RefDB), strTarget);
 			this.FileSystem.Delete(strLocalArchive);

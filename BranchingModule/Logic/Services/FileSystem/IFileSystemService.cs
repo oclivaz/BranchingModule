@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace BranchingModule.Logic
 {
@@ -12,6 +13,14 @@ namespace BranchingModule.Logic
 		void Move(string strSource, string strDestination);
 		void Delete(string strFile);
 		bool Exists(string strFile);
-		string[] GetFiles(string strDirectory);
+		IFileInfo[] GetFiles(string strDirectory);
+		void ExtractZip(string strFile, string strTargetDirectory);
+	}
+
+	public interface IFileInfo
+	{
+		string FileName { get; }
+		string FullName { get; }
+		DateTime CreationTime { get; }
 	}
 }
