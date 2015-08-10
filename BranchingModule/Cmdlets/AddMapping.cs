@@ -25,7 +25,7 @@ namespace BranchingModule.Cmdlets
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
-			IObjectFactory factory = new ObjectFactory();
+			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
 			AddMappingController controller = factory.Get<AddMappingController>();
 
 			try

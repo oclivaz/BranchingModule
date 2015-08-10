@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace BranchingModule.Logic
 {

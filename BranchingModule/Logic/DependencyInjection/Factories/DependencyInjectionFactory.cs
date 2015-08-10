@@ -3,7 +3,7 @@ using Ninject.Modules;
 
 namespace BranchingModule.Logic
 {
-	internal class ObjectFactory : IObjectFactory
+	internal class DependencyInjectionFactory : IDependencyInjectionFactory
 	{
 		#region Fields
 		private IKernel _kernel;

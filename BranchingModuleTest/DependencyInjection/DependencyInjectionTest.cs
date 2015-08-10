@@ -10,7 +10,7 @@ namespace BranchingModuleTest.DependencyInjection
 		public void TestCreate_AddMappingController()
 		{
 			// Arrange
-			IObjectFactory factory = new ObjectFactory();
+			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
 
 			// Act
 			factory.Get<AddMappingController>();

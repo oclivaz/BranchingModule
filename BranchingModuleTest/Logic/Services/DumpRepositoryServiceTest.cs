@@ -52,7 +52,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings.TempDirectory.Returns(@"c:\tempDir");
 			this.Settings.GetTeamProjectSettings("AkisBV").Returns(TeamProjectSettings("egal", ASK));
 
-			IFileInfo[] files =
+			IFileInfo[] dumpArchives =
 			{
 				FileInfo(@"Y:\DumpRepository\ASK_20150810_1.zip", MONDAY.At(09, 15)),
 				FileInfo(@"Y:\DumpRepository\ASK_20150810_2.zip", MONDAY.At(09, 22)),
@@ -60,7 +60,7 @@ namespace BranchingModuleTest.Logic.Services
 				FileInfo(@"Y:\DumpRepository\ASK_20150810_4.zip", MONDAY.At(09, 38))
 			};
 
-			this.FileSystem.GetFiles(@"Y:\DumpRepository").Returns(files);
+			this.FileSystem.GetFiles(@"Y:\DumpRepository").Returns(dumpArchives);
 
 			// Act
 			this.DumpRepository.CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
@@ -77,9 +77,11 @@ namespace BranchingModuleTest.Logic.Services
 		private IFileInfo FileInfo(string strFullName, DateTime dtCreationTime)
 		{
 			IFileInfo fileInfo = Substitute.For<IFileInfo>();
+
 			fileInfo.FullName.Returns(strFullName);
 			fileInfo.FileName.Returns(Path.GetFileName(strFullName));
 			fileInfo.CreationTime.Returns(dtCreationTime);
+
 			return fileInfo;
 		}
 		#endregion
