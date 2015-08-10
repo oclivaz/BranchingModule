@@ -1,9 +1,12 @@
 ﻿using System;
+using Microsoft.Web.Administration;
 
 namespace BranchingModule.Logic
 {
 	internal class AdeNetService : IAdeNetService
 	{
+		private const string DEFAULT_WEB_SITE = "Default Web Site";
+
 		#region Properties
 		private IFileSystemService FileSystem { get; set; }
 		private IConvention Convention { get; set; }
@@ -36,6 +39,23 @@ namespace BranchingModule.Logic
 		public void InitializeIIS(BranchInfo branch)
 		{
 			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
+		}
+
+		public void RemoveApplication(BranchInfo branch)
+		{
+			string strApplication = this.Convention.GetApplicationName(branch);
+
+			using(ServerManager serverManager = new ServerManager())
+			{
+				Site site = serverManager.Sites[DEFAULT_WEB_SITE];
+				Application application = site.Applications[string.Format("/{0}", strApplication)];
+
+				if(application != null)
+				{
+					site.Applications.Remove(application);
+					serverManager.CommitChanges();
+				}
+			}
 		}
 		#endregion
 

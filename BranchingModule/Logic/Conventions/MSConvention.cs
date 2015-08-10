@@ -1,4 +1,6 @@
-﻿namespace BranchingModule.Logic
+﻿using System;
+
+namespace BranchingModule.Logic
 {
 	internal class MSConvention : IConvention
 	{
@@ -16,7 +18,7 @@
 		#region Publics
 		public string GetLocalPath(BranchInfo branch)
 		{
-			return string.Format(@"C:\inetpub\wwwroot\{0}_{1}", branch.TeamProject, branch.Name.Replace('.', '_'));
+			return string.Format(@"C:\inetpub\wwwroot\{0}", GetApplicationName(branch));
 		}
 
 		public string GetServerPath(BranchInfo branch)
@@ -34,6 +36,11 @@
 		{
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 			return string.Format(@"c:\Database\{0}\{1}_Release_{2}.bak", teamProjectSettings.LocalDB, branch.TeamProject, branch.Name);
+		}
+
+		public string GetApplicationName(BranchInfo branch)
+		{
+			return string.Format("{0}_{1}", branch.TeamProject, branch.Name.Replace('.', '_'));
 		}
 		#endregion
 	}

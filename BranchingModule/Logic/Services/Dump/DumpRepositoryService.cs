@@ -51,7 +51,7 @@ namespace BranchingModule.Logic
 			this.FileSystem.ExtractZip(strLocalArchive, this.Settings.TempDirectory);
 
 			this.FileSystem.Move(string.Format(@"{0}\{1}.bak", this.Settings.TempDirectory, teamProjectSettings.RefDB), strTarget);
-			this.FileSystem.Delete(strLocalArchive);
+			this.FileSystem.DeleteFile(strLocalArchive);
 		}
 		#endregion
 	}

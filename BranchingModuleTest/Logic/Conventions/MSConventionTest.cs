@@ -79,6 +79,16 @@ namespace BranchingModuleTest.Logic.Conventions
 			// Assert
 			Assert.AreEqual(@"c:\database\TheLocalDBName\AkisBV_Release_2.5.3.bak", strBuildserverDump, true);
 		}
+
+		[TestMethod]
+		public void TestGetApplicationName()
+		{
+			// Act
+			string strApplicationName = this.MSConvention.GetApplicationName(AKISBV_2_5_3);
+
+			// Assert
+			Assert.AreEqual("AkisBV_2_5_3", strApplicationName);
+		}
 		#endregion
 	}
 }

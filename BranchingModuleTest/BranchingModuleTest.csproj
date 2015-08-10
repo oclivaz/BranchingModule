@@ -82,6 +82,7 @@
     <Compile Include="DependencyInjection\InjectionModule.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
+    <Compile Include="Logic\Controller\RemoveMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
     <Compile Include="Logic\Services\TextOutputServiceTest.cs" />

@@ -70,7 +70,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.FileSystem.Received().Copy(@"Y:\DumpRepository\ASK_20150810_2.zip", @"c:\tempDir\ASK_20150810_2.zip");
 			this.FileSystem.Received().ExtractZip(@"c:\tempDir\ASK_20150810_2.zip", @"c:\tempDir");
 			this.FileSystem.Received().Move(@"c:\tempDir\ASK.bak", LOCAL_DUMP);
-			this.FileSystem.Received().Delete(@"c:\tempDir\ASK_20150810_2.zip");
+			this.FileSystem.Received().DeleteFile(@"c:\tempDir\ASK_20150810_2.zip");
 		}
 		#endregion
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using Ninject.Injection;
 
 namespace BranchingModule.Logic
 {
@@ -40,6 +42,23 @@ namespace BranchingModule.Logic
 
 			GetRequest getRequest = new GetRequest(strServerPath, RecursionType.Full, VersionSpec.Latest);
 			workspace.Get(getRequest, GetOptions.None);
+		}
+
+		public void DeleteMapping(BranchInfo branch)
+		{
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+
+			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
+			Workspace workspace = versioncontrol.GetWorkspace(Environment.MachineName, Environment.UserName);
+
+			string strLocalPath = this.Convention.GetLocalPath(branch);
+			string strServerPath = this.Convention.GetServerPath(branch);
+
+			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
+
+			if(workspace.Folders.Contains(folder)) workspace.DeleteMapping(folder);
+			workspace.Get();
 		}
 
 		public void CreateAppConfig(BranchInfo branch)

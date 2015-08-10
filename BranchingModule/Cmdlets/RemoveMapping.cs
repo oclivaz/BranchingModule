@@ -4,8 +4,8 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	[Cmdlet(VerbsCommon.Add, "Mapping")]
-	public class AddMapping : PSCmdlet, ITextOutputListener
+	[Cmdlet(VerbsCommon.Remove, "Mapping")]
+	public class RemoveMapping : PSCmdlet, ITextOutputListener
 	{
 		#region Properties
 		[Parameter(
@@ -19,26 +19,20 @@ namespace BranchingModule.Cmdlets
 			Position = 1
 			)]
 		public string Branch { get; set; }
-
-		[Parameter(
-			Mandatory = false,
-			Position = 2
-			)]
-		public SwitchParameter Minimal { get; set; }
 		#endregion
 
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
 			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
-			AddMappingController controller = factory.Get<AddMappingController>();
+			RemoveMappingController controller = factory.Get<RemoveMappingController>();
 
 			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
 			textOutputService.RegisterListener(this);
 
 			try
 			{
-				controller.AddMapping(new BranchInfo(this.Teamproject, this.Branch), this.Minimal);
+				controller.RemoveMapping(new BranchInfo(this.Teamproject, this.Branch));
 			}
 			catch(Exception ex)
 			{

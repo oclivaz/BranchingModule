@@ -71,9 +71,14 @@ namespace BranchingModule.Logic
 			File.Move(strSource, strDestination);
 		}
 
-		public void Delete(string strFile)
+		public void DeleteFile(string strFile)
 		{
 			File.Delete(strFile);
+		}
+
+		public void DeleteDirectory(string strDirectory)
+		{
+			if(Directory.Exists(strDirectory)) Directory.Delete(strDirectory, true);
 		}
 
 		public bool Exists(string strFile)
