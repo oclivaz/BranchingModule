@@ -18,7 +18,7 @@ namespace BranchingModuleTest.Logic.Services
 
 		private IConvention Convention { get; set; }
 
-		private IFileSystemService FileSystem { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -27,8 +27,8 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
-			this.MsBuildService = new MsBuildService(this.FileSystem, this.Convention, this.Settings);
+			this.FileExecution = Substitute.For<IFileExecutionService>();
+			this.MsBuildService = new MsBuildService(this.FileExecution, this.Convention, this.Settings);
 		}
 		#endregion
 
@@ -44,7 +44,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.MsBuildService.Build(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().Execute(@"c:\PathToMSBuild\MSBuild.exe", @"c:\Solution\AkisBV.sln /t:Build");
+			this.FileExecution.Received().Execute(@"c:\PathToMSBuild\MSBuild.exe", @"c:\Solution\AkisBV.sln /t:Build");
 		}
 		#endregion
 	}

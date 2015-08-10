@@ -12,18 +12,18 @@ namespace BranchingModule.Logic
 		#region Properties
 		public ITextOutputService TextOutput { get; set; }
 
-		private IFileSystemService FileSystem { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public AdeNetService(IFileSystemService fileSystemService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public AdeNetService(IFileExecutionService fileExecutionService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 			if(settings == null) throw new ArgumentNullException("settings");
 
-			this.FileSystem = fileSystemService;
+			this.FileExecution = fileExecutionService;
 			this.Convention = convention;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
@@ -33,17 +33,17 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void InstallPackages(BranchInfo branch)
 		{
-			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -deploy -development", this.Convention.GetLocalPath(branch)));
+			this.FileExecution.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -deploy -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void BuildWebConfig(BranchInfo branch)
 		{
-			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -buildwebconfig -development", this.Convention.GetLocalPath(branch)));
+			this.FileExecution.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -buildwebconfig -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void InitializeIIS(BranchInfo branch)
 		{
-			this.FileSystem.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
+			this.FileExecution.ExecuteInCmd(GetAdeNetExe(), string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void RemoveApplication(BranchInfo branch)
@@ -66,7 +66,7 @@ namespace BranchingModule.Logic
 		public void CreateBuildDefinition(BranchInfo branch)
 		{
 			this.TextOutput.WriteVerbose(string.Format("Starting Internet Explorer. Add a build configuration for {0}", branch));
-			this.FileSystem.StartProcess(Executables.INTERNET_EXPLORER, this.Settings.BuildConfigurationUrl);
+			this.FileExecution.StartProcess(Executables.INTERNET_EXPLORER, this.Settings.BuildConfigurationUrl);
 		}
 		#endregion
 

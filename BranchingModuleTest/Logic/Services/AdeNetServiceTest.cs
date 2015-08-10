@@ -20,7 +20,7 @@ namespace BranchingModuleTest.Logic.Services
 
 		private IConvention Convention { get; set; }
 
-		private IFileSystemService FileSystem { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -29,9 +29,9 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.FileExecution = Substitute.For<IFileExecutionService>();
 
-			this.AdeNetService = new AdeNetService(this.FileSystem, this.Convention, this.Settings, new TextOutputServiceDummy());
+			this.AdeNetService = new AdeNetService(this.FileExecution, this.Convention, this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -47,7 +47,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.AdeNetService.InstallPackages(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -deploy -development");
+			this.FileExecution.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -deploy -development");
 		}
 
 		[TestMethod]
@@ -61,7 +61,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.AdeNetService.BuildWebConfig(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -buildwebconfig -development");
+			this.FileExecution.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -buildwebconfig -development");
 		}
 
 		[TestMethod]
@@ -75,7 +75,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.AdeNetService.InitializeIIS(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -initializeiis -development");
+			this.FileExecution.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -initializeiis -development");
 		}
 
 		[TestMethod]
@@ -88,7 +88,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.AdeNetService.CreateBuildDefinition(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().StartProcess(Executables.INTERNET_EXPLORER, BUILDCONFIGURATION_URL);
+			this.FileExecution.Received().StartProcess(Executables.INTERNET_EXPLORER, BUILDCONFIGURATION_URL);
 		}
 		#endregion
 	}

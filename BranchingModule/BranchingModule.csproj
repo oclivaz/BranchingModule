@@ -111,7 +111,9 @@
     <Compile Include="Logic\Services\Dump\IDumpRepositoryService.cs" />
     <Compile Include="Logic\Services\Dump\IDumpService.cs" />
     <Compile Include="Logic\Services\FileSystem\Executables.cs" />
+    <Compile Include="Logic\Services\FileSystem\FileExecutionService.cs" />
     <Compile Include="Logic\Services\FileSystem\FileSystemService.cs" />
+    <Compile Include="Logic\Services\FileSystem\IFileExecutionService.cs" />
     <Compile Include="Logic\Services\FileSystem\IFileSystemService.cs" />
     <Compile Include="Logic\Services\SourceControl\ISourceControlService.cs" />
     <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
