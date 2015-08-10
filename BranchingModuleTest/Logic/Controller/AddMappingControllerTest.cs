@@ -36,7 +36,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Tests
 		[TestMethod]
-		public void TestProcess()
+		public void TestAddMapping()
 		{
 			// Act
 			this.AddMappingController.AddMapping(AKISBV_5_0_35, false);
@@ -53,7 +53,7 @@ namespace BranchingModuleTest.Logic.Controller
 		}
 
 		[TestMethod]
-		public void TestProcess_minimal()
+		public void TestAddMapping_minimal()
 		{
 			// Act
 			this.AddMappingController.AddMapping(AKISBV_5_0_35, true);

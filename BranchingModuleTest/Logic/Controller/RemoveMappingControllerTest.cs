@@ -36,7 +36,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Tests
 		[TestMethod]
-		public void TestProcess()
+		public void TestRemoveMapping()
 		{
 			// Arrange
 			this.Convention.GetLocalPath(AKISBV_5_0_35).Returns(LOCAL_PATH);

@@ -6,14 +6,14 @@ using NSubstitute;
 namespace BranchingModuleTest.Logic.Controller
 {
 	[TestClass]
-	public class AddReleasebranchControllerTest
+	public class RemoveReleasebranchControllerTest
 	{
 		#region Constants
 		private static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBVBL", "1.2.3");
 		#endregion
 
 		#region Properties
-		private AddReleasebranchController AddReleasebranchController { get; set; }
+		private RemoveReleasebranchController RemoveReleasebranchController { get; set; }
 		private ISourceControlService SourceControl { get; set; }
 		#endregion
 
@@ -22,19 +22,19 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.SourceControl = Substitute.For<ISourceControlService>();
-			this.AddReleasebranchController = new AddReleasebranchController(this.SourceControl, new TextOutputServiceDummy());
+			this.RemoveReleasebranchController = new RemoveReleasebranchController(this.SourceControl, new TextOutputServiceDummy());
 		}
 		#endregion
 
 		#region Tests
 		[TestMethod]
-		public void TestCreateBranch()
+		public void TestRemoveReleasebranch()
 		{
 			// Act
-			this.AddReleasebranchController.AddReleasebranch(AKISBV_5_0_35);
+			this.RemoveReleasebranchController.RemoveReleasebranch(AKISBV_5_0_35);
 
 			// Assert
-			this.SourceControl.Received().CreateBranch(AKISBV_5_0_35);
+			this.SourceControl.Received().DeleteBranch(AKISBV_5_0_35);
 		}
 		#endregion
 	}

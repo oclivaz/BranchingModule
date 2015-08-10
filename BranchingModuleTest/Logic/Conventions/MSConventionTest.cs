@@ -58,6 +58,26 @@ namespace BranchingModuleTest.Logic.Conventions
 		}
 
 		[TestMethod]
+		public void TestGetSeverBasePath_Release()
+		{
+			// Act
+			string strServerPath = this.MSConvention.GetServerBasePath(AKISBV_2_5_3);
+
+			// Assert
+			Assert.AreEqual(@"$/AkisBV/Release/2.5.3", strServerPath, true);
+		}
+
+		[TestMethod]
+		public void TestGetSeverBasePath_Main()
+		{
+			// Act
+			string strServerPath = this.MSConvention.GetServerBasePath(BranchInfo.Main("AkisBV"));
+
+			// Assert
+			Assert.AreEqual(@"$/AkisBV/Main", strServerPath, true);
+		}
+
+		[TestMethod]
 		public void TestGetBuildserverDump()
 		{
 			// Act

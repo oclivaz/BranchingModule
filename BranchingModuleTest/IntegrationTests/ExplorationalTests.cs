@@ -1,4 +1,6 @@
-﻿using BranchingModule.Logic;
+﻿using System;
+using System.IO;
+using BranchingModule.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BranchingModuleTest.IntegrationTests
@@ -11,10 +13,7 @@ namespace BranchingModuleTest.IntegrationTests
 		[TestMethod]
 		public void Test()
 		{
-			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
-			IDumpService service = factory.Get<DumpService>();
 
-			service.RestoreDump(new BranchInfo("AkisBV", "5.0.35"));
 		}
 		#endregion
 	}

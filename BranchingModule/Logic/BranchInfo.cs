@@ -29,6 +29,11 @@ namespace BranchingModule.Logic
 		{
 			return new BranchInfo(teamProject, MAIN);
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{0} {1}", this.TeamProject, this.Name);
+		}
 		#endregion
 	}
 }

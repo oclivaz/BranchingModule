@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using Microsoft.TeamFoundation.VersionControl.Common;
 
 namespace BranchingModule.Logic
 {
@@ -10,16 +11,18 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
+		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public TeamFoundationService(IConvention convention, ISettings settings)
+		public TeamFoundationService(IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.Convention = convention;
 			this.Settings = settings;
+			this.TextOutput = textOutputService;
 		}
 		#endregion
 
@@ -89,12 +92,34 @@ namespace BranchingModule.Logic
 			string strTargetBranch = this.Convention.GetServerPath(branch);
 
 			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			if(versioncontrol.ServerItemExists(strTargetBranch, ItemType.Any)) return;
+			if(versioncontrol.ServerItemExists(strTargetBranch, ItemType.Any))
+			{
+				this.TextOutput.WriteVerbose(string.Format("Branch {0} already exists. Skipping...", strTargetBranch));
+				return;
+			}
 
 			string strSourceBranch = this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject));
 
 			VersionSpec versionByLabel = GetVersionSpec(branch);
 			versioncontrol.CreateBranch(strSourceBranch, strTargetBranch, versionByLabel);
+		}
+
+		public void DeleteBranch(BranchInfo branch)
+		{
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+
+			string strBranchBasePath = this.Convention.GetServerBasePath(branch);
+
+			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
+			if(!versioncontrol.ServerItemExists(strBranchBasePath, ItemType.Any))
+			{
+				this.TextOutput.WriteVerbose(string.Format("{0} is already deleted. Skipping...", strBranchBasePath));
+				return;
+			}
+
+			this.TextOutput.WriteVerbose(string.Format("Destroying {0}", strBranchBasePath));
+			versioncontrol.Destroy(new ItemSpec(strBranchBasePath, RecursionType.Full), VersionSpec.Latest, null, DestroyFlags.Silent);
 		}
 		#endregion
 
