@@ -120,11 +120,6 @@ namespace BranchingModule.Logic
 			this.TextOutput.WriteVerbose(string.Format("Destroying {0}", strBranchBasePath));
 			this.VersionControlServer.Destroy(new ItemSpec(strBranchBasePath, RecursionType.Full), VersionSpec.Latest, null, DestroyFlags.Silent);
 		}
-
-		public void CreateBuildConfiguration(BranchInfo branch)
-		{
-			throw new NotImplementedException();
-		}
 		#endregion
 
 		#region Privates

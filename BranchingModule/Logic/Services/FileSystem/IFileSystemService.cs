@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace BranchingModule.Logic
@@ -7,6 +8,7 @@ namespace BranchingModule.Logic
 	{
 		void ExecuteInCmd(string strFile, string strArguments);
 		void Execute(string strFile, string strArguments);
+		Process StartProcess(string strFile, string strArguments);
 		string ReadAllText(string strFile);
 		void WriteAllText(string strFile, string strContent, Encoding encoding);
 		void Copy(string strSource, string strDestination);

@@ -17,6 +17,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 		private AddReleasebranchController AddReleasebranchController { get; set; }
 		private ISourceControlService SourceControl { get; set; }
+		private IAdeNetService AdeNet { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -25,8 +26,9 @@ namespace BranchingModuleTest.Logic.Controller
 		{
 			this.SourceControl = Substitute.For<ISourceControlService>();
 			this.Dump = Substitute.For<IDumpService>();
+			this.AdeNet = Substitute.For<IAdeNetService>();
 
-			this.AddReleasebranchController = new AddReleasebranchController(this.SourceControl, this.Dump, new TextOutputServiceDummy());
+			this.AddReleasebranchController = new AddReleasebranchController(this.SourceControl, this.Dump, this.AdeNet, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -40,7 +42,7 @@ namespace BranchingModuleTest.Logic.Controller
 			// Assert
 			this.SourceControl.Received().CreateBranch(AKISBV_5_0_35);
 			this.Dump.Received().InstallBuildserverDump(AKISBV_5_0_35);
-			//this.SourceControl.Received().CreateBuildConfiguration(AKISBV_5_0_35);
+			this.AdeNet.Received().CreateBuildDefinition(AKISBV_5_0_35);
 		}
 		#endregion
 	}

@@ -1,4 +1,5 @@
 ﻿using BranchingModule.Logic;
+using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -9,6 +10,7 @@ namespace BranchingModuleTest.Logic.Services
 	{
 		#region Fields
 		private readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBV", "5.0.35");
+		private const string BUILDCONFIGURATION_URL = "http://www.probierä.ch";
 		#endregion
 
 		#region Properties
@@ -28,7 +30,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemService>();
-			this.AdeNetService = new AdeNetService(this.FileSystem, this.Convention, this.Settings);
+
+			this.AdeNetService = new AdeNetService(this.FileSystem, this.Convention, this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -73,6 +76,19 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.FileSystem.Received().ExecuteInCmd(@"c:\PathToAdeNet\AdeNet.exe", @"-workingdirectory c:\Solution -initializeiis -development");
+		}
+
+		[TestMethod]
+		public void TestCreateBuildDefinition()
+		{
+			// Arrange
+			this.Settings.BuildConfigurationUrl.Returns(BUILDCONFIGURATION_URL);
+			
+			// Act
+			this.AdeNetService.CreateBuildDefinition(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.Received().StartProcess(Executables.INTERNET_EXPLORER, BUILDCONFIGURATION_URL);
 		}
 		#endregion
 	}

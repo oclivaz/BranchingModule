@@ -6,5 +6,6 @@
 		void BuildWebConfig(BranchInfo branch);
 		void InitializeIIS(BranchInfo branch);
 		void RemoveApplication(BranchInfo branch);
+		void CreateBuildDefinition(BranchInfo branch);
 	}
 }

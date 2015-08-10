@@ -9,16 +9,12 @@ namespace BranchingModule.Logic
 {
 	internal class FileSystemService : IFileSystemService
 	{
-		#region Constants
-		private const string CMD_EXE = "cmd.exe";
-		#endregion
-
 		#region Publics
 		public void ExecuteInCmd(string strFile, string strArguments)
 		{
 			string strCmdarguments = string.Format(@"/C {0} {1}", strFile, strArguments);
 
-			ProcessStartInfo startInfo = new ProcessStartInfo(CMD_EXE)
+			ProcessStartInfo startInfo = new ProcessStartInfo(Executables.CMD_EXE)
 			                             {
 				                             Arguments = strCmdarguments,
 				                             CreateNoWindow = true,
@@ -44,6 +40,11 @@ namespace BranchingModule.Logic
 			{
 				if(process != null) process.WaitForExit();
 			}
+		}
+
+		public Process StartProcess(string strFile, string strArguments)
+		{
+			return Process.Start(strFile, strArguments);
 		}
 
 		public string ReadAllText(string strFile)

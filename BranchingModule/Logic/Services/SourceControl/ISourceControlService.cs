@@ -10,6 +10,5 @@ namespace BranchingModule.Logic
 		DateTime GetCreationTime(BranchInfo branch);
 		void CreateBranch(BranchInfo branch);
 		void DeleteBranch(BranchInfo branch);
-		void CreateBuildConfiguration(BranchInfo branch);
 	}
 }

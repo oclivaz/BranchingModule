@@ -5,16 +5,20 @@ namespace BranchingModule.Logic
 {
 	internal class AdeNetService : IAdeNetService
 	{
+		#region Constants
 		private const string DEFAULT_WEB_SITE = "Default Web Site";
+		#endregion
 
 		#region Properties
+		public ITextOutputService TextOutput { get; set; }
+
 		private IFileSystemService FileSystem { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public AdeNetService(IFileSystemService fileSystemService, IConvention convention, ISettings settings)
+		public AdeNetService(IFileSystemService fileSystemService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 			if(settings == null) throw new ArgumentNullException("settings");
@@ -22,6 +26,7 @@ namespace BranchingModule.Logic
 			this.FileSystem = fileSystemService;
 			this.Convention = convention;
 			this.Settings = settings;
+			this.TextOutput = textOutputService;
 		}
 		#endregion
 
@@ -56,6 +61,12 @@ namespace BranchingModule.Logic
 					serverManager.CommitChanges();
 				}
 			}
+		}
+
+		public void CreateBuildDefinition(BranchInfo branch)
+		{
+			this.TextOutput.WriteVerbose(string.Format("Starting Internet Explorer. Add a build configuration for {0}", branch));
+			this.FileSystem.StartProcess(Executables.INTERNET_EXPLORER, this.Settings.BuildConfigurationUrl);
 		}
 		#endregion
 
