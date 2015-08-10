@@ -40,7 +40,7 @@ namespace BranchingModule.Logic
 			this.SQLScriptPath = settingsDTO.SQLScriptPath;
 			this.SQLConnectionString = settingsDTO.SQLConnectionString;
 
-			this.TeamprojectSettings = new Dictionary<string, ITeamProjectSettings>();
+			this.TeamprojectSettings = new Dictionary<string, ITeamProjectSettings>(StringComparer.OrdinalIgnoreCase);
 			foreach(string strTeamproject in settingsDTO.Teamprojects.Keys)
 			{
 				this.TeamprojectSettings.Add(strTeamproject, new TeamProjectSettings(settingsDTO.Teamprojects[strTeamproject]));

@@ -11,11 +11,6 @@ namespace BranchingModule.Logic
 		#region Properties
 		public string TeamProject { get; private set; }
 		public string Name { get; private set; }
-
-		public string AppTitle
-		{
-			get { return string.Format("{0} Release {1}", this.TeamProject, this.Name); }
-		}
 		#endregion
 
 		#region Constructors
