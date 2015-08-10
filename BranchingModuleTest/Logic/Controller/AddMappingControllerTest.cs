@@ -8,6 +8,10 @@ namespace BranchingModuleTest.Logic.Controller
 	[TestClass]
 	public class AddMappingControllerTest
 	{
+		#region Constants
+		private static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBVBL", "1.2.3");
+		#endregion
+
 		#region Properties
 		private AddMappingController AddMappingController { get; set; }
 		private ISourceControlService SourceControl { get; set; }
@@ -34,21 +38,35 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestMethod]
 		public void TestProcess()
 		{
-			// Arrange
-			BranchInfo branch = new BranchInfo("AkisBVBL", "1.2.3");
-
 			// Act
-			this.AddMappingController.Process(branch);
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, false);
 
 			// Assert
-			this.SourceControl.Received().CreateMapping(branch);
-			this.AdeNet.Received().InstallPackages(branch);
-			this.ConfigFileService.Received().CreateIndivConfig(branch);
-			this.SourceControl.Received().CreateAppConfig(branch);
-			this.AdeNet.Received().BuildWebConfig(branch);
-			this.BuildEngine.Received().Build(branch);
-			this.AdeNet.Received().InitializeIIS(branch);
-			this.Dump.Received().RestoreDump(branch);
+			this.SourceControl.Received().CreateMapping(AKISBV_5_0_35);
+			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
+			this.ConfigFileService.Received().CreateIndivConfig(AKISBV_5_0_35);
+			this.SourceControl.Received().CreateAppConfig(AKISBV_5_0_35);
+			this.AdeNet.Received().BuildWebConfig(AKISBV_5_0_35);
+			this.BuildEngine.Received().Build(AKISBV_5_0_35);
+			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
+			this.Dump.Received().RestoreDump(AKISBV_5_0_35);
+		}
+
+		[TestMethod]
+		public void TestProcess_minimal()
+		{
+			// Act
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, true);
+
+			// Assert
+			this.SourceControl.Received().CreateMapping(AKISBV_5_0_35);
+			this.AdeNet.DidNotReceive().InstallPackages(Arg.Any<BranchInfo>());
+			this.ConfigFileService.DidNotReceive().CreateIndivConfig(Arg.Any<BranchInfo>());
+			this.SourceControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
+			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
+			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
+			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
+			this.Dump.DidNotReceive().RestoreDump(Arg.Any<BranchInfo>());
 		}
 		#endregion
 	}

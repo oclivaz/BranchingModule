@@ -20,6 +20,12 @@ namespace BranchingModule.Cmdlets
 			Position = 1
 			)]
 		public string Branch { get; set; }
+
+		[Parameter(
+			Mandatory = false,
+			Position = 1
+			)]
+		public SwitchParameter Minimal { get; set; }
 		#endregion
 
 		#region Protecteds
@@ -33,7 +39,7 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.Process(new BranchInfo(this.Teamproject, this.Branch));
+				controller.AddMapping(new BranchInfo(this.Teamproject, this.Branch), this.Minimal);
 			}
 			catch(Exception ex)
 			{

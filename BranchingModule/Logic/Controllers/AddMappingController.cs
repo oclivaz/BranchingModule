@@ -31,10 +31,12 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void Process(BranchInfo branch)
+		public void AddMapping(BranchInfo branch, bool bMinimal)
 		{
 			this.TextOutput.WriteVerbose("Creating Mapping");
 			this.SourceControl.CreateMapping(branch);
+
+			if(bMinimal) return;
 
 			this.TextOutput.WriteVerbose("Installing Packages");
 			this.AdeNet.InstallPackages(branch);

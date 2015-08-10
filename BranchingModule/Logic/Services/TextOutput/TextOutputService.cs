@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -29,6 +30,8 @@ namespace BranchingModule.Logic
 
 		public void WriteVerbose(string strText)
 		{
+			if(strText == null) throw new ArgumentNullException("strText");
+
 			StackTrace stackTrace = new StackTrace();
 			StackFrame stackFrame = stackTrace.GetFrame(1);
 			MethodBase sourceMethod = stackFrame.GetMethod();
