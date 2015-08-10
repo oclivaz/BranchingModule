@@ -10,10 +10,11 @@ namespace BranchingModule.Logic
 		private ISourceControlService SourceControl { get; set; }
 		public IFileSystemService FileSystem { get; set; }
 		private ISettings Settings { get; set; }
+		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpRepositoryService(ISourceControlService sourceControlService, IFileSystemService fileSystemService, ISettings settings)
+		public DumpRepositoryService(ISourceControlService sourceControlService, IFileSystemService fileSystemService, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
 			if(settings == null) throw new ArgumentNullException("settings");
@@ -21,6 +22,7 @@ namespace BranchingModule.Logic
 			this.SourceControl = sourceControlService;
 			this.FileSystem = fileSystemService;
 			this.Settings = settings;
+			this.TextOutput = textOutputService;
 		}
 		#endregion
 
@@ -37,6 +39,8 @@ namespace BranchingModule.Logic
 										 select dumpArchive;
 
 			IFileInfo newestArchive = archivesBevoreCreation.OrderByDescending(fileInfo => fileInfo.CreationTime).First();
+
+			this.TextOutput.WriteVerbose(string.Format("Choosing {0} from Repository", newestArchive.FileName));
 
 			string strTargetDirectory = Path.GetDirectoryName(strTarget);
 			if(strTargetDirectory == null) throw new Exception("Couldn't determine target directory");

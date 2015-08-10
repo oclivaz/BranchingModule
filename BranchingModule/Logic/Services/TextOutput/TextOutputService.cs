@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace BranchingModule.Logic
 {
 	internal class TextOutputService : ITextOutputService
 	{
+		#region Constants
+		private const string UNKNOWN = "unknown";
+		#endregion
+
 		#region Properties
 		private ISet<ITextOutputListener> Listeners { get; set; }
 		#endregion
@@ -23,9 +29,15 @@ namespace BranchingModule.Logic
 
 		public void WriteVerbose(string strText)
 		{
+			StackTrace stackTrace = new StackTrace();
+			StackFrame stackFrame = stackTrace.GetFrame(1);
+			MethodBase sourceMethod = stackFrame.GetMethod();
+
+			string sourceClassName = sourceMethod.ReflectedType == null ? UNKNOWN : sourceMethod.ReflectedType.Name;
+
 			foreach(var listener in this.Listeners)
 			{
-				listener.WriteVerbose(strText);
+				listener.WriteVerbose(string.Format("{0}.{1}: {2}", sourceClassName, sourceMethod.Name, strText));
 			}
 		}
 		#endregion

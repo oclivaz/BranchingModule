@@ -36,7 +36,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.TextOutputService.WriteVerbose(SOME_TEXT);
 
 			// Assert
-			listener.Received().WriteVerbose(SOME_TEXT);
+			listener.Received().WriteVerbose(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
 		}
 
 		[TestMethod]
@@ -52,8 +52,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.TextOutputService.WriteVerbose(SOME_TEXT);
 
 			// Assert
-			listener1.Received().WriteVerbose(SOME_TEXT);
-			listener2.Received().WriteVerbose(SOME_TEXT);
+			listener1.Received().WriteVerbose(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
+			listener2.Received().WriteVerbose(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
 		}
 
 		[TestMethod]

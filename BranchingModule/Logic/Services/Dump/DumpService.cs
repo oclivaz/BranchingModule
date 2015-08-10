@@ -73,6 +73,8 @@ namespace BranchingModule.Logic
 			if(strDump == null) throw new ArgumentNullException("strDump");
 			if(strDB == null) throw new ArgumentNullException("strDB");
 
+			this.TextOutput.WriteVerbose(string.Format("Restoring {0} into {1}", strDump, strDB));
+
 			this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
 			this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
 			this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);

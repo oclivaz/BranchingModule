@@ -6,10 +6,17 @@ namespace BranchingModuleTest.TestDoubles
 	{
 		public void RegisterListener(ITextOutputListener listener)
 		{
+			// TextOutputServiceDummpy don't care
 		}
 
 		public void WriteVerbose(string strText)
 		{
+			// TextOutputServiceDummpy don't care
+		}
+
+		public void WriteVerbose(string strText, string strSource)
+		{
+			// TextOutputServiceDummpy don't care
 		}
 	}
 }
