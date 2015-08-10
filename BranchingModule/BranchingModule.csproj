@@ -87,7 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
+    <Compile Include="Cmdlets\AddReleaseBranch.cs" />
     <Compile Include="Cmdlets\RemoveMapping.cs" />
+    <Compile Include="Logic\Controllers\AddReleaseBranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\IDependencyInjectionFactory.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\DependencyInjectionFactory.cs" />

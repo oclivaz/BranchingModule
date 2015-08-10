@@ -84,6 +84,7 @@
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\RemoveMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
+    <Compile Include="Logic\Controller\AddReleasebranchControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
     <Compile Include="Logic\Services\TextOutputServiceTest.cs" />
     <Compile Include="Logic\Services\DumpRepositoryServiceTest.cs" />

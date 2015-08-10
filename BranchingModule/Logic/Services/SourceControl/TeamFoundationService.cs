@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
-using Ninject.Injection;
 
 namespace BranchingModule.Logic
 {
@@ -74,16 +73,37 @@ namespace BranchingModule.Logic
 			server.Authenticate();
 
 			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			VersionSpec versionSpec = VersionSpec.ParseSingleSpec(string.Format("L{0}", GetLabel(branch)), null);
+			VersionSpec versionSpec = GetVersionSpec(branch);
 
 			Item nuspecFileItem = versioncontrol.GetItem(string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject)), branch.TeamProject), versionSpec);
 			if(nuspecFileItem == null) throw new Exception(string.Format("Kein Checkin zum Label {0} gefunden", GetLabel(branch)));
 
 			return nuspecFileItem.CheckinDate;
 		}
+
+		public void CreateBranch(BranchInfo branch)
+		{
+			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
+			server.Authenticate();
+
+			string strTargetBranch = this.Convention.GetServerPath(branch);
+
+			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
+			if(versioncontrol.ServerItemExists(strTargetBranch, ItemType.Any)) return;
+
+			string strSourceBranch = this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject));
+
+			VersionSpec versionByLabel = GetVersionSpec(branch);
+			versioncontrol.CreateBranch(strSourceBranch, strTargetBranch, versionByLabel);
+		}
 		#endregion
 
 		#region Privates
+		private VersionSpec GetVersionSpec(BranchInfo branch)
+		{
+			return VersionSpec.ParseSingleSpec(string.Format("L{0}", GetLabel(branch)), null);
+		}
+
 		private string GetLabel(BranchInfo branch)
 		{
 			return string.Format("{0}.0", branch.Name);

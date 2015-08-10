@@ -8,5 +8,6 @@ namespace BranchingModule.Logic
 		void DeleteMapping(BranchInfo branch);
 		void CreateAppConfig(BranchInfo branch);
 		DateTime GetCreationTime(BranchInfo branch);
+		void CreateBranch(BranchInfo branch);
 	}
 }
