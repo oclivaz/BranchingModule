@@ -10,6 +10,7 @@ namespace BranchingModule.Cmdlets
 	{
 		#region Properties
 		[Parameter(
+			
 			Mandatory = true,
 			Position = 0
 			)]
@@ -23,7 +24,7 @@ namespace BranchingModule.Cmdlets
 
 		[Parameter(
 			Mandatory = false,
-			Position = 1
+			Position = 2
 			)]
 		public SwitchParameter Minimal { get; set; }
 		#endregion
