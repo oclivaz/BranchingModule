@@ -1,4 +1,5 @@
 ﻿using BranchingModule.Logic;
+using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -37,7 +38,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.FileSystem = Substitute.For<IFileSystemService>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
 			this.SQLServer = Substitute.For<ISQLServerService>();
-			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, this.Convention, this.Settings);
+			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, this.Convention, this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 

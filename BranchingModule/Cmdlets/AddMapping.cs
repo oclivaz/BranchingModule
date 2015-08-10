@@ -6,7 +6,7 @@ namespace BranchingModule.Cmdlets
 
 {
 	[Cmdlet(VerbsCommon.Add, "Mapping")]
-	public class AddMapping : PSCmdlet
+	public class AddMapping : PSCmdlet, ITextOutputListener
 	{
 		#region Properties
 		[Parameter(
@@ -27,6 +27,9 @@ namespace BranchingModule.Cmdlets
 		{
 			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
 			AddMappingController controller = factory.Get<AddMappingController>();
+
+			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
+			textOutputService.RegisterListener(this);
 
 			try
 			{

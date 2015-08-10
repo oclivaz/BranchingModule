@@ -19,16 +19,18 @@ namespace BranchingModule.Logic
 		public ISQLServerService SQLServer { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
+		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, ISQLServerService sqlServerService, IConvention convention, ISettings settings)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, ISQLServerService sqlServerService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemService;
 			this.SQLServer = sqlServerService;
 			this.Convention = convention;
 			this.Settings = settings;
+			this.TextOutput = textOutputService;
 		}
 		#endregion
 
@@ -46,12 +48,24 @@ namespace BranchingModule.Logic
 		{
 			string strLocalDump = this.Convention.GetLocalDump(branch);
 
-			if(this.FileSystem.Exists(strLocalDump)) return;
+			if(this.FileSystem.Exists(strLocalDump))
+			{
+				this.TextOutput.WriteVerbose("Dump already exists locally");
+				return;
+			}
 
 			string strBuildServerDump = this.Convention.GetBuildserverDump(branch);
 
-			if(this.FileSystem.Exists(strBuildServerDump)) this.FileSystem.Copy(strBuildServerDump, strLocalDump);
-			else this.DumpRepository.CopyDump(branch, strLocalDump);
+			if(this.FileSystem.Exists(strBuildServerDump))
+			{
+				this.TextOutput.WriteVerbose(string.Format("Getting {0}", strBuildServerDump));
+				this.FileSystem.Copy(strBuildServerDump, strLocalDump);
+			}
+			else
+			{
+				this.TextOutput.WriteVerbose("Getting Dump from Repository");
+				this.DumpRepository.CopyDump(branch, strLocalDump);
+			}
 		}
 
 		private void RestoreLocalDump(string strDump, string strDB)

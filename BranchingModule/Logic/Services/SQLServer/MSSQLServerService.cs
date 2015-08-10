@@ -23,8 +23,8 @@ namespace BranchingModule.Logic
 
 			using(SqlConnection connection = new SqlConnection(this.Settings.SQLConnectionString))
 			{
-				connection.ChangeDatabase(strDataBase);
 				connection.Open();
+				connection.ChangeDatabase(strDataBase);
 
 				SqlCommand command = new SqlCommand(strScript, connection);
 				command.ExecuteNonQuery();

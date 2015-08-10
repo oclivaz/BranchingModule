@@ -112,6 +112,9 @@
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
     <Compile Include="Logic\Services\SQLServer\ISQLServerService.cs" />
     <Compile Include="Logic\Services\SQLServer\MSSQLServerService.cs" />
+    <Compile Include="Logic\Services\TextOutput\ITextOutputListener.cs" />
+    <Compile Include="Logic\Services\TextOutput\ITextOutputService.cs" />
+    <Compile Include="Logic\Services\TextOutput\TextOutputService.cs" />
     <Compile Include="Logic\Settings\Settings.cs" />
     <Compile Include="Logic\Settings\TeamProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

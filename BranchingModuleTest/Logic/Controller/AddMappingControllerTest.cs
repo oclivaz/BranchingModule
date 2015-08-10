@@ -1,4 +1,5 @@
 ﻿using BranchingModule.Logic;
+using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -25,7 +26,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
 			this.Dump = Substitute.For<IDumpService>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump);
+			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, new TextOutputServiceDummy());
 		}
 		#endregion
 
