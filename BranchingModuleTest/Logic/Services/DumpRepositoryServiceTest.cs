@@ -72,6 +72,35 @@ namespace BranchingModuleTest.Logic.Services
 			this.FileSystem.Received().Move(@"c:\tempDir\ASK.bak", LOCAL_DUMP);
 			this.FileSystem.Received().DeleteFile(@"c:\tempDir\ASK_20150810_2.zip");
 		}
+
+		[TestMethod]
+		public void TestCopyDump_no_Dump_before_branch_creation()
+		{
+			// Arrange
+			this.SourceControl.GetCreationTime(AKISBV_5_0_35).Returns(MONDAY.At(09, 30));
+			this.Settings.DumpRepositoryPath.Returns(@"Y:\DumpRepository");
+			this.Settings.TempDirectory.Returns(@"c:\tempDir");
+			this.Settings.GetTeamProjectSettings("AkisBV").Returns(TeamProjectSettings("egal", ASK));
+
+			IFileInfo[] dumpArchives =
+			{
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_3.zip", MONDAY.At(09, 37)),
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_4.zip", MONDAY.At(09, 38))
+			};
+
+			this.FileSystem.GetFiles(@"Y:\DumpRepository").Returns(dumpArchives);
+
+			// Act
+			try
+			{
+				this.DumpRepository.CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
+				Assert.Fail("Exception was Expected");
+			}
+			catch(Exception e)
+			{
+				StringAssert.Contains(e.Message, "No dump");
+			}
+		}
 		#endregion
 
 		#region Privates

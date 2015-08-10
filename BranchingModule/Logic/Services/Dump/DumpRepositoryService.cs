@@ -33,11 +33,12 @@ namespace BranchingModule.Logic
 
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 
-			var archivesBevoreCreation = from dumpArchive in this.FileSystem.GetFiles(this.Settings.DumpRepositoryPath)
+			var archivesBevoreCreation = (from dumpArchive in this.FileSystem.GetFiles(this.Settings.DumpRepositoryPath)
 										 where dumpArchive.FileName.StartsWith(teamProjectSettings.RefDB)
 											   && dumpArchive.CreationTime < dtBranchCreation
-										 select dumpArchive;
+										 select dumpArchive).ToArray();
 
+			if(!archivesBevoreCreation.Any()) throw new Exception(string.Format("No dump of database {0} before {1} in Repository at {2}", teamProjectSettings.RefDB, dtBranchCreation, Settings.DumpRepositoryPath));
 			IFileInfo newestArchive = archivesBevoreCreation.OrderByDescending(fileInfo => fileInfo.CreationTime).First();
 
 			this.TextOutput.WriteVerbose(string.Format("Choosing {0} from Repository", newestArchive.FileName));
