@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 
 namespace BranchingModule.Logic
 {
@@ -31,7 +32,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void AddMapping(BranchInfo branch, bool bMinimal)
+		public void AddMapping(BranchInfo branch, bool bMinimal, SwitchParameter openSolution)
 		{
 			this.TextOutput.WriteVerbose("Creating Mapping");
 			this.VersionControl.CreateMapping(branch);

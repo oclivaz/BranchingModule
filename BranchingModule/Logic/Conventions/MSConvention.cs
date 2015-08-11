@@ -77,6 +77,11 @@ namespace BranchingModule.Logic
 
 			throw new Exception(string.Format("Could not determine Branch of {0}", strServerItem));
 		}
+
+		public string GetSolutionFile(BranchInfo branch)
+		{
+			return string.Format(@"{0}\{1}.sln", GetLocalPath(branch), branch.TeamProject);
+		}
 		#endregion
 	}
 }

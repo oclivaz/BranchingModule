@@ -39,7 +39,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void TestAddMapping()
 		{
 			// Act
-			this.AddMappingController.AddMapping(AKISBV_5_0_35, false);
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, false, false);
 
 			// Assert
 			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
@@ -56,7 +56,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void TestAddMapping_minimal()
 		{
 			// Act
-			this.AddMappingController.AddMapping(AKISBV_5_0_35, true);
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, true, false);
 
 			// Assert
 			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
@@ -67,6 +67,16 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
 			this.Dump.DidNotReceive().RestoreDump(Arg.Any<BranchInfo>());
+		}
+
+		[TestMethod]
+		public void TestAddMapping_openSolution()
+		{
+			// Act
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, false, true);
+
+			// Assert
+			
 		}
 		#endregion
 	}

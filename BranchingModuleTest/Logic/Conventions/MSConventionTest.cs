@@ -172,6 +172,16 @@ namespace BranchingModuleTest.Logic.Conventions
 			// Act
 			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/SomethingElse/Source");
 		}
+
+		[TestMethod]
+		public void TestGetSolutionFile()
+		{
+			// Act
+			string strSolutionFile = this.MSConvention.GetSolutionFile(AKISBV_2_5_3);
+
+			// Assert
+			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBV_2_5_3\AkisBV.sln", strSolutionFile, true);
+		}
 		#endregion
 
 		#region Privates

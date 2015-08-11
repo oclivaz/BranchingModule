@@ -25,6 +25,12 @@ namespace BranchingModule.Cmdlets
 			Position = 2
 			)]
 		public SwitchParameter Minimal { get; set; }
+
+		[Parameter(
+			Mandatory = false,
+			Position = 3
+			)]
+		public SwitchParameter OpenSolution { get; set; }
 		#endregion
 
 		#region Protecteds
@@ -38,7 +44,7 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.AddMapping(new BranchInfo(this.Teamproject, this.Branch), this.Minimal);
+				controller.AddMapping(new BranchInfo(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
 			}
 			catch(Exception ex)
 			{
