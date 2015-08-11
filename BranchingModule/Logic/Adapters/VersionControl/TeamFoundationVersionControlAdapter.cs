@@ -132,6 +132,14 @@ namespace BranchingModule.Logic
 		{
 			this.VersionControlServer.Destroy(new ItemSpec(strPath, RecursionType.Full), VersionSpec.Latest, null, DestroyFlags.Silent);
 		}
+
+		public void DownloadFile(string strServerpath, string strLocalpath)
+		{
+			if(strServerpath == null) throw new ArgumentNullException("strServerpath");
+			if(strLocalpath == null) throw new ArgumentNullException("strLocalpath");
+
+			this.VersionControlServer.DownloadFile(strServerpath, strLocalpath);
+		}
 		#endregion
 
 		#region Privates

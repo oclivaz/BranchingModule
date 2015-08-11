@@ -23,5 +23,7 @@ namespace BranchingModule.Logic
 		void Undo(string strServerPath);
 		string CheckIn(string strServerPath, string strComment);
 		string GetComment(string strChangeset);
+
+		void DownloadFile(string strServerpath, string strLocalpath);
 	}
 }

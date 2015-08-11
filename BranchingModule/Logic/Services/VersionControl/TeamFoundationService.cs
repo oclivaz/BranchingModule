@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BranchingModule.Logic
 {
@@ -56,7 +54,7 @@ namespace BranchingModule.Logic
 		{
 			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));
 
-			DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
+			this.VersionControlAdapter.DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
 		}
 
 		public DateTime GetCreationTime(BranchInfo branch)
@@ -166,18 +164,6 @@ namespace BranchingModule.Logic
 		private string GetLabel(BranchInfo branch)
 		{
 			return string.Format("{0}.0", branch.Name);
-		}
-
-		private void DownloadFile(string strServerpath, string strLocalpath)
-		{
-			if(strServerpath == null) throw new ArgumentNullException("strServerpath");
-			if(strLocalpath == null) throw new ArgumentNullException("strLocalpath");
-
-			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
-			server.Authenticate();
-
-			VersionControlServer versioncontrol = server.GetService<VersionControlServer>();
-			versioncontrol.DownloadFile(strServerpath, strLocalpath);
 		}
 		#endregion
 	}
