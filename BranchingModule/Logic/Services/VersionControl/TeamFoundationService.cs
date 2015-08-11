@@ -5,7 +5,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace BranchingModule.Logic
 {
-	internal class TeamFoundationService : ISourceControlService
+	internal class TeamFoundationService : IVersionControlService
 	{
 		#region Properties
 		public ITextOutputService TextOutput { get; set; }

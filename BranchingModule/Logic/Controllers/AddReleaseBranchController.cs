@@ -5,19 +5,19 @@ namespace BranchingModule.Logic
 	internal class AddReleasebranchController
 	{
 		#region Properties
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		private IDumpService Dump { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddReleasebranchController(ISourceControlService sourceControlService, IDumpService dumpService, IAdeNetService adeNetService, ITextOutputService textOutputService)
+		public AddReleasebranchController(IVersionControlService versionControlService, IDumpService dumpService, IAdeNetService adeNetService, ITextOutputService textOutputService)
 		{
-			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
+			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(textOutputService == null) throw new ArgumentNullException("textOutputService");
 
-			this.SourceControl = sourceControlService;
+			this.VersionControl = versionControlService;
 			this.Dump = dumpService;
 			this.AdeNet = adeNetService;
 			this.TextOutput = textOutputService;
@@ -28,7 +28,7 @@ namespace BranchingModule.Logic
 		public void AddReleasebranch(BranchInfo branch)
 		{
 			this.TextOutput.WriteVerbose("Creating Branch");
-			this.SourceControl.CreateBranch(branch);
+			this.VersionControl.CreateBranch(branch);
 
 			this.TextOutput.WriteVerbose("Creating Dump on Buildserver");
 			this.Dump.InstallBuildserverDump(branch);

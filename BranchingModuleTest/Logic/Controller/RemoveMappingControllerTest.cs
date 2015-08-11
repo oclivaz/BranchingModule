@@ -15,9 +15,9 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Properties
 		private RemoveMappingController RemoveMappingController { get; set; }
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		private IConvention Convention { get; set; }
 		#endregion
 
@@ -25,12 +25,12 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.SourceControl = Substitute.For<ISourceControlService>();
+			this.VersionControl = Substitute.For<IVersionControlService>();
 			this.AdeNet = Substitute.For<IAdeNetService>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.Convention = Substitute.For<IConvention>();
 
-			this.RemoveMappingController = new RemoveMappingController(this.SourceControl, this.AdeNet, this.FileSystem, this.Convention, new TextOutputServiceDummy());
+			this.RemoveMappingController = new RemoveMappingController(this.VersionControl, this.AdeNet, this.FileSystem, this.Convention, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -45,7 +45,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.RemoveMappingController.RemoveMapping(AKISBV_5_0_35);
 
 			// Assert
-			this.SourceControl.Received().DeleteMapping(AKISBV_5_0_35);
+			this.VersionControl.Received().DeleteMapping(AKISBV_5_0_35);
 			this.FileSystem.Received().DeleteDirectory(LOCAL_PATH);
 			this.AdeNet.Received().RemoveApplication(AKISBV_5_0_35);
 		}

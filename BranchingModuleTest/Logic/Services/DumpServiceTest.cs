@@ -22,7 +22,7 @@ namespace BranchingModuleTest.Logic.Services
 
 		private IConvention Convention { get; set; }
 
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 
 		private IDumpRepositoryService DumpRepository { get; set; }
 
@@ -35,7 +35,7 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
 			this.SQLServer = Substitute.For<ISQLServerService>();
 			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, this.Convention, this.Settings, new TextOutputServiceDummy());

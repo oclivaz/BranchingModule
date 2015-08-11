@@ -14,7 +14,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Properties
 		private AddMappingController AddMappingController { get; set; }
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
@@ -25,12 +25,12 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.SourceControl = Substitute.For<ISourceControlService>();
+			this.VersionControl = Substitute.For<IVersionControlService>();
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
 			this.Dump = Substitute.For<IDumpService>();
-			this.AddMappingController = new AddMappingController(this.SourceControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, new TextOutputServiceDummy());
+			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -42,10 +42,10 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AddMappingController.AddMapping(AKISBV_5_0_35, false);
 
 			// Assert
-			this.SourceControl.Received().CreateMapping(AKISBV_5_0_35);
+			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
 			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
 			this.ConfigFileService.Received().CreateIndivConfig(AKISBV_5_0_35);
-			this.SourceControl.Received().CreateAppConfig(AKISBV_5_0_35);
+			this.VersionControl.Received().CreateAppConfig(AKISBV_5_0_35);
 			this.AdeNet.Received().BuildWebConfig(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
@@ -59,10 +59,10 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AddMappingController.AddMapping(AKISBV_5_0_35, true);
 
 			// Assert
-			this.SourceControl.Received().CreateMapping(AKISBV_5_0_35);
+			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
 			this.AdeNet.DidNotReceive().InstallPackages(Arg.Any<BranchInfo>());
 			this.ConfigFileService.DidNotReceive().CreateIndivConfig(Arg.Any<BranchInfo>());
-			this.SourceControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
+			this.VersionControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());

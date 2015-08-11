@@ -25,7 +25,7 @@ namespace BranchingModuleTest.Logic.Services
 		private IConfigFileService ConfigFileService { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -34,7 +34,7 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.ConfigFileService = new ConfigFileService(this.Convention, this.Settings, this.FileSystem);
 		}
 		#endregion

@@ -27,9 +27,9 @@ namespace BranchingModuleTest.Logic.Services
 
 		private ISettings Settings { get; set; }
 
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -37,9 +37,9 @@ namespace BranchingModuleTest.Logic.Services
 		public void InitializeTest()
 		{
 			this.Settings = Substitute.For<ISettings>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
-			this.SourceControl = Substitute.For<ISourceControlService>();
-			this.DumpRepository = new DumpRepositoryService(this.SourceControl, this.FileSystem, this.Settings, new TextOutputServiceDummy());
+			this.FileSystem = Substitute.For<IFileSystemAdapter>();
+			this.VersionControl = Substitute.For<IVersionControlService>();
+			this.DumpRepository = new DumpRepositoryService(this.VersionControl, this.FileSystem, this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -48,7 +48,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestCopyDump()
 		{
 			// Arrange
-			this.SourceControl.GetCreationTime(AKISBV_5_0_35).Returns(MONDAY.At(09, 30));
+			this.VersionControl.GetCreationTime(AKISBV_5_0_35).Returns(MONDAY.At(09, 30));
 			this.Settings.DumpRepositoryPath.Returns(@"Y:\DumpRepository");
 			this.Settings.TempDirectory.Returns(@"c:\tempDir");
 			this.Settings.GetTeamProjectSettings("AkisBV").Returns(TeamProjectSettings("egal", ASK));
@@ -77,7 +77,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestCopyDump_no_Dump_before_branch_creation()
 		{
 			// Arrange
-			this.SourceControl.GetCreationTime(AKISBV_5_0_35).Returns(MONDAY.At(09, 30));
+			this.VersionControl.GetCreationTime(AKISBV_5_0_35).Returns(MONDAY.At(09, 30));
 			this.Settings.DumpRepositoryPath.Returns(@"Y:\DumpRepository");
 			this.Settings.TempDirectory.Returns(@"c:\tempDir");
 			this.Settings.GetTeamProjectSettings("AkisBV").Returns(TeamProjectSettings("egal", ASK));

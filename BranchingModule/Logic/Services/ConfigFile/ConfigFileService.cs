@@ -8,17 +8,17 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		#endregion
 
 		#region Constructors
-		public ConfigFileService(IConvention convention, ISettings settings, IFileSystemService fileSystemService)
+		public ConfigFileService(IConvention convention, ISettings settings, IFileSystemAdapter fileSystemAdapter)
 		{
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.Convention = convention;
 			this.Settings = settings;
-			this.FileSystem = fileSystemService;
+			this.FileSystem = fileSystemAdapter;
 		}
 		#endregion
 

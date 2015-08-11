@@ -6,7 +6,7 @@ using ICSharpCode.SharpZipLib.Zip;
 
 namespace BranchingModule.Logic
 {
-	internal class FileSystemService : IFileSystemService
+	internal class FileSystemAdapter : IFileSystemAdapter
 	{
 		#region Publics
 		public string ReadAllText(string strFile)

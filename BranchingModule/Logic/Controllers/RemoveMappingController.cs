@@ -5,24 +5,24 @@ namespace BranchingModule.Logic
 	internal class RemoveMappingController
 	{
 		#region Properties
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		public IAdeNetService AdeNet { get; set; }
-		public IFileSystemService FileSystem { get; set; }
+		public IFileSystemAdapter FileSystem { get; set; }
 		public IConvention Convention { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public RemoveMappingController(ISourceControlService sourceControlService, IAdeNetService adeNetService, IFileSystemService fileSystemService, IConvention convention, ITextOutputService textOutputService)
+		public RemoveMappingController(IVersionControlService versionControlService, IAdeNetService adeNetService, IFileSystemAdapter fileSystemAdapter, IConvention convention, ITextOutputService textOutputService)
 		{
-			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
+			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
-			if(fileSystemService == null) throw new ArgumentNullException("fileSystemService");
+			if(fileSystemAdapter == null) throw new ArgumentNullException("fileSystemAdapter");
 			if(convention == null) throw new ArgumentNullException("convention");
 
-			this.SourceControl = sourceControlService;
+			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
-			this.FileSystem = fileSystemService;
+			this.FileSystem = fileSystemAdapter;
 			this.Convention = convention;
 			this.TextOutput = textOutputService;
 		}
@@ -32,7 +32,7 @@ namespace BranchingModule.Logic
 		public void RemoveMapping(BranchInfo branch)
 		{
 			this.TextOutput.WriteVerbose("Deleting Mapping");
-			this.SourceControl.DeleteMapping(branch);
+			this.VersionControl.DeleteMapping(branch);
 
 			this.TextOutput.WriteVerbose("Deleting Solution");
 			this.FileSystem.DeleteDirectory(this.Convention.GetLocalPath(branch));

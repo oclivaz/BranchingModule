@@ -7,20 +7,20 @@ namespace BranchingModule.Logic
 	internal class DumpRepositoryService : IDumpRepositoryService
 	{
 		#region Properties
-		private ISourceControlService SourceControl { get; set; }
-		public IFileSystemService FileSystem { get; set; }
+		private IVersionControlService VersionControl { get; set; }
+		public IFileSystemAdapter FileSystem { get; set; }
 		private ISettings Settings { get; set; }
 		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpRepositoryService(ISourceControlService sourceControlService, IFileSystemService fileSystemService, ISettings settings, ITextOutputService textOutputService)
+		public DumpRepositoryService(IVersionControlService versionControlService, IFileSystemAdapter fileSystemAdapter, ISettings settings, ITextOutputService textOutputService)
 		{
-			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
+			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(settings == null) throw new ArgumentNullException("settings");
 
-			this.SourceControl = sourceControlService;
-			this.FileSystem = fileSystemService;
+			this.VersionControl = versionControlService;
+			this.FileSystem = fileSystemAdapter;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
 		}
@@ -29,7 +29,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void CopyDump(BranchInfo branch, string strTarget)
 		{
-			DateTime dtBranchCreation = this.SourceControl.GetCreationTime(branch);
+			DateTime dtBranchCreation = this.VersionControl.GetCreationTime(branch);
 
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 

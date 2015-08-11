@@ -3,7 +3,7 @@ using System.Text;
 
 namespace BranchingModule.Logic
 {
-	public interface IFileSystemService
+	public interface IFileSystemAdapter
 	{
 		string ReadAllText(string strFile);
 		void WriteAllText(string strFile, string strContent, Encoding encoding);

@@ -33,13 +33,13 @@ namespace BranchingModule.Logic
 				Bind<ITeamFoundationVersionControlAdapter>().To<TeamFoundationVersionControlAdapter>();
 
 				// Services
-				Bind<ISourceControlService>().To<TeamFoundationService>().InSingletonScope();
+				Bind<IVersionControlService>().To<TeamFoundationService>().InSingletonScope();
 				Bind<IAdeNetService>().To<AdeNetService>().InSingletonScope();
 				Bind<IBuildEngineService>().To<MsBuildService>().InSingletonScope();
 				Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
 				Bind<IDumpService>().To<DumpService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
-				Bind<IFileSystemService>().To<FileSystemService>().InSingletonScope();
+				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
 				Bind<ISQLServerService>().To<MSSQLServerService>();
 				Bind<ITextOutputService>().To<TextOutputService>().InSingletonScope();
 				Bind<IFileExecutionService>().To<FileExecutionService>().InSingletonScope();

@@ -7,22 +7,22 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IBuildEngineService BuildEngine { get; set; }
 		private IDumpService Dump { get; set; }
-		private ISourceControlService SourceControl { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public MergeChangesetController(ISourceControlService sourceControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService,
+		public MergeChangesetController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService,
 		                                IDumpService dumpService, ITextOutputService textOutputService)
 		{
-			if(sourceControlService == null) throw new ArgumentNullException("sourceControlService");
+			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
 			if(buildEngineService == null) throw new ArgumentNullException("buildEngineService");
 			if(configFileService == null) throw new ArgumentNullException("configFileService");
 
-			this.SourceControl = sourceControlService;
+			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
 			this.ConfigFileService = configFileService;
@@ -38,7 +38,7 @@ namespace BranchingModule.Logic
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
-			BranchInfo branch = this.SourceControl.GetBranchInfo(strChangeset);
+			BranchInfo branch = this.VersionControl.GetBranchInfo(strChangeset);
 		}
 		#endregion
 	}

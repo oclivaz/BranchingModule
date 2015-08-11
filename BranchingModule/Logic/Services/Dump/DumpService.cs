@@ -15,7 +15,7 @@ namespace BranchingModule.Logic
 
 		#region Properties
 		private IDumpRepositoryService DumpRepository { get; set; }
-		private IFileSystemService FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		public ISQLServerService SQLServer { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
@@ -23,10 +23,10 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemService fileSystemService, ISQLServerService sqlServerService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerService sqlServerService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			this.DumpRepository = dumpRepositoryService;
-			this.FileSystem = fileSystemService;
+			this.FileSystem = fileSystemAdapter;
 			this.SQLServer = sqlServerService;
 			this.Convention = convention;
 			this.Settings = settings;

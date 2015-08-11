@@ -114,12 +114,12 @@
     <Compile Include="Logic\Services\Dump\IDumpService.cs" />
     <Compile Include="Logic\Services\FileSystem\Executables.cs" />
     <Compile Include="Logic\Services\FileSystem\FileExecutionService.cs" />
-    <Compile Include="Logic\Services\FileSystem\FileSystemService.cs" />
+    <Compile Include="Logic\Adapters\FileSystem\FileSystemAdapter.cs" />
     <Compile Include="Logic\Services\FileSystem\IFileExecutionService.cs" />
-    <Compile Include="Logic\Services\FileSystem\IFileSystemService.cs" />
-    <Compile Include="Logic\Services\SourceControl\ISourceControlService.cs" />
-    <Compile Include="Logic\Services\SourceControl\ITeamFoundationVersionControlAdapter.cs" />
-    <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
+    <Compile Include="Logic\Adapters\FileSystem\IFileSystemAdapter.cs" />
+    <Compile Include="Logic\Services\VersionControl\IVersionControlService.cs" />
+    <Compile Include="Logic\Adapters\VersionControl\ITeamFoundationVersionControlAdapter.cs" />
+    <Compile Include="Logic\Services\VersionControl\TeamFoundationService.cs" />
     <Compile Include="Logic\BranchInfo.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\SettingsFactory.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Logic\Conventions\MSConvention.cs" />
     <Compile Include="Logic\Services\ConfigFile\ConfigFileService.cs" />
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
-    <Compile Include="Logic\Services\SourceControl\TeamFoundationVersionControlAdapter.cs" />
+    <Compile Include="Logic\Adapters\VersionControl\TeamFoundationVersionControlAdapter.cs" />
     <Compile Include="Logic\Services\SQLServer\ISQLServerService.cs" />
     <Compile Include="Logic\Services\SQLServer\MSSQLServerService.cs" />
     <Compile Include="Logic\Services\TextOutput\ITextOutputListener.cs" />

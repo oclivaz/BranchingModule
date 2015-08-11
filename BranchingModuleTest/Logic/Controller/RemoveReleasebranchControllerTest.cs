@@ -15,8 +15,8 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Properties
 		private RemoveReleasebranchController RemoveReleasebranchController { get; set; }
-		private ISourceControlService SourceControl { get; set; }
-		private IFileSystemService FileSystem { get; set; }
+		private IVersionControlService VersionControl { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		private IConvention Convention { get; set; }
 		#endregion
 
@@ -24,10 +24,10 @@ namespace BranchingModuleTest.Logic.Controller
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.SourceControl = Substitute.For<ISourceControlService>();
-			this.FileSystem = Substitute.For<IFileSystemService>();
+			this.VersionControl = Substitute.For<IVersionControlService>();
+			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.Convention = Substitute.For<IConvention>();
-			this.RemoveReleasebranchController = new RemoveReleasebranchController(this.SourceControl, this.FileSystem, this.Convention, new TextOutputServiceDummy());
+			this.RemoveReleasebranchController = new RemoveReleasebranchController(this.VersionControl, this.FileSystem, this.Convention, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -42,8 +42,8 @@ namespace BranchingModuleTest.Logic.Controller
 			this.RemoveReleasebranchController.RemoveReleasebranch(AKISBV_5_0_35);
 
 			// Assert
-			this.SourceControl.Received().DeleteMapping(AKISBV_5_0_35);
-			this.SourceControl.Received().DeleteBranch(AKISBV_5_0_35);
+			this.VersionControl.Received().DeleteMapping(AKISBV_5_0_35);
+			this.VersionControl.Received().DeleteBranch(AKISBV_5_0_35);
 			this.FileSystem.Received().DeleteFile(BUILDSERVER_DUMP);
 		}
 		#endregion

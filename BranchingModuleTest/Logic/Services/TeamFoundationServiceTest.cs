@@ -17,7 +17,7 @@ namespace BranchingModuleTest.Logic.Services
 		private const string CHANGESETNUMBER = "123456";
 
 		#region Properties
-		private ISourceControlService SourceControlService { get; set; }
+		private IVersionControlService VersionControlService { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		private ITeamFoundationVersionControlAdapter VersionControl { get; set; }
@@ -30,7 +30,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
 			this.VersionControl = Substitute.For<ITeamFoundationVersionControlAdapter>();
-			this.SourceControlService = new TeamFoundationService(this.VersionControl, this.Convention, this.Settings, new TextOutputServiceDummy());
+			this.VersionControlService = new TeamFoundationService(this.VersionControl, this.Convention, this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -45,7 +45,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Convention.GetBranchInfoByServerPath(OTHER_SERVERITEM).Returns(AKISBV_MAIN);
 
 			// Act
-			BranchInfo branch = this.SourceControlService.GetBranchInfo(CHANGESETNUMBER);
+			BranchInfo branch = this.VersionControlService.GetBranchInfo(CHANGESETNUMBER);
 
 			// Assert
 			Assert.AreEqual(AKISBV_MAIN, branch);
@@ -62,7 +62,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Convention.GetBranchInfoByServerPath(OTHER_SERVERITEM).Returns(AKISBV_5_0_35);
 
 			// Act
-			this.SourceControlService.GetBranchInfo(CHANGESETNUMBER);
+			this.VersionControlService.GetBranchInfo(CHANGESETNUMBER);
 		}
 		#endregion
 	}

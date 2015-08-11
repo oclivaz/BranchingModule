@@ -2,7 +2,7 @@
 
 namespace BranchingModule.Logic
 {
-	public interface ISourceControlService
+	public interface IVersionControlService
 	{
 		void CreateMapping(BranchInfo branch);
 		void DeleteMapping(BranchInfo branch);
