@@ -92,9 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
+    <Compile Include="Cmdlets\MergeChangeset.cs" />
     <Compile Include="Cmdlets\AddReleaseBranch.cs" />
     <Compile Include="Cmdlets\RemoveReleasebranch.cs" />
     <Compile Include="Cmdlets\RemoveMapping.cs" />
+    <Compile Include="Logic\Controllers\MergeChangesetController.cs" />
     <Compile Include="Logic\Controllers\AddReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Logic\Services\FileSystem\IFileExecutionService.cs" />
     <Compile Include="Logic\Services\FileSystem\IFileSystemService.cs" />
     <Compile Include="Logic\Services\SourceControl\ISourceControlService.cs" />
+    <Compile Include="Logic\Services\SourceControl\ITeamFoundationVersionControlAdapter.cs" />
     <Compile Include="Logic\Services\SourceControl\TeamFoundationService.cs" />
     <Compile Include="Logic\BranchInfo.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Logic\Conventions\MSConvention.cs" />
     <Compile Include="Logic\Services\ConfigFile\ConfigFileService.cs" />
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
+    <Compile Include="Logic\Services\SourceControl\TeamFoundationVersionControlAdapter.cs" />
     <Compile Include="Logic\Services\SQLServer\ISQLServerService.cs" />
     <Compile Include="Logic\Services\SQLServer\MSSQLServerService.cs" />
     <Compile Include="Logic\Services\TextOutput\ITextOutputListener.cs" />

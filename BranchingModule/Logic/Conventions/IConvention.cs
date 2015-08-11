@@ -8,5 +8,6 @@
 		string GetBuildserverDump(BranchInfo branch);
 		string GetLocalDump(BranchInfo branch);
 		string GetApplicationName(BranchInfo branch);
+		BranchInfo GetBranchInfoByServerPath(string strServerItem);
 	}
 }

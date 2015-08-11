@@ -47,6 +47,8 @@
       <HintPath>..\packages\Microsoft.SqlServer.Scripting.11.0.2100.61\lib\Microsoft.SqlServer.Smo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -87,6 +89,7 @@
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddReleasebranchControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
+    <Compile Include="Logic\Services\TeamFoundationServiceTest.cs" />
     <Compile Include="Logic\Services\TextOutputServiceTest.cs" />
     <Compile Include="Logic\Services\DumpRepositoryServiceTest.cs" />
     <Compile Include="Logic\Services\DumpServiceTest.cs" />

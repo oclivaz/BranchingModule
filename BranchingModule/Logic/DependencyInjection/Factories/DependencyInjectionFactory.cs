@@ -29,6 +29,9 @@ namespace BranchingModule.Logic
 			#region Publics
 			public override void Load()
 			{
+				// Adapters
+				Bind<ITeamFoundationVersionControlAdapter>().To<TeamFoundationVersionControlAdapter>();
+
 				// Services
 				Bind<ISourceControlService>().To<TeamFoundationService>().InSingletonScope();
 				Bind<IAdeNetService>().To<AdeNetService>().InSingletonScope();

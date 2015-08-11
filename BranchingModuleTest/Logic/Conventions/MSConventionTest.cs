@@ -1,4 +1,5 @@
-﻿using BranchingModule.Logic;
+﻿using System;
+using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -108,6 +109,75 @@ namespace BranchingModuleTest.Logic.Conventions
 
 			// Assert
 			Assert.AreEqual("AkisBV_2_5_3", strApplicationName);
+		}
+
+		[TestMethod]
+		public void TestGetBranchInfoByServerItem_Releasebranch()
+		{
+			// Act
+			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release/1.5.7/Something/that/doesnt.matter");
+
+			// Assert
+			Assert.AreEqual(CreateBranchInfo("AkisBV", "1.5.7"), branch);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public void TestGetBranchInfoByServerItem_invalid_Releasebranch_without_number()
+		{
+			// Act
+			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public void TestGetBranchInfoByServerItem_invalid_Releasebranch()
+		{
+			// Act
+			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release/1.5z.7/Something/that/doesnt.matter");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public void TestGetBranchInfoByServerItem_Featurebranch()
+		{
+			// Act
+			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Development/SomeName_1/Something/that/doesnt.matter");
+		}
+
+		[TestMethod]
+		public void TestGetBranchInfoByServerItem_Mainbranch()
+		{
+			// Act
+			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Main/Source/whatever/whatever");
+
+			// Assert
+			Assert.AreEqual(BranchInfo.Main("AkisBV"), branch);
+		}
+
+		[TestMethod]
+		public void TestGetBranchInfoByServerItem_Mainbranch_with_minimal_Information()
+		{
+			// Act
+			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Main");
+
+			// Assert
+			Assert.AreEqual(BranchInfo.Main("AkisBV"), branch);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(Exception))]
+		public void TestGetBranchInfoByServerItem_Unknown_Branch()
+		{
+			// Act
+			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/SomethingElse/Source");
+		}
+		#endregion
+
+		#region Privates
+		private BranchInfo CreateBranchInfo(string strTeamproject, string strName)
+		{
+			return new BranchInfo(strTeamproject, strName);
 		}
 		#endregion
 	}

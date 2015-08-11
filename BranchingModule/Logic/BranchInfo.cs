@@ -5,7 +5,7 @@ namespace BranchingModule.Logic
 	public struct BranchInfo
 	{
 		#region Constants
-		public const string MAIN = "main";
+		public const string MAIN = "Main";
 		#endregion
 
 		#region Properties
