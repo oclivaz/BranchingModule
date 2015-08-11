@@ -10,5 +10,8 @@
 		string GetApplicationName(BranchInfo branch);
 		BranchInfo GetBranchInfoByServerPath(string strServerItem);
 		string GetSolutionFile(BranchInfo branch);
+		bool IsReleasebranch(BranchInfo branch);
+		bool IsMainbranch(BranchInfo branch);
+		BranchInfo MainBranch(string teamProject);
 	}
 }

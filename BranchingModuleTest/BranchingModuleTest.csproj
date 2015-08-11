@@ -97,7 +97,7 @@
     <Compile Include="Logic\Services\AdeNetServiceTest.cs" />
     <Compile Include="Logic\Services\MsBuildServiceTest.cs" />
     <Compile Include="Logic\Settings\SettingsTest.cs" />
-    <Compile Include="Logic\BranchInfoTest.cs" />
+    <Compile Include="Logic\Conventions\BranchInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />
     <Compile Include="TestDoubles\TextOutputServiceDummy.cs" />

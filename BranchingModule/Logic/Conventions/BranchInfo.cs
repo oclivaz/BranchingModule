@@ -4,12 +4,9 @@ namespace BranchingModule.Logic
 {
 	public struct BranchInfo
 	{
-		#region Constants
-		public const string MAIN = "Main";
-		#endregion
-
 		#region Properties
 		public string TeamProject { get; private set; }
+
 		public string Name { get; private set; }
 		#endregion
 
@@ -25,11 +22,6 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public static BranchInfo Main(string teamProject)
-		{
-			return new BranchInfo(teamProject, MAIN);
-		}
-
 		public override string ToString()
 		{
 			return string.Format("{0} {1}", this.TeamProject, this.Name);

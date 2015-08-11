@@ -11,6 +11,7 @@ namespace BranchingModuleTest.Logic.Conventions
 	{
 		#region Constants
 		private static readonly BranchInfo AKISBV_2_5_3 = new BranchInfo("AkisBV", "2.5.3");
+		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo("AkisBV", "Main");
 		#endregion
 
 		#region Properties
@@ -52,7 +53,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverPath_Main()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetServerPath(BranchInfo.Main("AkisBV"));
+			string strServerPath = this.MSConvention.GetServerPath(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Main/Source", strServerPath, true);
@@ -72,7 +73,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverBasePath_Main()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetServerBasePath(BranchInfo.Main("AkisBV"));
+			string strServerPath = this.MSConvention.GetServerBasePath(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Main", strServerPath, true);
@@ -152,7 +153,7 @@ namespace BranchingModuleTest.Logic.Conventions
 			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Main/Source/whatever/whatever");
 
 			// Assert
-			Assert.AreEqual(BranchInfo.Main("AkisBV"), branch);
+			Assert.AreEqual(AKISBV_MAIN, branch);
 		}
 
 		[TestMethod]
@@ -162,7 +163,7 @@ namespace BranchingModuleTest.Logic.Conventions
 			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Main");
 
 			// Assert
-			Assert.AreEqual(BranchInfo.Main("AkisBV"), branch);
+			Assert.AreEqual(AKISBV_MAIN, branch);
 		}
 
 		[TestMethod]
@@ -181,6 +182,56 @@ namespace BranchingModuleTest.Logic.Conventions
 
 			// Assert
 			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBV_2_5_3\AkisBV.sln", strSolutionFile, true);
+		}
+
+		[TestMethod]
+		public void TestIsReleasebranch_valid_name()
+		{
+			// Act
+			bool bValid = this.MSConvention.IsReleasebranch(AKISBV_2_5_3);
+
+			// Assert
+			Assert.IsTrue(bValid);
+		}
+
+		[TestMethod]
+		public void TestIsReleasebranch_too_many_numbers()
+		{
+			// Act
+			bool bValid = this.MSConvention.IsReleasebranch(new BranchInfo("AkisBV", "1.2.3.4"));
+
+			// Assert
+			Assert.IsFalse(bValid);
+		}
+
+		[TestMethod]
+		public void TestIsReleasebranch_charachter()
+		{
+			// Act
+			bool bValid = this.MSConvention.IsReleasebranch(new BranchInfo("AkisBV", "1.2a.3"));
+
+			// Assert
+			Assert.IsFalse(bValid);
+		}
+
+		[TestMethod]
+		public void TestIsMainbranch_main()
+		{
+			// Act
+			bool bIsMain = this.MSConvention.IsMainbranch(AKISBV_MAIN);
+
+			// Assert
+			Assert.IsTrue(bIsMain);
+		}
+
+		[TestMethod]
+		public void TestIsMainbranch_release()
+		{
+			// Act
+			bool bIsMain = this.MSConvention.IsMainbranch(AKISBV_2_5_3);
+
+			// Assert
+			Assert.IsFalse(bIsMain);
 		}
 		#endregion
 

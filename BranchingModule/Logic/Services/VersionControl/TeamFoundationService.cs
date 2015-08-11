@@ -58,7 +58,7 @@ namespace BranchingModule.Logic
 
 		public DateTime GetCreationTime(BranchInfo branch)
 		{
-			string strItem = string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject)), branch.TeamProject);
+			string strItem = string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(this.Convention.MainBranch(branch.TeamProject)), branch.TeamProject);
 			string strVersionSpec = GetVersionSpec(branch);
 
 			return this.VersionControl.GetCreationTime(strItem, strVersionSpec);
@@ -66,7 +66,7 @@ namespace BranchingModule.Logic
 
 		public void CreateBranch(BranchInfo branch)
 		{
-			string strSourceBranch = this.Convention.GetServerPath(BranchInfo.Main(branch.TeamProject));
+			string strSourceBranch = this.Convention.GetServerPath(this.Convention.MainBranch(branch.TeamProject));
 			string strTargetBranch = this.Convention.GetServerPath(branch);
 			string strVersionByLabel = GetVersionSpec(branch);
 

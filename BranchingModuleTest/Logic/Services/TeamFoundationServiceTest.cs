@@ -11,7 +11,7 @@ namespace BranchingModuleTest.Logic.Services
 	public class TeamFoundationServiceTest : BranchingModuleTestBase
 	{
 		private static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBV", "5.0.35");
-		private static readonly BranchInfo AKISBV_MAIN = BranchInfo.Main("AkisBV");
+		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo("AkisBV", "Main");
 		private const string SERVERITEM = "$/ServerItem";
 		private const string OTHER_SERVERITEM = "$/OtherServerItem";
 		private const string CHANGESETNUMBER = "123456";

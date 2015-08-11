@@ -39,6 +39,8 @@ namespace BranchingModule.Logic
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
 			BranchInfo branch = this.VersionControl.GetBranchInfo(strChangeset);
+
+			
 		}
 		#endregion
 	}

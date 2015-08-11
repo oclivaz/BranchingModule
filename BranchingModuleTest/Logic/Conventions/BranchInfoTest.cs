@@ -6,11 +6,16 @@ namespace BranchingModuleTest.Logic
 	[TestClass]
 	public class BranchInfoTest
 	{
+		#region Constants
+		private static readonly BranchInfo AKISBV_1_2_3 = new BranchInfo("AkisBV", "1.2.3");
+		#endregion
+
+		#region Tests
 		[TestMethod]
 		public void TestToString()
 		{
 			// Arrange
-			BranchInfo branchInfo = new BranchInfo("AkisBV", "1.2.3");
+			BranchInfo branchInfo = AKISBV_1_2_3;
 
 			// Act
 			string strBranchinfog = branchInfo.ToString();
@@ -18,5 +23,6 @@ namespace BranchingModuleTest.Logic
 			// Assert
 			Assert.AreEqual("AkisBV 1.2.3", strBranchinfog);
 		}
+		#endregion
 	}
 }
