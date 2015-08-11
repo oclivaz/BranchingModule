@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Management.Automation;
 
 namespace BranchingModule.Logic
 {
 	internal class AddMappingController
 	{
 		#region Properties
+		public IFileExecutionService FileExecution { get; set; }
+		public IConvention Convention { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
 		private IDumpService Dump { get; set; }
 		private IVersionControlService VersionControl { get; set; }
@@ -15,30 +16,44 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public AddMappingController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService, IDumpService dumpService, ITextOutputService textOutputService)
+		public AddMappingController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService,
+		                            IDumpService dumpService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
 			if(buildEngineService == null) throw new ArgumentNullException("buildEngineService");
 			if(configFileService == null) throw new ArgumentNullException("configFileService");
+			if(fileExecutionService == null) throw new ArgumentNullException("fileExecutionService");
 
 			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
 			this.ConfigFileService = configFileService;
 			this.Dump = dumpService;
+			this.FileExecution = fileExecutionService;
+			this.Convention = convention;
 			this.TextOutput = textOutputService;
 		}
 		#endregion
 
 		#region Publics
-		public void AddMapping(BranchInfo branch, bool bMinimal, SwitchParameter openSolution)
+		public void AddMapping(BranchInfo branch, bool bMinimal, bool bOpenSolution)
 		{
 			this.TextOutput.WriteVerbose("Creating Mapping");
 			this.VersionControl.CreateMapping(branch);
 
-			if(bMinimal) return;
+			if(!bMinimal) CreateRunningEnvironment(branch);
 
+			if(bOpenSolution)
+			{
+				OpenSolution(branch);
+			}
+		}
+		#endregion
+
+		#region Privates
+		private void CreateRunningEnvironment(BranchInfo branch)
+		{
 			this.TextOutput.WriteVerbose("Installing Packages");
 			this.AdeNet.InstallPackages(branch);
 
@@ -59,6 +74,12 @@ namespace BranchingModule.Logic
 
 			this.TextOutput.WriteVerbose("Restoring Dump");
 			this.Dump.RestoreDump(branch);
+		}
+
+		private void OpenSolution(BranchInfo branch)
+		{
+			this.TextOutput.WriteVerbose(string.Format("Opening Solution {0}", this.Convention.GetSolutionFile(branch)));
+			this.FileExecution.StartProcess(Executables.EXPLORER, this.Convention.GetSolutionFile(branch));
 		}
 		#endregion
 	}

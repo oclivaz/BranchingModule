@@ -9,5 +9,6 @@
 		string GetLocalDump(BranchInfo branch);
 		string GetApplicationName(BranchInfo branch);
 		BranchInfo GetBranchInfoByServerPath(string strServerItem);
+		string GetSolutionFile(BranchInfo branch);
 	}
 }

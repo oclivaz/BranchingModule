@@ -10,6 +10,7 @@ namespace BranchingModuleTest.Logic.Controller
 	{
 		#region Constants
 		private static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBVBL", "1.2.3");
+		private static readonly string SOLUTION_PATH = @"c:\temp\path\to\solution.sln";
 		#endregion
 
 		#region Properties
@@ -19,6 +20,8 @@ namespace BranchingModuleTest.Logic.Controller
 		private IAdeNetService AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
 		private IDumpService Dump { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
+		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -30,7 +33,9 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
 			this.Dump = Substitute.For<IDumpService>();
-			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, new TextOutputServiceDummy());
+			this.FileExecution = Substitute.For<IFileExecutionService>();
+			this.Convention = Substitute.For<IConvention>();
+			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, this.FileExecution, this.Convention, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -70,13 +75,50 @@ namespace BranchingModuleTest.Logic.Controller
 		}
 
 		[TestMethod]
+		public void TestAddMapping_minimal_and_opensolution()
+		{
+			// Arrange
+			this.Convention.GetSolutionFile(AKISBV_5_0_35).Returns(SOLUTION_PATH);
+
+			// Act
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, true, true);
+
+			// Assert
+			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
+			this.AdeNet.DidNotReceive().InstallPackages(Arg.Any<BranchInfo>());
+			this.ConfigFileService.DidNotReceive().CreateIndivConfig(Arg.Any<BranchInfo>());
+			this.VersionControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
+			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
+			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
+			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
+			this.Dump.DidNotReceive().RestoreDump(Arg.Any<BranchInfo>());
+			this.FileExecution.Received().StartProcess(Executables.EXPLORER, SOLUTION_PATH);
+		}
+
+		[TestMethod]
 		public void TestAddMapping_openSolution()
 		{
+			// Arrange
+			this.Convention.GetSolutionFile(AKISBV_5_0_35).Returns(SOLUTION_PATH);
+
 			// Act
 			this.AddMappingController.AddMapping(AKISBV_5_0_35, false, true);
 
 			// Assert
-			
+			this.FileExecution.Received().StartProcess(Executables.EXPLORER, SOLUTION_PATH);
+		}
+
+		[TestMethod]
+		public void TestAddMapping_dont_openSolution()
+		{
+			// Arrange
+			this.Convention.GetSolutionFile(AKISBV_5_0_35).Returns(SOLUTION_PATH);
+
+			// Act
+			this.AddMappingController.AddMapping(AKISBV_5_0_35, false, false);
+
+			// Assert
+			this.FileExecution.DidNotReceive().StartProcess(Executables.EXPLORER, SOLUTION_PATH);
 		}
 		#endregion
 	}
