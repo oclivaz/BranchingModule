@@ -84,6 +84,7 @@
     <Compile Include="DependencyInjection\InjectionModule.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
+    <Compile Include="Logic\Controller\MergeBugfixControllerText.cs" />
     <Compile Include="Logic\Controller\RemoveReleasebranchControllerTest.cs" />
     <Compile Include="Logic\Controller\RemoveMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Logic\Settings\SettingsTest.cs" />
     <Compile Include="Logic\Conventions\BranchInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDoubles\DummyConvention.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />
     <Compile Include="TestDoubles\TextOutputServiceDummy.cs" />
   </ItemGroup>

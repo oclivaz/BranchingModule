@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BranchingModule.Logic
 {
@@ -22,6 +23,14 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
+		public static ISet<BranchInfo> CreateSet(string strTeamProject, string[] names)
+		{
+			ISet<BranchInfo> set = new HashSet<BranchInfo>();
+			Array.ForEach(names, name => set.Add(new BranchInfo(strTeamProject, name)));
+
+			return set;
+		}
+
 		public override string ToString()
 		{
 			return string.Format("{0} {1}", this.TeamProject, this.Name);

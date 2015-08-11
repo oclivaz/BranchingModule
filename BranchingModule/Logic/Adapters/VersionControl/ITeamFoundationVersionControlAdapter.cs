@@ -6,6 +6,7 @@ namespace BranchingModule.Logic
 	{
 		void DeleteMapping(string strServerPath, string strLocalPath);
 		void CreateMapping(string strServerPath, string strLocalPath);
+		bool IsServerPathMapped(string strServerPath);
 
 		void CreateBranch(string strSourceBranch, string strTargetBranch, string strVersionSpec);
 		void DeleteBranch(string strBranchBasePath);
@@ -16,5 +17,11 @@ namespace BranchingModule.Logic
 		bool ServerItemExists(string strServerItem);
 		DateTime GetCreationTime(string strItem, string strVersionSpec);
 		string[] GetServerItemsByChangeset(string strChangeset);
+		
+		void Merge(string strChangeset, string strSourcePath, string strTargetPath);
+		bool HasConflicts(string strServerPath);
+		void Undo(string strServerPath);
+		string CheckIn(string strServerPath, string strComment);
+		string GetComment(string strChangeset);
 	}
 }

@@ -4,8 +4,8 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	[Cmdlet("Merge", "Changeset")]
-	public class MergeChangeset : PSCmdlet, ITextOutputListener
+	[Cmdlet("Merge", "Bugfix")]
+	public class MergeBugfix : PSCmdlet, ITextOutputListener
 	{
 		#region Properties
 		[Parameter(
@@ -31,14 +31,14 @@ namespace BranchingModule.Cmdlets
 		protected override void ProcessRecord()
 		{
 			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
-			MergeChangesetController controller = factory.Get<MergeChangesetController>();
+			MergeBugfixController controller = factory.Get<MergeBugfixController>();
 
 			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
 			textOutputService.RegisterListener(this);
 
 			try
 			{
-				controller.MergeChangeset(this.Teamproject, this.Changeset, this.Targetbranches.Split(','));
+				controller.MergeBugfix(this.Teamproject, this.Changeset, this.Targetbranches.Split(','));
 			}
 			catch(Exception ex)
 			{

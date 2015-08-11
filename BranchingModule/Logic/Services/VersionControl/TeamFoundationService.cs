@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
@@ -14,16 +15,16 @@ namespace BranchingModule.Logic
 
 		private ISettings Settings { get; set; }
 
-		private ITeamFoundationVersionControlAdapter VersionControl { get; set; }
+		private ITeamFoundationVersionControlAdapter VersionControlAdapter { get; set; }
 		#endregion
 
 		#region Constructors
-		public TeamFoundationService(ITeamFoundationVersionControlAdapter versoControlAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public TeamFoundationService(ITeamFoundationVersionControlAdapter versoControlAdapterAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");
 
-			this.VersionControl = versoControlAdapter;
+			this.VersionControlAdapter = versoControlAdapterAdapter;
 			this.Convention = convention;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
@@ -36,8 +37,8 @@ namespace BranchingModule.Logic
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
-			this.VersionControl.CreateMapping(strServerPath, strLocalPath);
-			this.VersionControl.Get(strServerPath);
+			this.VersionControlAdapter.CreateMapping(strServerPath, strLocalPath);
+			this.VersionControlAdapter.Get(strServerPath);
 		}
 
 		public void DeleteMapping(BranchInfo branch)
@@ -45,8 +46,10 @@ namespace BranchingModule.Logic
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
-			this.VersionControl.DeleteMapping(strServerPath, strLocalPath);
-			this.VersionControl.Get();
+			this.TextOutput.WriteVerbose(string.Format("Unmapping {0}", branch));
+
+			this.VersionControlAdapter.DeleteMapping(strServerPath, strLocalPath);
+			this.VersionControlAdapter.Get();
 		}
 
 		public void CreateAppConfig(BranchInfo branch)
@@ -61,7 +64,7 @@ namespace BranchingModule.Logic
 			string strItem = string.Format(@"{0}/{1}.nuspec", this.Convention.GetServerPath(this.Convention.MainBranch(branch.TeamProject)), branch.TeamProject);
 			string strVersionSpec = GetVersionSpec(branch);
 
-			return this.VersionControl.GetCreationTime(strItem, strVersionSpec);
+			return this.VersionControlAdapter.GetCreationTime(strItem, strVersionSpec);
 		}
 
 		public void CreateBranch(BranchInfo branch)
@@ -70,39 +73,91 @@ namespace BranchingModule.Logic
 			string strTargetBranch = this.Convention.GetServerPath(branch);
 			string strVersionByLabel = GetVersionSpec(branch);
 
-			if(this.VersionControl.ServerItemExists(strTargetBranch))
+			if(this.VersionControlAdapter.ServerItemExists(strTargetBranch))
 			{
 				this.TextOutput.WriteVerbose(string.Format("Branch {0} already exists. Skipping...", strTargetBranch));
 				return;
 			}
 
-			this.VersionControl.CreateBranch(strSourceBranch, strTargetBranch, strVersionByLabel);
+			this.VersionControlAdapter.CreateBranch(strSourceBranch, strTargetBranch, strVersionByLabel);
 		}
 
 		public void DeleteBranch(BranchInfo branch)
 		{
 			string strBranchBasePath = this.Convention.GetServerBasePath(branch);
 
-			if(!this.VersionControl.ServerItemExists(strBranchBasePath))
+			if(!this.VersionControlAdapter.ServerItemExists(strBranchBasePath))
 			{
 				this.TextOutput.WriteVerbose(string.Format("{0} is already deleted. Skipping...", strBranchBasePath));
 				return;
 			}
 
 			this.TextOutput.WriteVerbose(string.Format("Destroying {0}", strBranchBasePath));
-			this.VersionControl.DeleteBranch(strBranchBasePath);
+			this.VersionControlAdapter.DeleteBranch(strBranchBasePath);
 		}
 
 		public BranchInfo GetBranchInfo(string strChangeset)
 		{
-			var affectedBranches = (from item in this.VersionControl.GetServerItemsByChangeset(strChangeset)
+			var affectedBranches = (from item in this.VersionControlAdapter.GetServerItemsByChangeset(strChangeset)
 			                        select this.Convention.GetBranchInfoByServerPath(item)).Distinct();
 
 			return affectedBranches.Single();
 		}
+
+		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
+		{
+			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
+
+			bool bSourcebranchMappingCreated = EnsureMapping(sourceBranch);
+
+			foreach(BranchInfo targetBranch in targetBranches)
+			{
+				MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch);
+			}
+
+			if(bSourcebranchMappingCreated) DeleteMapping(sourceBranch);
+		}
+
+		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
+		{
+			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
+
+			bool bSourcebranchMappingCreated = EnsureMapping(sourceBranch);
+			bool bTargetbranchMappingCreated = EnsureMapping(targetBranch);
+
+			this.VersionControlAdapter.Merge(strChangesetToMerge, this.Convention.GetServerPath(sourceBranch), this.Convention.GetServerPath(targetBranch));
+
+			string strChangeset = null;
+
+			if(this.VersionControlAdapter.HasConflicts(this.Convention.GetServerPath(targetBranch)))
+			{
+				this.VersionControlAdapter.Undo(this.Convention.GetServerPath(targetBranch));
+			}
+			else
+			{
+				strChangeset = this.VersionControlAdapter.CheckIn(this.Convention.GetServerPath(targetBranch), this.VersionControlAdapter.GetComment(strChangesetToMerge));
+			}
+
+			if(bTargetbranchMappingCreated) DeleteMapping(targetBranch);
+			if(bSourcebranchMappingCreated) DeleteMapping(sourceBranch);
+
+			return strChangeset;
+		}
 		#endregion
 
 		#region Privates
+		private bool EnsureMapping(BranchInfo branch)
+		{
+			string strServerPath = this.Convention.GetServerPath(branch);
+
+			if(this.VersionControlAdapter.IsServerPathMapped(strServerPath)) return false;
+
+			this.TextOutput.WriteVerbose(string.Format("Mapping {0}", strServerPath));
+			this.VersionControlAdapter.CreateMapping(strServerPath, this.Convention.GetLocalPath(branch));
+
+			return true;
+		}
+
 		private string GetVersionSpec(BranchInfo branch)
 		{
 			return string.Format("L{0}", GetLabel(branch));

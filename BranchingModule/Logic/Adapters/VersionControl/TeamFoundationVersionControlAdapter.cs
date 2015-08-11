@@ -52,11 +52,44 @@ namespace BranchingModule.Logic
 			        select item.ServerItem).ToArray();
 		}
 
+		public void Merge(string strChangeset, string strSourcePath, string strTargetPath)
+		{
+			this.Workspace.Merge(strSourcePath, strTargetPath, CreateChangesetVerionSpec(strChangeset), CreateChangesetVerionSpec(strChangeset));
+		}
+
+		public bool HasConflicts(string strServerPath)
+		{
+			return this.Workspace.QueryConflicts(new[] { strServerPath }, true).Any();
+		}
+
+		public void Undo(string strServerPath)
+		{
+			this.Workspace.Undo(strServerPath, RecursionType.Full);
+		}
+
+		public string CheckIn(string strServerPath, string strComment)
+		{
+			return this.Workspace.CheckIn(this.Workspace.GetPendingChanges(strServerPath, RecursionType.Full), strComment).ToString();
+		}
+
+		public string GetComment(string strChangeset)
+		{
+			Changeset changeset = this.VersionControlServer.GetChangeset(int.Parse(strChangeset));
+			if(changeset == null) throw new Exception(string.Format("Changeset {0} not found", strChangeset));
+
+			return changeset.Comment;
+		}
+
 		public void CreateMapping(string strServerPath, string strLocalPath)
 		{
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
 			this.Workspace.CreateMapping(folder);
+		}
+
+		public bool IsServerPathMapped(string strServerPath)
+		{
+			return this.Workspace.IsServerPathMapped(strServerPath);
 		}
 
 		public void Get(string strServerPath)
@@ -102,6 +135,11 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Privates
+		private static VersionSpec CreateChangesetVerionSpec(string strChangeset)
+		{
+			return VersionSpec.ParseSingleSpec(string.Format("c{0}", strChangeset), null);
+		}
+
 		private TfsTeamProjectCollection CreateTeamProjectCollection()
 		{
 			TfsTeamProjectCollection server = new TfsTeamProjectCollection(new Uri(Settings.TeamFoundationServerPath));
