@@ -120,7 +120,7 @@
     <Compile Include="Logic\Services\VersionControl\IVersionControlService.cs" />
     <Compile Include="Logic\Adapters\VersionControl\ITeamFoundationVersionControlAdapter.cs" />
     <Compile Include="Logic\Services\VersionControl\TeamFoundationService.cs" />
-    <Compile Include="Logic\BranchInfo.cs" />
+    <Compile Include="Logic\Conventions\BranchInfo.cs" />
     <Compile Include="Logic\Controllers\AddMappingController.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\SettingsFactory.cs" />
     <Compile Include="Logic\Conventions\IConvention.cs" />
