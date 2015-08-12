@@ -44,7 +44,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.MergeChangeset(CHANGESET_123456, AKISBV_1_2_3, AKISBV_MAIN).Returns(CHANGESET_898989);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_4_5_6.Name, AKISBV_7_8_9.Name });
+			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_4_5_6.Name, AKISBV_7_8_9.Name }, false);
 
 			// Assert
 			this.VersionControl.Received().MergeChangeset(CHANGESET_123456, AKISBV_1_2_3, AKISBV_MAIN);
@@ -58,7 +58,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_4_5_6.Name, AKISBV_7_8_9.Name });
+			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_4_5_6.Name, AKISBV_7_8_9.Name }, false);
 
 			// Assert
 			this.VersionControl.Received().MergeChangeset(CHANGESET_123456, AKISBV_MAIN, SetEquals(new[] { AKISBV_4_5_6, AKISBV_7_8_9 }));

@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using BranchingModule.Logic;
 
 namespace BranchingModuleTest.TestDoubles
 {
 	internal class ReleasebranchConventionDummy : IBranchConvention
 	{
-		#region Constants
-		private const string RELEASE = "Release";
-
-		private const string REGEX_THREE_NUMBERS_WITH_PERIOD_IN_BETWEEN = @"^[0-9]\.[0-9]\.[0-9]$";
-		#endregion
-
 		#region Properties
 		public BranchType BranchType
 		{
@@ -20,56 +13,104 @@ namespace BranchingModuleTest.TestDoubles
 		#endregion
 
 		#region Publics
-		public string GetLocalPath(BranchInfo branch)
+		public static string GetLocalPath(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return string.Format(@"ReleasebranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
-		public string GetServerPath(BranchInfo branch)
+		string IBranchConvention.GetServerPath(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return GetServerPath(branch);
 		}
 
-		public string GetServerBasePath(BranchInfo branch)
+		string IBranchConvention.GetServerBasePath(BranchInfo branch)
 		{
-			return String.Format(@"$/{0}/{1}/{2}", branch.TeamProject, RELEASE, branch.Name);
+			return GetServerBasePath(branch);
 		}
 
-		public string GetBuildserverDump(BranchInfo branch)
+		string IBranchConvention.GetBuildserverDump(BranchInfo branch)
 		{
-			// TODO: Introduce ISettings.BuildServerDumpRepositoryPath
-			return String.Format(@"\\build\Backup\{0}_{1}_{2}.bak", branch.TeamProject, RELEASE, branch.Name);
+			return GetBuildserverDump(branch);
 		}
 
-		public string GetLocalDump(BranchInfo branch)
+		string IBranchConvention.GetLocalDump(BranchInfo branch)
 		{
-			// TODO: Introduce ISettings.LocalDatabasePath
-			return String.Format(@"c:\Database\{0}{1}.bak", branch.TeamProject, branch.Name);
+			return GetLocalDump(branch);
 		}
 
-		public string GetApplicationName(BranchInfo branch)
+		string IBranchConvention.GetApplicationName(BranchInfo branch)
 		{
-			return String.Format("{0}_{1}", branch.TeamProject, branch.Name.Replace('.', '_'));
+			return GetApplicationName(branch);
 		}
 
-		public string GetSolutionFile(BranchInfo branch)
+		string IBranchConvention.GetSolutionFile(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return GetSolutionFile(branch);
 		}
 
-		public bool ServerPathFollowsConvention(string strServerpath)
+		bool IBranchConvention.ServerPathFollowsConvention(string strServerpath)
 		{
-			throw new NotImplementedException();
+			return ServerPathFollowsConvention(strServerpath);
 		}
 
-		public bool BranchnameFollowsConvention(string strBranchname)
+		bool IBranchConvention.BranchnameFollowsConvention(string strBranchname)
 		{
-			return new Regex(REGEX_THREE_NUMBERS_WITH_PERIOD_IN_BETWEEN).Match(strBranchname).Success;
+			return BranchnameFollowsConvention(strBranchname);
 		}
 
-		public BranchInfo CreateBranchInfoByServerPath(string strServerpath)
+		BranchInfo IBranchConvention.CreateBranchInfoByServerPath(string strServerpath)
 		{
-			throw new NotImplementedException();
+			return CreateBranchInfoByServerPath(strServerpath);
+		}
+
+		string IBranchConvention.GetLocalPath(BranchInfo branch)
+		{
+			return GetLocalPath(branch);
+		}
+
+		public static string GetServerPath(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetServerPath {0}", branch);
+		}
+
+		public static string GetServerBasePath(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath {0}", branch);
+		}
+
+		public static string GetBuildserverDump(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetBuildserverDump {0}", branch);
+		}
+
+		public static string GetLocalDump(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetLocalDump {0}", branch);
+		}
+
+		public static string GetApplicationName(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetApplicationName {0}", branch);
+		}
+
+		public static string GetSolutionFile(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetSolutionFile {0}", branch);
+		}
+
+		public static bool ServerPathFollowsConvention(string strServerpath)
+		{
+			throw new NotSupportedException("Create a mock please");
+		}
+
+		public static bool BranchnameFollowsConvention(string strBranchname)
+		{
+			return strBranchname != MainbranchConventionDummy.MAIN;
+		}
+
+		public static BranchInfo CreateBranchInfoByServerPath(string strServerpath)
+		{
+			return new BranchInfo("ReleasebranchConventionDummy", "ReleasebranchConventionDummy");
 		}
 		#endregion
 	}

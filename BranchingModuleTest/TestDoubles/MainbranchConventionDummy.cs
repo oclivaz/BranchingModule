@@ -5,11 +5,7 @@ namespace BranchingModuleTest.TestDoubles
 {
 	internal class MainbranchConventionDummy : IBranchConvention
 	{
-		#region Constants
-		internal const string MAIN = "Main";
-
-		private static readonly string REGEX_MAIN = string.Format(@"^{0}$", MAIN);
-		#endregion
+		public static string MAIN = "Main";
 
 		#region Properties
 		public BranchType BranchType
@@ -19,55 +15,99 @@ namespace BranchingModuleTest.TestDoubles
 		#endregion
 
 		#region Publics
-		public string GetLocalPath(BranchInfo branch)
+		public static string GetLocalPath(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return string.Format(@"MainbranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
-		public string GetServerPath(BranchInfo branch)
+		string IBranchConvention.GetServerPath(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return GetServerPath(branch);
 		}
 
-		public string GetServerBasePath(BranchInfo branch)
+		string IBranchConvention.GetServerBasePath(BranchInfo branch)
 		{
-			return String.Format(@"$/{0}/Main", branch.TeamProject);
+			return GetServerBasePath(branch);
 		}
 
-		public string GetBuildserverDump(BranchInfo branch)
+		string IBranchConvention.GetBuildserverDump(BranchInfo branch)
 		{
-			// TODO: Introduce ISettings.BuildServerDumpRepositoryPath
-			return String.Format(@"\\build\Backup\{0}.bak", branch.TeamProject);
+			return GetBuildserverDump(branch);
 		}
 
-		public string GetLocalDump(BranchInfo branch)
+		string IBranchConvention.GetLocalDump(BranchInfo branch)
 		{
-			return String.Format(@"c:\Database\{0}.bak", branch.TeamProject);
+			return GetLocalDump(branch);
 		}
 
-		public string GetApplicationName(BranchInfo branch)
+		string IBranchConvention.GetApplicationName(BranchInfo branch)
 		{
-			return String.Format("{0}Dev", branch.TeamProject);
+			return GetApplicationName(branch);
 		}
 
-		public string GetSolutionFile(BranchInfo branch)
+		string IBranchConvention.GetSolutionFile(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return GetSolutionFile(branch);
 		}
 
-		public bool ServerPathFollowsConvention(string strServerpath)
+		bool IBranchConvention.ServerPathFollowsConvention(string strServerpath)
 		{
-			throw new NotImplementedException();
+			return ServerPathFollowsConvention(strServerpath);
 		}
 
-		public bool BranchnameFollowsConvention(string strBranchname)
+		bool IBranchConvention.BranchnameFollowsConvention(string strBranchname)
+		{
+			return BranchnameFollowsConvention(strBranchname);
+		}
+
+		string IBranchConvention.GetLocalPath(BranchInfo branch)
+		{
+			return GetLocalPath(branch);
+		}
+
+		public static string GetServerPath(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetServerPath {0}", branch);
+		}
+
+		public static string GetServerBasePath(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetServerBasePath {0}", branch);
+		}
+
+		public static string GetBuildserverDump(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetBuildserverDump {0}", branch);
+		}
+
+		public static string GetLocalDump(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetLocalDump {0}", branch);
+		}
+
+		public static string GetApplicationName(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetApplicationName {0}", branch);
+		}
+
+		public static string GetSolutionFile(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetSolutionFile {0}", branch);
+		}
+
+		public static bool ServerPathFollowsConvention(string strServerpath)
+		{
+			throw new NotSupportedException("Create a mock please");
+		}
+
+		public static bool BranchnameFollowsConvention(string strBranchname)
 		{
 			return strBranchname == MAIN;
 		}
 
 		public BranchInfo CreateBranchInfoByServerPath(string strServerpath)
 		{
-			throw new NotImplementedException();
+			return new BranchInfo("MainbranchConventionDummy.MainbranchConventionDummy", "MainbranchConventionDummy");
 		}
 		#endregion
 	}

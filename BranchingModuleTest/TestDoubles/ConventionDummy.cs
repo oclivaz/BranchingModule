@@ -20,21 +20,19 @@ namespace BranchingModuleTest.TestDoubles
 		#endregion
 
 		#region Publics
-		public BranchInfo MainBranch(string teamProject)
+		public static BranchInfo MainBranch(string teamProject)
 		{
 			return new BranchInfo(teamProject, MainbranchConventionDummy.MAIN);
 		}
 
+		BranchInfo IConvention.MainBranch(string teamProject)
+		{
+			return MainBranch(teamProject);
+		}
+
 		public BranchInfo GetBranchInfoByServerPath(string strServerPath)
 		{
-			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
-			                          where convention.ServerPathFollowsConvention(strServerPath)
-			                          select convention).ToArray();
-
-			if(!followedConvention.Any()) throw new Exception(string.Format("The serverpath {0} doesn't follow any known convention", strServerPath));
-			if(followedConvention.Count() > 1) throw new Exception(string.Format("The serverpath {0} follows multiple branch conventions", strServerPath));
-
-			return followedConvention.Single().CreateBranchInfoByServerPath(strServerPath);
+			throw new NotSupportedException("Create a mock please");
 		}
 
 		public BranchType GetBranchType(BranchInfo branch)

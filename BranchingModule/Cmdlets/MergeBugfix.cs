@@ -25,6 +25,12 @@ namespace BranchingModule.Cmdlets
 			Position = 2
 			)]
 		public string Targetbranches { get; set; }
+
+		[Parameter(
+			Mandatory = false,
+			Position = 3
+			)]
+		public SwitchParameter NoCheckIn { get; set; }
 		#endregion
 
 		#region Protecteds
@@ -38,7 +44,7 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.MergeBugfix(this.Teamproject, this.Changeset, this.Targetbranches.Split(','));
+				controller.MergeBugfix(this.Teamproject, this.Changeset, this.Targetbranches.Split(','), this.NoCheckIn);
 			}
 			catch(Exception ex)
 			{

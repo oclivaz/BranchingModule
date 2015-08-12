@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Automation;
 
 namespace BranchingModule.Logic
 {
@@ -21,7 +22,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void MergeBugfix(string strTeamproject, string strChangeset, string[] targetBranches)
+		public void MergeBugfix(string strTeamproject, string strChangeset, string[] targetBranches, SwitchParameter noCheckIn)
 		{
 			if(strTeamproject == null) throw new ArgumentNullException("strTeamproject");
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
