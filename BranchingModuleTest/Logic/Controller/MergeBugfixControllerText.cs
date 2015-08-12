@@ -13,7 +13,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private static readonly BranchInfo AKISBV_1_2_3 = new BranchInfo(AKISBV, "1.2.3");
 		private static readonly BranchInfo AKISBV_4_5_6 = new BranchInfo(AKISBV, "4.5.6");
 		private static readonly BranchInfo AKISBV_7_8_9 = new BranchInfo(AKISBV, "7.8.9");
-		private static readonly BranchInfo AKISBV_MAIN = DummyConvention.CreateDummyMainbranch(AKISBV);
+		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo(AKISBV, "Main");
 		private const string AKISBV = "AkisBV";
 		private const string CHANGESET_123456 = "123456";
 		private const string CHANGESET_898989 = "898989";
@@ -31,7 +31,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.VersionControl = Substitute.For<IVersionControlService>();
-			this.MergeBugfixController = new MergeBugfixController(this.VersionControl, new DummyConvention());
+			this.MergeBugfixController = new MergeBugfixController(this.VersionControl, new ConventionDummy());
 		}
 		#endregion
 
