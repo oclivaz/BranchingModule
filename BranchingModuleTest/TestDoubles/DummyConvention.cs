@@ -20,6 +20,11 @@ namespace BranchingModuleTest.TestDoubles
 			return new BranchInfo(strTeamProject, MAINBRANCH_NAME);
 		}
 
+		public BranchType GetBranchType(BranchInfo branch)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetLocalPath(BranchInfo branch)
 		{
 			return String.Format(@"nowhere:\inetpub\wwwroot\{0}", GetApplicationName(branch));
@@ -71,9 +76,9 @@ namespace BranchingModuleTest.TestDoubles
 			return CreateDummyMainbranch(teamProject);
 		}
 
-		public BranchInfo GetBranchInfoByServerPath(string strServerItem)
+		public BranchInfo GetBranchInfoByServerPath(string strServerPath)
 		{
-			Match matchFolderHierarchyDepth2 = new Regex(REGEX_DOLLAR_AND_TWO_GROUPS_BETWEEN_SLASHES).Match(strServerItem);
+			Match matchFolderHierarchyDepth2 = new Regex(REGEX_DOLLAR_AND_TWO_GROUPS_BETWEEN_SLASHES).Match(strServerPath);
 
 			if(matchFolderHierarchyDepth2.Success)
 			{
@@ -82,7 +87,7 @@ namespace BranchingModuleTest.TestDoubles
 
 				if(strBranchType == MAINBRANCH_NAME) return MainBranch(strTeamProject);
 
-				Match matchFolderhierarchyDepth3 = new Regex(REGEX_DOLLAR_AND_THREE_GROUPS_BETWEEN_SLASHES).Match(strServerItem);
+				Match matchFolderhierarchyDepth3 = new Regex(REGEX_DOLLAR_AND_THREE_GROUPS_BETWEEN_SLASHES).Match(strServerPath);
 
 				if(matchFolderhierarchyDepth3.Success)
 				{
@@ -91,7 +96,7 @@ namespace BranchingModuleTest.TestDoubles
 				}
 			}
 
-			throw new Exception(String.Format("Could not determine Branch of {0}", strServerItem));
+			throw new Exception(String.Format("Could not determine Branch of {0}", strServerPath));
 		}
 		#endregion
 	}

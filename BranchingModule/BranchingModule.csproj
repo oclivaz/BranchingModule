@@ -100,6 +100,13 @@
     <Compile Include="Logic\Controllers\AddReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\BranchConventionFactory.cs" />
+    <Compile Include="Logic\Conventions\BranchType.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\IBranchConvention.cs" />
+    <Compile Include="Logic\Conventions\IBranchConventionFactory.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\MSBranchConventionBase.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\MSMainbranchConvention.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\MSReleasebranchConvention.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\IDependencyInjectionFactory.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\DependencyInjectionFactory.cs" />
     <Compile Include="Logic\Services\AdeNet\AdeNetService.cs">

@@ -29,7 +29,7 @@ namespace BranchingModule.Logic
 
 			BranchInfo sourceBranch = this.VersionControl.GetBranchInfo(strChangeset);
 
-			if(this.Convention.IsReleasebranch(sourceBranch))
+			if(this.Convention.GetBranchType(sourceBranch) == BranchType.Release)
 			{
 				strChangeset = this.VersionControl.MergeChangeset(strChangeset, sourceBranch, this.Convention.MainBranch(strTeamproject));
 				sourceBranch = this.Convention.MainBranch(strTeamproject);

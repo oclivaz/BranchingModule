@@ -183,56 +183,6 @@ namespace BranchingModuleTest.Logic.Conventions
 			// Assert
 			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBV_2_5_3\AkisBV.sln", strSolutionFile, true);
 		}
-
-		[TestMethod]
-		public void TestIsReleasebranch_valid_name()
-		{
-			// Act
-			bool bValid = this.MSConvention.IsReleasebranch(AKISBV_2_5_3);
-
-			// Assert
-			Assert.IsTrue(bValid);
-		}
-
-		[TestMethod]
-		public void TestIsReleasebranch_too_many_numbers()
-		{
-			// Act
-			bool bValid = this.MSConvention.IsReleasebranch(new BranchInfo("AkisBV", "1.2.3.4"));
-
-			// Assert
-			Assert.IsFalse(bValid);
-		}
-
-		[TestMethod]
-		public void TestIsReleasebranch_charachter()
-		{
-			// Act
-			bool bValid = this.MSConvention.IsReleasebranch(new BranchInfo("AkisBV", "1.2a.3"));
-
-			// Assert
-			Assert.IsFalse(bValid);
-		}
-
-		[TestMethod]
-		public void TestIsMainbranch_main()
-		{
-			// Act
-			bool bIsMain = this.MSConvention.IsMainbranch(AKISBV_MAIN);
-
-			// Assert
-			Assert.IsTrue(bIsMain);
-		}
-
-		[TestMethod]
-		public void TestIsMainbranch_release()
-		{
-			// Act
-			bool bIsMain = this.MSConvention.IsMainbranch(AKISBV_2_5_3);
-
-			// Assert
-			Assert.IsFalse(bIsMain);
-		}
 		#endregion
 
 		#region Privates
