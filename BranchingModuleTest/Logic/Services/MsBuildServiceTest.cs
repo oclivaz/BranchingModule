@@ -1,22 +1,18 @@
 ﻿using BranchingModule.Logic;
+using BranchingModuleTest.Base;
+using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
 namespace BranchingModuleTest.Logic.Services
 {
 	[TestClass]
-	public class MsBuildServiceTest
+	public class MsBuildServiceTest : BranchingModuleTestBase
 	{
-		#region Fields
-		private readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBV", "5.0.35");
-		#endregion
-
 		#region Properties
 		private IBuildEngineService MsBuildService { get; set; }
 
 		private ISettings Settings { get; set; }
-
-		private IConvention Convention { get; set; }
 
 		private IFileExecutionService FileExecution { get; set; }
 		#endregion
@@ -25,10 +21,9 @@ namespace BranchingModuleTest.Logic.Services
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.MsBuildService = new MsBuildService(this.FileExecution, this.Convention, this.Settings);
+			this.MsBuildService = new MsBuildService(this.FileExecution, new ConventionDummy(), this.Settings);
 		}
 		#endregion
 
@@ -38,13 +33,12 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			// Arrange
 			this.Settings.MSBuildExePath.Returns(@"c:\PathToMSBuild\MSBuild.exe");
-			this.Convention.GetLocalPath(AKISBV_5_0_35).Returns(@"c:\Solution");
 
 			// Act
 			this.MsBuildService.Build(AKISBV_5_0_35);
 
 			// Assert
-			this.FileExecution.Received().Execute(@"c:\PathToMSBuild\MSBuild.exe", @"c:\Solution\AkisBV.sln /t:Build");
+			this.FileExecution.Received().Execute(@"c:\PathToMSBuild\MSBuild.exe", string.Format(@"{0}\AkisBV.sln /t:Build", LOCAL_PATH_AKISBV_5_0_35));
 		}
 		#endregion
 	}

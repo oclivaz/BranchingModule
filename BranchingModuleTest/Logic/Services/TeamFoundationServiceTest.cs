@@ -11,21 +11,6 @@ namespace BranchingModuleTest.Logic.Services
 	[TestClass]
 	public class TeamFoundationServiceTest : BranchingModuleTestBase
 	{
-		private static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo(AKISBV, "5.0.35");
-		private static readonly BranchInfo AKISBV_5_0_40 = new BranchInfo(AKISBV, "5.0.40");
-		private static readonly BranchInfo AKISBV_MAIN = ConventionDummy.MainBranch(AKISBV);
-		private const string DONT_CARE = "";
-		private static readonly string LOCAL_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);
-		private static readonly string SERVER_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetServerPath(AKISBV_5_0_35);
-		private static readonly string SERVER_BASEPATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetServerBasePath(AKISBV_5_0_35);
-		private static readonly string SERVER_PATH_AKISBV_5_0_40 = ReleasebranchConventionDummy.GetServerPath(AKISBV_5_0_40);
-		private static readonly string SERVER_PATH_AKISBV_MAIN = MainbranchConventionDummy.GetServerPath(AKISBV_MAIN);
-		private const string APPCONFIG_SERVER_PATH = @"£/pathtoappconfig";
-		private const string SERVERITEM = "£/ServerItem";
-		private const string OTHER_SERVERITEM = "£/OtherServerItem";
-		private const string CHANGESETNUMBER = "123456";
-		private const string AKISBV = "AkisBV";
-
 		#region Properties
 		private IVersionControlService VersionControlService { get; set; }
 		private IConvention Convention { get; set; }

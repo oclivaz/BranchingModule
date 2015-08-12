@@ -1,4 +1,5 @@
 ﻿using BranchingModule.Logic;
+using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -6,21 +7,18 @@ using NSubstitute;
 namespace BranchingModuleTest.Logic.Services
 {
 	[TestClass]
-	public class DumpServiceTest
+	public class DumpServiceTest : BranchingModuleTestBase
 	{
 		#region Fields
-		private readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBV", "5.0.35");
 		private const string RESTORE_DATABASE = "RESTORE DATABASE";
-		private const string LOCAL_DUMP = @"c:\dump.bak";
-		private const string BUILDSERVER_DUMP = @"\\buildserver\dump.bak";
+		private readonly string LOCAL_DUMP = ReleasebranchConventionDummy.GetLocalDump(AKISBV_5_0_35);
+		private readonly string BUILDSERVER_DUMP = ReleasebranchConventionDummy.GetBuildserverDump(AKISBV_5_0_35);
 		#endregion
 
 		#region Properties
 		private IDumpService DumpService { get; set; }
 
 		private ISettings Settings { get; set; }
-
-		private IConvention Convention { get; set; }
 
 		private IFileSystemAdapter FileSystem { get; set; }
 
@@ -33,12 +31,11 @@ namespace BranchingModuleTest.Logic.Services
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.Convention = Substitute.For<IConvention>();
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
 			this.SQLServer = Substitute.For<ISQLServerService>();
-			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, this.Convention, this.Settings, new TextOutputServiceDummy());
+			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -47,8 +44,6 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestoreDump_with_Dump_on_Buildserver()
 		{
 			// Arrange
-			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
-			this.Convention.GetLocalDump(AKISBV_5_0_35).Returns(LOCAL_DUMP);
 			this.FileSystem.Exists(LOCAL_DUMP).Returns(false);
 			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(true);
 
@@ -67,8 +62,6 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestoreDump_with_Dump_locally()
 		{
 			// Arrange
-			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
-			this.Convention.GetLocalDump(AKISBV_5_0_35).Returns(LOCAL_DUMP);
 			this.FileSystem.Exists(LOCAL_DUMP).Returns(true);
 
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
@@ -86,8 +79,6 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestoreDump_with_no_Dump_yet()
 		{
 			// Arrange
-			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
-			this.Convention.GetLocalDump(AKISBV_5_0_35).Returns(LOCAL_DUMP);
 			this.FileSystem.Exists(LOCAL_DUMP).Returns(false);
 			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
 
@@ -106,8 +97,6 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestInstallBuildserverDump()
 		{
 			// Arrange
-			this.Convention.GetLocalDump(AKISBV_5_0_35).Returns(LOCAL_DUMP);
-			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
 			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
 
 			// Act
@@ -120,8 +109,6 @@ namespace BranchingModuleTest.Logic.Services
 		[TestMethod]
 		public void TestInstallBuildserverDump_dump_already_on_Buildserver()
 		{
-			// Arrange
-			this.Convention.GetBuildserverDump(AKISBV_5_0_35).Returns(BUILDSERVER_DUMP);
 			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(true);
 
 			// Act
