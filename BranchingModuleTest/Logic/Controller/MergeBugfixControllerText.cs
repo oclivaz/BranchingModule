@@ -13,7 +13,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private static readonly BranchInfo AKISBV_1_2_3 = new BranchInfo(AKISBV, "1.2.3");
 		private static readonly BranchInfo AKISBV_4_5_6 = new BranchInfo(AKISBV, "4.5.6");
 		private static readonly BranchInfo AKISBV_7_8_9 = new BranchInfo(AKISBV, "7.8.9");
-		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo(AKISBV, "Main");
+		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo(AKISBV, MainbranchConventionDummy.MAIN);
 		private const string AKISBV = "AkisBV";
 		private const string CHANGESET_123456 = "123456";
 		private const string CHANGESET_898989 = "898989";
@@ -40,7 +40,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void TestMergeBugfix_changeset_in_Releasebranch()
 		{
 			// Arrange
-			this.VersionControl.GetBranchInfo(CHANGESET_123456).Returns(AKISBV_1_2_3);
+			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_1_2_3);
 			this.VersionControl.MergeChangeset(CHANGESET_123456, AKISBV_1_2_3, AKISBV_MAIN).Returns(CHANGESET_898989);
 
 			// Act
@@ -55,7 +55,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void TestMergeBugfix_changeset_Mainbranch()
 		{
 			// Arrange
-			this.VersionControl.GetBranchInfo(CHANGESET_123456).Returns(AKISBV_MAIN);
+			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
 
 			// Act
 			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_4_5_6.Name, AKISBV_7_8_9.Name });

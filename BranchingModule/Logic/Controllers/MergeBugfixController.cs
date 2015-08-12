@@ -27,7 +27,7 @@ namespace BranchingModule.Logic
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
-			BranchInfo sourceBranch = this.VersionControl.GetBranchInfo(strChangeset);
+			BranchInfo sourceBranch = this.VersionControl.GetBranchInfoByChangeset(strChangeset);
 
 			if(this.Convention.GetBranchType(sourceBranch) == BranchType.Release)
 			{

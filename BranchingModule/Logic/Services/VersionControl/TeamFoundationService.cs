@@ -94,7 +94,7 @@ namespace BranchingModule.Logic
 			this.VersionControlAdapter.DeleteBranch(strBranchBasePath);
 		}
 
-		public BranchInfo GetBranchInfo(string strChangeset)
+		public BranchInfo GetBranchInfoByChangeset(string strChangeset)
 		{
 			var affectedBranches = (from item in this.VersionControlAdapter.GetServerItemsByChangeset(strChangeset)
 			                        select this.Convention.GetBranchInfoByServerPath(item)).Distinct();
