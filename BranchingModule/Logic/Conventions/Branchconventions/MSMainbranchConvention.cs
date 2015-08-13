@@ -7,8 +7,6 @@ namespace BranchingModule.Logic
 	{
 		#region Constants
 		internal const string MAIN = "Main";
-
-		private static readonly string REGEX_MAIN = string.Format(@"^{0}$", MAIN);
 		#endregion
 
 		#region Properties

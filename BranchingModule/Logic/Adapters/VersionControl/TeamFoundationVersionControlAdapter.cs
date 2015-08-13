@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
@@ -6,6 +7,7 @@ using Microsoft.TeamFoundation.VersionControl.Common;
 
 namespace BranchingModule.Logic
 {
+	[ExcludeFromCodeCoverage]
 	internal class TeamFoundationVersionControlAdapter : ITeamFoundationVersionControlAdapter
 	{
 		#region Fields
