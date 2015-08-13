@@ -54,7 +54,7 @@ namespace BranchingModule.Logic
 
 		public void Merge(string strChangeset, string strSourcePath, string strTargetPath)
 		{
-			this.Workspace.Merge(strSourcePath, strTargetPath, CreateChangesetVerionSpec(strChangeset), CreateChangesetVerionSpec(strChangeset));
+			this.Workspace.Merge(new ItemSpec(strSourcePath, RecursionType.Full), strTargetPath, CreateChangesetVerionSpec(strChangeset), CreateChangesetVerionSpec(strChangeset), LockLevel.None, MergeOptionsEx.Silent);
 		}
 
 		public bool HasConflicts(string strServerPath)
@@ -69,7 +69,8 @@ namespace BranchingModule.Logic
 
 		public string CheckIn(string strServerPath, string strComment)
 		{
-			return this.Workspace.CheckIn(this.Workspace.GetPendingChanges(strServerPath, RecursionType.Full), strComment).ToString();
+			PendingChange[] pendingChanges = this.Workspace.GetPendingChanges(new[] { new ItemSpec(strServerPath, RecursionType.Full) });
+			return pendingChanges.Any() ? this.Workspace.CheckIn(pendingChanges, strComment).ToString() : null;
 		}
 
 		public string GetComment(string strChangeset)
@@ -95,7 +96,7 @@ namespace BranchingModule.Logic
 		public void Get(string strServerPath)
 		{
 			GetRequest getRequest = new GetRequest(strServerPath, RecursionType.Full, VersionSpec.Latest);
-			this.Workspace.Get(getRequest, GetOptions.None);
+			this.Workspace.Get(getRequest, GetOptions.GetAll);
 		}
 
 		public void Get()
@@ -145,7 +146,7 @@ namespace BranchingModule.Logic
 		#region Privates
 		private static VersionSpec CreateChangesetVerionSpec(string strChangeset)
 		{
-			return VersionSpec.ParseSingleSpec(string.Format("c{0}", strChangeset), null);
+			return VersionSpec.ParseSingleSpec(string.Format("C{0}", strChangeset), null);
 		}
 
 		private TfsTeamProjectCollection CreateTeamProjectCollection()

@@ -10,7 +10,9 @@ namespace BranchingModuleTest.Base
 		#region Constants
 		protected static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo(AKISBV, "5.0.35");
 		protected static readonly BranchInfo AKISBV_5_0_40 = new BranchInfo(AKISBV, "5.0.40");
+		protected static readonly BranchInfo AKISBV_5_0_60 = new BranchInfo(AKISBV, "1.2.3");
 		protected static readonly BranchInfo AKISBV_MAIN = ConventionDummy.MainBranch(AKISBV);
+		protected static readonly BranchInfo ANY_BRANCHINFO = new BranchInfo(DONT_CARE, DONT_CARE);
 		protected const string DONT_CARE = "";
 		protected static readonly string LOCAL_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);
 		protected static readonly string LOCAL_SOLUTION_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);

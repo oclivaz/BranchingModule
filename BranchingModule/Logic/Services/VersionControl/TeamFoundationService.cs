@@ -104,46 +104,77 @@ namespace BranchingModule.Logic
 
 		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
 		{
+			MergeChangeset(strChangesetToMerge, sourceBranch, targetBranches, true);
+		}
+
+		public void MergeChangesetWithoutCheckIn(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
+		{
+			MergeChangeset(strChangesetToMerge, sourceBranch, targetBranches, false);
+		}
+
+		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
+		{
+			return MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, true);
+		}
+
+		public string MergeChangesetWithoutCheckIn(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
+		{
+			return MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, false);
+		}
+		#endregion
+
+		#region Privates
+		private void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, IEnumerable<BranchInfo> targetBranches, bool bCheckIn)
+		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
 
 			bool bSourcebranchMappingCreated = EnsureMapping(sourceBranch);
 
 			foreach(BranchInfo targetBranch in targetBranches)
 			{
-				MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch);
+				MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, bCheckIn);
 			}
 
 			if(bSourcebranchMappingCreated) DeleteMapping(sourceBranch);
 		}
 
-		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
+		private string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch, bool bCheckIn)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
 
 			bool bSourcebranchMappingCreated = EnsureMapping(sourceBranch);
 			bool bTargetbranchMappingCreated = EnsureMapping(targetBranch);
 
-			this.VersionControlAdapter.Merge(strChangesetToMerge, this.Convention.GetServerPath(sourceBranch), this.Convention.GetServerPath(targetBranch));
+			Merge(strChangesetToMerge, sourceBranch, targetBranch);
 
 			string strChangeset = null;
 
-			if(this.VersionControlAdapter.HasConflicts(this.Convention.GetServerPath(targetBranch)))
+			if(bCheckIn && !this.VersionControlAdapter.HasConflicts(this.Convention.GetServerPath(targetBranch)))
 			{
-				this.VersionControlAdapter.Undo(this.Convention.GetServerPath(targetBranch));
-			}
-			else
-			{
-				strChangeset = this.VersionControlAdapter.CheckIn(this.Convention.GetServerPath(targetBranch), this.VersionControlAdapter.GetComment(strChangesetToMerge));
+				strChangeset = CheckIn(strChangesetToMerge, targetBranch);
+
+				if(bTargetbranchMappingCreated) DeleteMapping(targetBranch);
 			}
 
-			if(bTargetbranchMappingCreated) DeleteMapping(targetBranch);
 			if(bSourcebranchMappingCreated) DeleteMapping(sourceBranch);
 
 			return strChangeset;
 		}
-		#endregion
 
-		#region Privates
+		private string CheckIn(string strChangesetToMerge, BranchInfo targetBranch)
+		{
+			string strComment = this.VersionControlAdapter.GetComment(strChangesetToMerge);
+			this.TextOutput.WriteVerbose(string.Format("Checking in {0} with comment {1}", this.Convention.GetServerPath(targetBranch), strComment));
+
+			return this.VersionControlAdapter.CheckIn(this.Convention.GetServerPath(targetBranch), strComment);
+		}
+
+		private void Merge(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
+		{
+			this.TextOutput.WriteVerbose(string.Format("Merging changeset {0} from {1} to {2}", strChangesetToMerge, sourceBranch, targetBranch));
+			this.VersionControlAdapter.Merge(strChangesetToMerge, this.Convention.GetServerPath(sourceBranch), this.Convention.GetServerPath(targetBranch));
+		}
+
 		private bool EnsureMapping(BranchInfo branch)
 		{
 			string strServerPath = this.Convention.GetServerPath(branch);
@@ -152,6 +183,7 @@ namespace BranchingModule.Logic
 
 			this.TextOutput.WriteVerbose(string.Format("Mapping {0}", strServerPath));
 			this.VersionControlAdapter.CreateMapping(strServerPath, this.Convention.GetLocalPath(branch));
+			this.VersionControlAdapter.Get(strServerPath);
 
 			return true;
 		}
