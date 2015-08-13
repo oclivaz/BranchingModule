@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BranchingModule.Logic
 {
@@ -21,38 +23,48 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void MergeBugfix(string strTeamproject, string strChangeset, string[] targetBranches, bool bNoCheckIn)
+		public void MergeBugfix(string strChangeset, string[] targetBranches, bool bNoCheckIn)
 		{
-			if(strTeamproject == null) throw new ArgumentNullException("strTeamproject");
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
 			BranchInfo sourceBranch = this.VersionControl.GetBranchInfoByChangeset(strChangeset);
 
-			if(bNoCheckIn) MergeChangesetWithoutCheckIn(strTeamproject, strChangeset, targetBranches, sourceBranch);
-			else MergeChangesetWithCheckIn(strTeamproject, strChangeset, targetBranches, sourceBranch);
+			if(!targetBranches.Any()) targetBranches = GetTargetBranches(sourceBranch.TeamProject, sourceBranch);
+
+			if(bNoCheckIn) MergeChangesetWithoutCheckIn(strChangeset, sourceBranch, targetBranches);
+			else MergeChangesetWithCheckIn(strChangeset, sourceBranch, targetBranches);
+		}
+		#endregion
+
+		#region Privates
+		private string[] GetTargetBranches(string strTeamproject, BranchInfo sourceBranch)
+		{
+			ISet<BranchInfo> allReleaseBranches = this.VersionControl.GetReleasebranches(strTeamproject);
+			allReleaseBranches.ExceptWith(new[] { sourceBranch });
+			return allReleaseBranches.Select(branch => branch.Name).ToArray();
 		}
 
-		private void MergeChangesetWithCheckIn(string strTeamproject, string strChangeset, string[] targetBranches, BranchInfo sourceBranch)
+		private void MergeChangesetWithCheckIn(string strChangeset, BranchInfo sourceBranch, string[] targetBranches)
 		{
 			if(this.Convention.GetBranchType(sourceBranch) == BranchType.Release)
 			{
-				strChangeset = this.VersionControl.MergeChangeset(strChangeset, sourceBranch, this.Convention.MainBranch(strTeamproject));
-				sourceBranch = this.Convention.MainBranch(strTeamproject);
+				strChangeset = this.VersionControl.MergeChangeset(strChangeset, sourceBranch, this.Convention.MainBranch(sourceBranch.TeamProject));
+				sourceBranch = this.Convention.MainBranch(sourceBranch.TeamProject);
 			}
 
-			this.VersionControl.MergeChangeset(strChangeset, sourceBranch, BranchInfo.CreateSet(strTeamproject, targetBranches));
+			this.VersionControl.MergeChangeset(strChangeset, sourceBranch, BranchInfo.CreateSet(sourceBranch.TeamProject, targetBranches));
 		}
 
-		private void MergeChangesetWithoutCheckIn(string strTeamproject, string strChangeset, string[] targetBranches, BranchInfo sourceBranch)
+		private void MergeChangesetWithoutCheckIn(string strChangeset, BranchInfo sourceBranch, string[] targetBranches)
 		{
 			if(this.Convention.GetBranchType(sourceBranch) == BranchType.Release)
 			{
-				this.VersionControl.MergeChangesetWithoutCheckIn(strChangeset, sourceBranch, this.Convention.MainBranch(strTeamproject));
+				this.VersionControl.MergeChangesetWithoutCheckIn(strChangeset, sourceBranch, this.Convention.MainBranch(sourceBranch.TeamProject));
 				return;
 			}
 
-			this.VersionControl.MergeChangesetWithoutCheckIn(strChangeset, sourceBranch, BranchInfo.CreateSet(strTeamproject, targetBranches));
+			this.VersionControl.MergeChangesetWithoutCheckIn(strChangeset, sourceBranch, BranchInfo.CreateSet(sourceBranch.TeamProject, targetBranches));
 		}
 		#endregion
 	}

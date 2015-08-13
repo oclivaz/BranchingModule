@@ -24,21 +24,37 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public BranchInfo MainBranch(string teamProject)
+		public BranchInfo MainBranch(string strTeamProject)
 		{
-			return new BranchInfo(teamProject, MSMainbranchConvention.MAIN);
+			return new BranchInfo(strTeamProject, MSMainbranchConvention.MAIN);
 		}
 
 		public BranchInfo GetBranchInfoByServerPath(string strServerPath)
 		{
-			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
-			                          where convention.ServerPathFollowsConvention(strServerPath)
-			                          select convention).ToArray();
+			BranchInfo branch;
+			bool bSucess = TryGetBranchInfoByServerPath(strServerPath, out branch);
 
-			if(!followedConvention.Any()) throw new Exception(string.Format("The serverpath {0} doesn't follow any known convention", strServerPath));
+			if(!bSucess) throw new Exception(string.Format("The serverpath {0} doesn't follow any known convention", strServerPath));
+
+			return branch;
+		}
+
+		public bool TryGetBranchInfoByServerPath(string strServerPath, out BranchInfo branch)
+		{
+			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
+									  where convention.ServerPathFollowsConvention(strServerPath)
+									  select convention).ToArray();
+
 			if(followedConvention.Count() > 1) throw new Exception(string.Format("The serverpath {0} follows multiple branch conventions", strServerPath));
 
-			return followedConvention.Single().CreateBranchInfoByServerPath(strServerPath);
+			if(followedConvention.Any())
+			{
+				branch = followedConvention.Single().CreateBranchInfoByServerPath(strServerPath);
+				return true;
+			}
+
+			branch = new BranchInfo();
+			return false;
 		}
 
 		public BranchType GetBranchType(BranchInfo branch)
@@ -50,6 +66,11 @@ namespace BranchingModule.Logic
 			return followedConvention.BranchType;
 		}
 
+		public string GetReleaseBranchesPath(string strTeamProject)
+		{
+			return string.Format(@"$/{0}/{1}", strTeamProject, MSReleasebranchConvention.RELEASE);
+		}
+
 		public string GetLocalPath(BranchInfo branch)
 		{
 			return Convention(branch).GetLocalPath(branch);
@@ -57,7 +78,7 @@ namespace BranchingModule.Logic
 
 		public string GetServerPath(BranchInfo branch)
 		{
-			return Convention(branch).GetServerPath(branch);
+			return Convention(branch).GetServerSourcePath(branch);
 		}
 
 		public string GetServerBasePath(BranchInfo branch)

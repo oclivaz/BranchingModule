@@ -43,6 +43,11 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
+		public string[] GetItemsByPath(string strServerPath)
+		{
+			return this.VersionControlServer.GetItems(strServerPath, RecursionType.OneLevel).Items.Select(item => item.ServerItem).ToArray();
+		}
+
 		public string[] GetServerItemsByChangeset(string strChangeset)
 		{
 			Changeset changeset = this.VersionControlServer.GetChangeset(int.Parse(strChangeset));
@@ -108,7 +113,10 @@ namespace BranchingModule.Logic
 		{
 			WorkingFolder folder = new WorkingFolder(strServerPath, strLocalPath);
 
-			if(this.Workspace.Folders.Contains(folder)) this.Workspace.DeleteMapping(folder);
+			if(this.Workspace.Folders.Contains(folder))
+			{
+				this.Workspace.DeleteMapping(folder);
+			}
 		}
 
 		public DateTime GetCreationTime(string strItem, string strVersionSpec)

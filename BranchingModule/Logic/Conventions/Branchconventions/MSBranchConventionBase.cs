@@ -10,7 +10,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public string GetServerPath(BranchInfo branch)
+		public string GetServerSourcePath(BranchInfo branch)
 		{
 			return String.Format(@"{0}/Source", GetServerBasePath(branch));
 		}

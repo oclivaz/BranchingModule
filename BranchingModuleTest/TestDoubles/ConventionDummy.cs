@@ -20,17 +20,22 @@ namespace BranchingModuleTest.TestDoubles
 		#endregion
 
 		#region Publics
-		public static BranchInfo MainBranch(string teamProject)
+		public static BranchInfo MainBranch(string strTeamProject)
 		{
-			return new BranchInfo(teamProject, MainbranchConventionDummy.MAIN);
+			return new BranchInfo(strTeamProject, MainbranchConventionDummy.MAIN);
 		}
 
-		BranchInfo IConvention.MainBranch(string teamProject)
+		BranchInfo IConvention.MainBranch(string strTeamProject)
 		{
-			return MainBranch(teamProject);
+			return MainBranch(strTeamProject);
 		}
 
 		public BranchInfo GetBranchInfoByServerPath(string strServerPath)
+		{
+			throw new NotSupportedException("Create a mock please");
+		}
+
+		public bool TryGetBranchInfoByServerPath(string strServerPath, out BranchInfo branch)
 		{
 			throw new NotSupportedException("Create a mock please");
 		}
@@ -44,6 +49,16 @@ namespace BranchingModuleTest.TestDoubles
 			return followedConvention.BranchType;
 		}
 
+		string IConvention.GetReleaseBranchesPath(string strTeamProject)
+		{
+			return GetReleaseBranchesPath(strTeamProject);
+		}
+
+		public static string GetReleaseBranchesPath(string strTeamProject)
+		{
+			return string.Format(@"ConventionDummy.GetReleaseBranchesPath {0}", strTeamProject);
+		}
+
 		public string GetLocalPath(BranchInfo branch)
 		{
 			return Convention(branch).GetLocalPath(branch);
@@ -51,7 +66,7 @@ namespace BranchingModuleTest.TestDoubles
 
 		public string GetServerPath(BranchInfo branch)
 		{
-			return Convention(branch).GetServerPath(branch);
+			return Convention(branch).GetServerSourcePath(branch);
 		}
 
 		public string GetServerBasePath(BranchInfo branch)

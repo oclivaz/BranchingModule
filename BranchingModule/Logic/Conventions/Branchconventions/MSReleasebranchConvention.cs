@@ -6,7 +6,7 @@ namespace BranchingModule.Logic
 	internal class MSReleasebranchConvention : MSBranchConventionBase
 	{
 		#region Constants
-		private const string RELEASE = "Release";
+		internal const string RELEASE = "Release";
 
 		private const string REGEX_THREE_NUMBERS_WITH_PERIOD_IN_BETWEEN = @"^[0-9]+\.[0-9]+\.[0-9]+$";
 		#endregion

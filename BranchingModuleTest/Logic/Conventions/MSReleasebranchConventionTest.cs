@@ -37,7 +37,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverPath()
 		{
 			// Act
-			string strServerPath = this.MSReleasebranchConvention.GetServerPath(AKISBV_5_0_35);
+			string strServerPath = this.MSReleasebranchConvention.GetServerSourcePath(AKISBV_5_0_35);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Release/5.0.35/Source", strServerPath, true);

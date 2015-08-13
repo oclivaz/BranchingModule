@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstitute.Core;
 
 namespace BranchingModuleTest.Logic.Services
 {
 	[TestClass]
 	public class TeamFoundationServiceTest : BranchingModuleTestBase
 	{
+		#region Constants
+		protected const string APPCONFIG_SERVER_PATH = @"£/pathtoappconfig";
+		protected const string SERVERITEM = "£/ServerItem";
+		protected const string OTHER_SERVERITEM = "£/OtherServerItem";
+		protected const string CHANGESETNUMBER = "123456";
+		#endregion
+
 		#region Properties
 		private IVersionControlService VersionControlService { get; set; }
 		private IConvention Convention { get; set; }
@@ -98,7 +107,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlService.CreateAppConfig(AKISBV_5_0_35);
 
 			// Assert
-			this.VersionControlAdapter.Received().DownloadFile(APPCONFIG_SERVER_PATH, string.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
+			this.VersionControlAdapter.Received().DownloadFile(APPCONFIG_SERVER_PATH, String.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
 		}
 
 		[TestMethod]
@@ -142,7 +151,7 @@ namespace BranchingModuleTest.Logic.Services
 
 			convention.GetBranchInfoByServerPath(DONT_CARE).ReturnsForAnyArgs(AKISBV_5_0_35);
 			this.VersionControlAdapter.GetServerItemsByChangeset(CHANGESETNUMBER).Returns(new[] { SERVER_PATH_AKISBV_5_0_35 });
-			
+
 			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
 
 			// Act
@@ -181,8 +190,16 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(DONT_CARE, DONT_CARE);
-			this.VersionControlAdapter.Received().Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN);
-			this.VersionControlAdapter.Received().CheckIn(SERVER_PATH_AKISBV_MAIN, Arg.Any<string>());
+			Received.InOrder(() =>
+			                 {
+								 this.VersionControlAdapter.Get(SERVER_PATH_AKISBV_MAIN);
+				                 this.VersionControlAdapter.Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN);
+				                 this.VersionControlAdapter.Get(SERVER_PATH_AKISBV_MAIN); // Leider nötig
+				                 this.VersionControlAdapter.CheckIn(SERVER_PATH_AKISBV_MAIN, Arg.Any<string>());
+			                 }
+				);
+			
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(DONT_CARE, DONT_CARE);
 			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(DONT_CARE, DONT_CARE);
 		}
 
@@ -198,6 +215,8 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.VersionControlAdapter.Received().Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN);
+			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_5_0_35);
+			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_MAIN);
 			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().Undo(DONT_CARE);
 			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(DONT_CARE, DONT_CARE);
 		}
@@ -299,7 +318,7 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		public void TestMMergeChangesetWithoutCheckIn_no_branches_mapped_without_conflict()
+		public void TestMergeChangesetWithoutCheckIn_no_branches_mapped_without_conflict()
 		{
 			// Arrange
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
@@ -363,6 +382,66 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteBranch(DONT_CARE);
+		}
+
+		[TestMethod]
+		public void TestGetReleasebranches_valid_branch()
+		{
+			// Arrange
+			IConvention convention = Substitute.For<IConvention>();
+			convention.GetReleaseBranchesPath(AKISBV).Returns(SERVERITEM);
+			this.VersionControlAdapter.GetItemsByPath(convention.GetReleaseBranchesPath(AKISBV)).Returns(new[] { SERVER_BASEPATH_AKISBV_5_0_35 });
+
+			BranchInfo branch;
+			convention.TryGetBranchInfoByServerPath(SERVER_BASEPATH_AKISBV_5_0_35, out branch).Returns(BranchInfoOut(AKISBV_5_0_35));
+			
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+
+			// Act
+			ISet<BranchInfo> branches = versionControlService.GetReleasebranches(AKISBV);
+
+			// Assert
+			CollectionAssert.AreEqual(new[] { AKISBV_5_0_35 }, branches.ToArray());
+		}
+
+		[TestMethod]
+		public void TestGetReleasebranches_invalid_branch()
+		{
+			// Arrange
+			IConvention convention = Substitute.For<IConvention>();
+			convention.GetReleaseBranchesPath(AKISBV).Returns(SERVERITEM);
+			this.VersionControlAdapter.GetItemsByPath(convention.GetReleaseBranchesPath(AKISBV)).Returns(new[] { SERVER_BASEPATH_AKISBV_5_0_35 });
+
+			BranchInfo branch;
+			convention.TryGetBranchInfoByServerPath(SERVER_BASEPATH_AKISBV_5_0_35, out branch).Returns(NoSuccess());
+
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+
+			// Act
+			ISet<BranchInfo> branches = versionControlService.GetReleasebranches(AKISBV);
+
+			// Assert
+			Assert.AreEqual(0, branches.Count);
+		}
+		#endregion
+
+		#region Privates
+		private static Func<CallInfo, bool> BranchInfoOut(BranchInfo branch)
+		{
+			return x =>
+			       {
+				       x[1] = branch;
+				       return true;
+			       };
+		}
+
+		private static Func<CallInfo, bool> NoSuccess()
+		{
+			return x =>
+			{
+				x[1] = new BranchInfo();
+				return false;
+			};
 		}
 		#endregion
 	}

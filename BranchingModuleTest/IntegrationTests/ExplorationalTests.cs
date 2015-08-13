@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
-using BranchingModule.Logic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BranchingModuleTest.IntegrationTests
 {
-	[Ignore]
 	[TestClass]
 	public class ExplorationalTests
 	{
@@ -13,6 +9,9 @@ namespace BranchingModuleTest.IntegrationTests
 		[TestMethod]
 		public void Test()
 		{
+			//IDependencyInjectionFactory factory = new DependencyInjectionFactory();
+			//var experiment = factory.Get<IVersionControlService>();
+
 
 		}
 		#endregion

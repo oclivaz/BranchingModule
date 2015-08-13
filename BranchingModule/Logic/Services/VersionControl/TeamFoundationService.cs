@@ -35,6 +35,8 @@ namespace BranchingModule.Logic
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
+			this.TextOutput.WriteVerbose(string.Format("Mapping {0} to {1}", strServerPath, strLocalPath));
+
 			this.VersionControlAdapter.CreateMapping(strServerPath, strLocalPath);
 			this.VersionControlAdapter.Get(strServerPath);
 		}
@@ -112,6 +114,21 @@ namespace BranchingModule.Logic
 			MergeChangeset(strChangesetToMerge, sourceBranch, targetBranches, false);
 		}
 
+		public ISet<BranchInfo> GetReleasebranches(string strTeamProject)
+		{
+			string[] items = this.VersionControlAdapter.GetItemsByPath(this.Convention.GetReleaseBranchesPath(strTeamProject));
+
+			ISet<BranchInfo> releaseBranches = new HashSet<BranchInfo>();
+
+			foreach(string item in items)
+			{
+				BranchInfo branch;
+				if(this.Convention.TryGetBranchInfoByServerPath(item, out branch)) releaseBranches.Add(branch);
+			}
+
+			return releaseBranches;
+		}
+
 		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
 		{
 			return MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, true);
@@ -173,19 +190,22 @@ namespace BranchingModule.Logic
 		{
 			this.TextOutput.WriteVerbose(string.Format("Merging changeset {0} from {1} to {2}", strChangesetToMerge, sourceBranch, targetBranch));
 			this.VersionControlAdapter.Merge(strChangesetToMerge, this.Convention.GetServerPath(sourceBranch), this.Convention.GetServerPath(targetBranch));
+			this.VersionControlAdapter.Get(this.Convention.GetServerPath(targetBranch));
 		}
 
 		private bool EnsureMapping(BranchInfo branch)
 		{
 			string strServerPath = this.Convention.GetServerPath(branch);
 
-			if(this.VersionControlAdapter.IsServerPathMapped(strServerPath)) return false;
+			if(!this.VersionControlAdapter.IsServerPathMapped(strServerPath))
+			{
+				CreateMapping(branch);
+				return true;
+			}
 
-			this.TextOutput.WriteVerbose(string.Format("Mapping {0}", strServerPath));
-			this.VersionControlAdapter.CreateMapping(strServerPath, this.Convention.GetLocalPath(branch));
 			this.VersionControlAdapter.Get(strServerPath);
 
-			return true;
+			return false;
 		}
 
 		private string GetVersionSpec(BranchInfo branch)

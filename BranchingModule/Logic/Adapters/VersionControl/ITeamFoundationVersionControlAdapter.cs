@@ -16,8 +16,9 @@ namespace BranchingModule.Logic
 
 		bool ServerItemExists(string strServerItem);
 		DateTime GetCreationTime(string strItem, string strVersionSpec);
+		string[] GetItemsByPath(string strServerPath);
 		string[] GetServerItemsByChangeset(string strChangeset);
-		
+
 		void Merge(string strChangeset, string strSourcePath, string strTargetPath);
 		bool HasConflicts(string strServerPath);
 		void Undo(string strServerPath);

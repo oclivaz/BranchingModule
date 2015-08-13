@@ -12,23 +12,17 @@ namespace BranchingModule.Cmdlets
 			Mandatory = true,
 			Position = 0
 			)]
-		public string Teamproject { get; set; }
-
-		[Parameter(
-			Mandatory = true,
-			Position = 1
-			)]
 		public string Changeset { get; set; }
 
 		[Parameter(
 			Mandatory = false,
-			Position = 2
+			Position = 1
 			)]
 		public string Targetbranches { get; set; }
 
 		[Parameter(
 			Mandatory = false,
-			Position = 3
+			Position = 2
 			)]
 		public SwitchParameter NoCheckIn { get; set; }
 		#endregion
@@ -44,7 +38,8 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.MergeBugfix(this.Teamproject, this.Changeset, this.Targetbranches.Split(','), this.NoCheckIn);
+				string[] targetBranches = this.Targetbranches != null ? this.Targetbranches.Split(',') : new string[0];
+				controller.MergeBugfix(this.Changeset, targetBranches, this.NoCheckIn);
 			}
 			catch(Exception ex)
 			{

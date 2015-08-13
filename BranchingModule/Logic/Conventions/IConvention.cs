@@ -2,9 +2,11 @@
 {
 	public interface IConvention
 	{
-		BranchInfo MainBranch(string teamProject);
+		BranchInfo MainBranch(string strTeamProject);
 		BranchInfo GetBranchInfoByServerPath(string strServerPath);
+		bool TryGetBranchInfoByServerPath(string strServerPath, out BranchInfo branch);
 		BranchType GetBranchType(BranchInfo branch);
+		string GetReleaseBranchesPath(string strTeamProject);
 
 		string GetLocalPath(BranchInfo branch);
 		string GetServerPath(BranchInfo branch);

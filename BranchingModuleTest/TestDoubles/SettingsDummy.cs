@@ -65,7 +65,7 @@ namespace BranchingModuleTest.TestDoubles
 		#region Publics
 		public ITeamProjectSettings GetTeamProjectSettings(string strTeamproject)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 		#endregion
 	}

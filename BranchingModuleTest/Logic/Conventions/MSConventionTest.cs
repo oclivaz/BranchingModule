@@ -9,11 +9,6 @@ namespace BranchingModuleTest.Logic.Conventions
 	[TestClass]
 	public class MSConventionTest : BranchingModuleTestBase
 	{
-		#region Constants
-		private static readonly BranchInfo AKISBV_2_5_3 = new BranchInfo("AkisBV", "2.5.3");
-		private static readonly BranchInfo AKISBV_MAIN = new BranchInfo("AkisBV", "Main");
-		#endregion
-
 		#region Properties
 		private MSConvention MSConvention { get; set; }
 		private ISettings Settings { get; set; }
@@ -33,20 +28,20 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetLocalPath()
 		{
 			// Act
-			string strLocalPath = this.MSConvention.GetLocalPath(AKISBV_2_5_3);
+			string strLocalPath = this.MSConvention.GetLocalPath(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"C:\inetpub\wwwroot\AkisBV_2_5_3", strLocalPath, true);
+			Assert.AreEqual(@"C:\inetpub\wwwroot\AkisBV_5_0_35", strLocalPath, true);
 		}
 
 		[TestMethod]
 		public void TestGetSeverPath_Release()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetServerPath(AKISBV_2_5_3);
+			string strServerPath = this.MSConvention.GetServerPath(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"$/AkisBV/Release/2.5.3/Source", strServerPath, true);
+			Assert.AreEqual(@"$/AkisBV/Release/5.0.35/Source", strServerPath, true);
 		}
 
 		[TestMethod]
@@ -63,10 +58,10 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverBasePath_Release()
 		{
 			// Act
-			string strServerPath = this.MSConvention.GetServerBasePath(AKISBV_2_5_3);
+			string strServerPath = this.MSConvention.GetServerBasePath(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"$/AkisBV/Release/2.5.3", strServerPath, true);
+			Assert.AreEqual(@"$/AkisBV/Release/5.0.35", strServerPath, true);
 		}
 
 		[TestMethod]
@@ -83,43 +78,43 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetBuildserverDump()
 		{
 			// Act
-			string strBuildserverDump = this.MSConvention.GetBuildserverDump(AKISBV_2_5_3);
+			string strBuildserverDump = this.MSConvention.GetBuildserverDump(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"\\build\backup\AkisBV_Release_2.5.3.bak", strBuildserverDump, true);
+			Assert.AreEqual(@"\\build\backup\AkisBV_Release_5.0.35.bak", strBuildserverDump, true);
 		}
 
 		[TestMethod]
 		public void TestGetLocalDump()
 		{
 			// Arrange
-			this.Settings.GetTeamProjectSettings(AKISBV_2_5_3.TeamProject).Returns(TeamProjectSettings("TheLocalDBName", "whatever"));
+			this.Settings.GetTeamProjectSettings(AKISBV_5_0_35.TeamProject).Returns(TeamProjectSettings("TheLocalDBName", "whatever"));
 
 			// Act
-			string strBuildserverDump = this.MSConvention.GetLocalDump(AKISBV_2_5_3);
+			string strBuildserverDump = this.MSConvention.GetLocalDump(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"c:\database\TheLocalDBName\AkisBV_Release_2.5.3.bak", strBuildserverDump, true);
+			Assert.AreEqual(@"c:\database\TheLocalDBName\AkisBV_Release_5.0.35.bak", strBuildserverDump, true);
 		}
 
 		[TestMethod]
 		public void TestGetApplicationName()
 		{
 			// Act
-			string strApplicationName = this.MSConvention.GetApplicationName(AKISBV_2_5_3);
+			string strApplicationName = this.MSConvention.GetApplicationName(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual("AkisBV_2_5_3", strApplicationName);
+			Assert.AreEqual("AkisBV_5_0_35", strApplicationName);
 		}
 
 		[TestMethod]
 		public void TestGetBranchInfoByServerItem_Releasebranch()
 		{
 			// Act
-			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release/1.5.7/Something/that/doesnt.matter");
+			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release/5.0.35/Something/that/doesnt.matter");
 
 			// Assert
-			Assert.AreEqual(CreateBranchInfo("AkisBV", "1.5.7"), branch);
+			Assert.AreEqual(AKISBV_5_0_35, branch);
 		}
 
 		[TestMethod]
@@ -175,13 +170,117 @@ namespace BranchingModuleTest.Logic.Conventions
 		}
 
 		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Releasebranch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Release/1.5.7/Something/that/doesnt.matter", out branch);
+
+			// Assert
+			Assert.IsTrue(bSuccess);
+			Assert.AreEqual(CreateBranchInfo("AkisBV", "1.5.7"), branch);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_invalid_Releasebranch_without_number()
+		{
+			// Arrange
+			BranchInfo branch;
+			
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Release", out branch);
+
+			// Assert
+			Assert.IsFalse(bSuccess);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_invalid_Releasebranch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Release/1.5z.7/Something/that/doesnt.matter", out branch);
+
+			// Assert
+			Assert.IsFalse(bSuccess);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Featurebranch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Development/SomeName_1/Something/that/doesnt.matter", out branch);
+
+			// Assert
+			Assert.IsFalse(bSuccess);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Mainbranch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Main/Source/whatever/whatever", out branch);
+
+			// Assert
+			Assert.IsTrue(bSuccess);
+			Assert.AreEqual(AKISBV_MAIN, branch);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Mainbranch_with_minimal_Information()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Main", out branch);
+
+			// Assert
+			Assert.IsTrue(bSuccess);
+			Assert.AreEqual(AKISBV_MAIN, branch);
+		}
+
+		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Unknown_Branch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/SomethingElse/Source", out branch);
+
+			// Assert
+			Assert.IsFalse(bSuccess);
+		}
+
+		[TestMethod]
 		public void TestGetSolutionFile()
 		{
 			// Act
-			string strSolutionFile = this.MSConvention.GetSolutionFile(AKISBV_2_5_3);
+			string strSolutionFile = this.MSConvention.GetSolutionFile(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBV_2_5_3\AkisBV.sln", strSolutionFile, true);
+			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBV_5_0_35\AkisBV.sln", strSolutionFile, true);
+		}
+
+		[TestMethod]
+		public void TestGetReleaseBranchesPath()
+		{
+			// Act
+			string strReleaseBranchesPath = this.MSConvention.GetReleaseBranchesPath(AKISBV);
+
+			// Assert
+			Assert.AreEqual(@"$/AkisBV/Release", strReleaseBranchesPath);
 		}
 		#endregion
 

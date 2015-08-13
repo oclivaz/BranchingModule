@@ -42,7 +42,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.MergeChangeset(CHANGESET_123456, AKISBV_5_0_60, AKISBV_MAIN).Returns(CHANGESET_898989);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, false);
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, false);
 
 			// Assert
 			this.VersionControl.Received().MergeChangeset(CHANGESET_123456, AKISBV_5_0_60, AKISBV_MAIN);
@@ -56,7 +56,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, false);
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, false);
 
 			// Assert
 			this.VersionControl.Received().MergeChangeset(CHANGESET_123456, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_35, AKISBV_5_0_40 }));
@@ -70,7 +70,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.MergeChangeset(CHANGESET_123456, AKISBV_5_0_60, AKISBV_MAIN).Returns((string) null);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, true);
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, true);
 
 			// Assert
 			this.VersionControl.Received().MergeChangesetWithoutCheckIn(CHANGESET_123456, AKISBV_5_0_60, AKISBV_MAIN);
@@ -85,18 +85,40 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
 
 			// Act
-			this.MergeBugfixController.MergeBugfix(AKISBV, CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, true);
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new[] { AKISBV_5_0_35.Name, AKISBV_5_0_40.Name }, true);
 
 			// Assert
 			this.VersionControl.Received().MergeChangesetWithoutCheckIn(CHANGESET_123456, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_35, AKISBV_5_0_40 }));
 			this.VersionControl.DidNotReceiveWithAnyArgs().MergeChangeset(DONT_CARE, ANY_BRANCHINFO, ANY_BRANCHINFO_SET);
 		}
-		#endregion
 
-		#region Privates
-		private static HashSet<BranchInfo> SetEquals(IEnumerable<BranchInfo> expectedSet)
+		[TestMethod]
+		public void TestMergeBugfix_changeset_in_Mainbranch_with_no_targetbranches()
 		{
-			return Arg.Is<HashSet<BranchInfo>>(set => set.SetEquals(expectedSet));
+			// Arrange
+			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
+			this.VersionControl.GetReleasebranches(AKISBV).Returns(new HashSet<BranchInfo> { AKISBV_5_0_35, AKISBV_5_0_40 });
+
+			// Act
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new string[0], false);
+
+			// Assert
+			this.VersionControl.Received().MergeChangeset(CHANGESET_123456, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_35, AKISBV_5_0_40 }));
+		}
+
+		[TestMethod]
+		public void TestMergeBugfix_changeset_in_Releasebranch_with_no_targetbranches()
+		{
+			// Arrange
+			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_5_0_35);
+			this.VersionControl.GetReleasebranches(AKISBV).Returns(new HashSet<BranchInfo> { AKISBV_5_0_35, AKISBV_5_0_40, AKISBV_5_0_60 });
+			this.VersionControl.MergeChangeset(CHANGESET_123456, AKISBV_5_0_35, AKISBV_MAIN).Returns(CHANGESET_898989);
+
+			// Act
+			this.MergeBugfixController.MergeBugfix(CHANGESET_123456, new string[0], false);
+
+			// Assert
+			this.VersionControl.Received().MergeChangeset(CHANGESET_898989, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_40, AKISBV_5_0_60 }));
 		}
 		#endregion
 	}

@@ -18,7 +18,7 @@ namespace BranchingModuleTest.TestDoubles
 			return string.Format(@"ReleasebranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
-		string IBranchConvention.GetServerPath(BranchInfo branch)
+		string IBranchConvention.GetServerSourcePath(BranchInfo branch)
 		{
 			return GetServerPath(branch);
 		}
@@ -75,7 +75,7 @@ namespace BranchingModuleTest.TestDoubles
 
 		public static string GetServerBasePath(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath {0}", branch);
+			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath/{0}/{1}", branch.TeamProject, branch.Name);
 		}
 
 		public static string GetBuildserverDump(BranchInfo branch)
