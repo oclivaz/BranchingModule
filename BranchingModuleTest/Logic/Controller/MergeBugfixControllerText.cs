@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
@@ -10,9 +11,9 @@ namespace BranchingModuleTest.Logic.Controller
 	[TestClass]
 	public class MergeBugfixControllerText : BranchingModuleTestBase
 	{
+		#region Constants
 		private static readonly HashSet<BranchInfo> ANY_BRANCHINFO_SET = new HashSet<BranchInfo>();
 
-		#region Constants
 		private const string CHANGESET_123456 = "123456";
 		private const string CHANGESET_898989 = "898989";
 		#endregion
@@ -29,7 +30,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.VersionControl = Substitute.For<IVersionControlService>();
-			this.MergeBugfixController = new MergeBugfixController(this.VersionControl, new ConventionDummy());
+			this.MergeBugfixController = new MergeBugfixController(this.VersionControl, new SettingsDummy(), new ConventionDummy());
 		}
 		#endregion
 
@@ -75,7 +76,7 @@ namespace BranchingModuleTest.Logic.Controller
 			// Assert
 			this.VersionControl.Received().MergeChangesetWithoutCheckIn(CHANGESET_123456, AKISBV_5_0_60, AKISBV_MAIN);
 			this.VersionControl.DidNotReceive().MergeChangesetWithoutCheckIn(CHANGESET_898989, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_35, AKISBV_5_0_40 }));
-			this.VersionControl.DidNotReceiveWithAnyArgs().MergeChangeset(DONT_CARE, ANY_BRANCHINFO, ANY_BRANCHINFO_SET);
+			this.VersionControl.DidNotReceiveWithAnyArgs().MergeChangeset(DONT_CARE, ANY_BRANCH, ANY_BRANCHINFO_SET);
 		}
 
 		[TestMethod]
@@ -89,7 +90,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 			// Assert
 			this.VersionControl.Received().MergeChangesetWithoutCheckIn(CHANGESET_123456, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_35, AKISBV_5_0_40 }));
-			this.VersionControl.DidNotReceiveWithAnyArgs().MergeChangeset(DONT_CARE, ANY_BRANCHINFO, ANY_BRANCHINFO_SET);
+			this.VersionControl.DidNotReceiveWithAnyArgs().MergeChangeset(DONT_CARE, ANY_BRANCH, ANY_BRANCHINFO_SET);
 		}
 
 		[TestMethod]
@@ -120,6 +121,22 @@ namespace BranchingModuleTest.Logic.Controller
 			// Assert
 			this.VersionControl.Received().MergeChangeset(CHANGESET_898989, AKISBV_MAIN, SetEquals(new[] { AKISBV_5_0_40, AKISBV_5_0_60 }));
 		}
+
+		[TestMethod]
+		[ExpectedException(typeof(NotSupportedException))]
+		public void TestMergeBugfix_with_not_supported_TeamProject()
+		{
+			// Arrange
+			ISettings settings = Substitute.For<ISettings>();
+
+			this.VersionControl.GetBranchInfoByChangeset(CHANGESET_123456).Returns(AKISBV_MAIN);
+			settings.IsSupportedTeamproject(AKISBV).Returns(false);
+
+			MergeBugfixController mergeBugfixController = new MergeBugfixController(this.VersionControl, settings, new ConventionDummy());
+
+			// Act
+			mergeBugfixController.MergeBugfix(CHANGESET_123456, new[] { AKISBV_5_0_35.Name }, false);
+		}
 		#endregion
-	}
+		}
 }

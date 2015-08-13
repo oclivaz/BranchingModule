@@ -6,7 +6,7 @@ namespace BranchingModule.Logic
 	internal class Settings : ISettings
 	{
 		#region Constants
-		public static readonly string DEFAULT_SETTINGS_FILE = @"Y:\#Admin\Tools\PowershellModules\Branching\settings.json";
+		public static readonly string DEFAULT_SETTINGS_FILE = @"Y:\#Admin\Tools\PowershellModules\Branching\BranchingModule.config";
 		#endregion
 
 		#region Properties
@@ -54,6 +54,11 @@ namespace BranchingModule.Logic
 			if(strTeamproject == null) throw new ArgumentNullException("strTeamproject");
 
 			return this.TeamprojectSettings[strTeamproject];
+		}
+
+		public bool IsSupportedTeamproject(string strTeamProject)
+		{
+			return this.TeamprojectSettings.ContainsKey(strTeamProject);
 		}
 		#endregion
 	}

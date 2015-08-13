@@ -8,16 +8,19 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IVersionControlService VersionControl { get; set; }
+		private ISettings Settings { get; set; }
 		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors
-		public MergeBugfixController(IVersionControlService versionControlService, IConvention convention)
+		public MergeBugfixController(IVersionControlService versionControlService, ISettings settings, IConvention convention)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
+			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.VersionControl = versionControlService;
+			this.Settings = settings;
 			this.Convention = convention;
 		}
 		#endregion
@@ -29,6 +32,11 @@ namespace BranchingModule.Logic
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
 			BranchInfo sourceBranch = this.VersionControl.GetBranchInfoByChangeset(strChangeset);
+
+			if(!this.Settings.IsSupportedTeamproject(sourceBranch.TeamProject))
+			{
+				throw new NotSupportedException(string.Format("The teamproject {0} is not supported", sourceBranch.TeamProject));
+			}
 
 			if(!targetBranches.Any()) targetBranches = GetTargetBranches(sourceBranch.TeamProject, sourceBranch);
 

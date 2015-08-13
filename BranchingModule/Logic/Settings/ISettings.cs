@@ -15,5 +15,6 @@
 		string SQLScriptPath { get; }
 
 		ITeamProjectSettings GetTeamProjectSettings(string strTeamproject);
+		bool IsSupportedTeamproject(string strTeamProject);
 	}
 }

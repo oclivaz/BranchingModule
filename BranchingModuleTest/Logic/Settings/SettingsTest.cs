@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using BranchingModule.Logic;
+using BranchingModuleTest.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BranchingModuleTest
 {
 	[TestClass]
-	public class SettingsTest
+	public class SettingsTest : BranchingModuleTestBase
 	{
 		#region Tests
 		[TestMethod]
@@ -15,7 +16,7 @@ namespace BranchingModuleTest
 			SettingsDTO dto = CreateSettingsDTO();
 
 			// Act
-			Settings settings = new Settings(dto);
+			ISettings settings = new Settings(dto);
 
 			// Assert
 			Assert.AreEqual(dto.TfsPath, settings.TeamFoundationServerPath);
@@ -30,7 +31,7 @@ namespace BranchingModuleTest
 			Assert.AreEqual(dto.SQLScriptPath, settings.SQLScriptPath);
 			Assert.AreEqual(dto.SQLConnectionString, settings.SQLConnectionString);
 
-			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings("a_teamproject");
+			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings(AKISBV);
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
 			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
@@ -41,15 +42,43 @@ namespace BranchingModuleTest
 		{
 			// Arrange
 			SettingsDTO dto = CreateSettingsDTO();
-			Settings settings = new Settings(dto);
+			ISettings settings = new Settings(dto);
 
 			// Act
-			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings("A_TEAMPROJECT");
+			ITeamProjectSettings teamProjectSettings = settings.GetTeamProjectSettings(AKISBV);
 
 			// Assert
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
 			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
+		}
+
+		[TestMethod]
+		public void TestIsSupportedTeamproject_with_supported_teamproject()
+		{
+			// Arrange
+			SettingsDTO dto = CreateSettingsDTO();
+			ISettings settings = new Settings(dto);
+
+			// Act
+			bool bSupported = settings.IsSupportedTeamproject(AKISBV);
+
+			// Assert
+			Assert.IsTrue(bSupported);
+		}
+
+		[TestMethod]
+		public void TestIsSupportedTeamproject_with_not_supported_teamproject()
+		{
+			// Arrange
+			SettingsDTO dto = CreateSettingsDTO();
+			ISettings settings = new Settings(dto);
+
+			// Act
+			bool bSupported = settings.IsSupportedTeamproject("AdeNet");
+
+			// Assert
+			Assert.IsFalse(bSupported);
 		}
 		#endregion
 
@@ -72,7 +101,7 @@ namespace BranchingModuleTest
 				                  Teamprojects = new Dictionary<string, TeamProjectSettingsDTO>()
 			                  };
 
-			dto.Teamprojects.Add("a_teamproject", new TeamProjectSettingsDTO
+			dto.Teamprojects.Add(AKISBV, new TeamProjectSettingsDTO
 			                                      {
 				                                      LocalDB = "LocalDB",
 				                                      RefDB = "RefDB"
