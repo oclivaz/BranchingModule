@@ -35,6 +35,8 @@ namespace BranchingModule.Logic
 			string strLocalPath = this.Convention.GetLocalPath(branch);
 			string strServerPath = this.Convention.GetServerPath(branch);
 
+			if(!this.VersionControlAdapter.ServerItemExists(strServerPath)) throw new ArgumentException(string.Format("Serverpath {0} for {1} does not exist.", strServerPath, branch));
+
 			this.TextOutput.WriteVerbose(string.Format("Mapping {0} to {1}", strServerPath, strLocalPath));
 
 			this.VersionControlAdapter.CreateMapping(strServerPath, strLocalPath);

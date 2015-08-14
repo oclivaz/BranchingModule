@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Management.Automation.Language;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.VersionControl.Common;
@@ -103,7 +104,7 @@ namespace BranchingModule.Logic
 		public void Get(string strServerPath)
 		{
 			GetRequest getRequest = new GetRequest(strServerPath, RecursionType.Full, VersionSpec.Latest);
-			this.Workspace.Get(getRequest, GetOptions.GetAll);
+			this.Workspace.Get(getRequest, GetOptions.Overwrite);
 		}
 
 		public void Get()

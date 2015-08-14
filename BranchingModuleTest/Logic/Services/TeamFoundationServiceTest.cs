@@ -78,12 +78,26 @@ namespace BranchingModuleTest.Logic.Services
 		[TestMethod]
 		public void TestCreateMapping()
 		{
+			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+
 			// Act
 			this.VersionControlService.CreateMapping(AKISBV_5_0_35);
 
 			// Assert
 			this.VersionControlAdapter.Received().CreateMapping(SERVER_PATH_AKISBV_5_0_35, LOCAL_PATH_AKISBV_5_0_35);
 			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_5_0_35);
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
+		public void TestCreateMapping_with_invalid_server_path()
+		{
+			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(false);
+
+			// Act
+			this.VersionControlService.CreateMapping(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
@@ -225,6 +239,8 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestMergeChangeset_no_branches_mapped_without_conflict()
 		{
 			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
 
@@ -263,6 +279,9 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestMergeChangeset_multiple_targetbranches_no_mappings_one_conflict()
 		{
 			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_40).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_5_0_40).Returns(false);
@@ -321,6 +340,8 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestMergeChangesetWithoutCheckIn_no_branches_mapped_without_conflict()
 		{
 			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
 
