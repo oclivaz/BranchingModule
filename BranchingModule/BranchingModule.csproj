@@ -135,8 +135,8 @@
     <Compile Include="Logic\Services\ConfigFile\ConfigFileService.cs" />
     <Compile Include="Logic\Services\ConfigFile\IConfigFileService.cs" />
     <Compile Include="Logic\Adapters\VersionControl\TeamFoundationVersionControlAdapter.cs" />
-    <Compile Include="Logic\Services\SQLServer\ISQLServerService.cs" />
-    <Compile Include="Logic\Services\SQLServer\MSSQLServerService.cs" />
+    <Compile Include="Logic\Adapters\SQLServer\ISQLServerAdapter.cs" />
+    <Compile Include="Logic\Adapters\SQLServer\MssqlServerAdapter.cs" />
     <Compile Include="Logic\Services\TextOutput\ITextOutputListener.cs" />
     <Compile Include="Logic\Services\TextOutput\ITextOutputService.cs" />
     <Compile Include="Logic\Services\TextOutput\TextOutputService.cs" />

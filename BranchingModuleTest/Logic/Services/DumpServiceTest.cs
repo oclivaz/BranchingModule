@@ -24,7 +24,7 @@ namespace BranchingModuleTest.Logic.Services
 
 		private IDumpRepositoryService DumpRepository { get; set; }
 
-		private ISQLServerService SQLServer { get; set; }
+		private ISQLServerAdapter IsqlServer { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -34,8 +34,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
-			this.SQLServer = Substitute.For<ISQLServerService>();
-			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
+			this.IsqlServer = Substitute.For<ISQLServerAdapter>();
+			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.IsqlServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -55,7 +55,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.Received().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
-			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
@@ -72,7 +72,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
-			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
@@ -90,7 +90,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
-			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]

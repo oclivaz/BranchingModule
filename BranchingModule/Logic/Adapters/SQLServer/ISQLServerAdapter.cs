@@ -1,6 +1,6 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface ISQLServerService
+	public interface ISQLServerAdapter
 	{
 		void ExecuteScript(string strScript, string strDB);
 	}

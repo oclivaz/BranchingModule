@@ -16,18 +16,18 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IDumpRepositoryService DumpRepository { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
-		public ISQLServerService SQLServer { get; set; }
+		public ISQLServerAdapter IsqlServer { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerService sqlServerService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter isqlServerAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemAdapter;
-			this.SQLServer = sqlServerService;
+			this.IsqlServer = isqlServerAdapter;
 			this.Convention = convention;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
@@ -86,9 +86,9 @@ namespace BranchingModule.Logic
 
 			this.TextOutput.WriteVerbose(string.Format("Restoring {0} into {1}", strDump, strDB));
 
-			this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
-			this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
-			this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);
+			this.IsqlServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
+			this.IsqlServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
+			this.IsqlServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);
 		}
 
 		private string GetKillConnectionsScript(string strDB)

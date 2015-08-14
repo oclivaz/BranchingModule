@@ -3,14 +3,14 @@ using System.Data.SqlClient;
 
 namespace BranchingModule.Logic
 {
-	internal class MSSQLServerService : ISQLServerService
+	internal class MssqlServerAdapter : ISQLServerAdapter
 	{
 		#region Properties
 		private ISettings Settings { get; set; }
 		#endregion
 
 		#region Constructors
-		public MSSQLServerService(ISettings settings)
+		public MssqlServerAdapter(ISettings settings)
 		{
 			this.Settings = settings;
 		}
