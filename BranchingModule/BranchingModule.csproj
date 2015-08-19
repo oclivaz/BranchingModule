@@ -72,10 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
+    <Compile Include="Cmdlets\OpenSolution.cs" />
     <Compile Include="Cmdlets\MergeBugfix.cs" />
     <Compile Include="Cmdlets\AddReleaseBranch.cs" />
     <Compile Include="Cmdlets\RemoveReleasebranch.cs" />
     <Compile Include="Cmdlets\RemoveMapping.cs" />
+    <Compile Include="Logic\Controllers\OpenSolutionController.cs" />
     <Compile Include="Logic\Controllers\MergeBugfixController.cs" />
     <Compile Include="Logic\Controllers\AddReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />

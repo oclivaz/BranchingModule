@@ -65,6 +65,7 @@
     <Compile Include="DependencyInjection\InjectionModule.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
+    <Compile Include="Logic\Controller\OpenSolutionControllerTest.cs" />
     <Compile Include="Logic\Controller\MergeBugfixControllerText.cs" />
     <Compile Include="Logic\Controller\RemoveReleasebranchControllerTest.cs" />
     <Compile Include="Logic\Controller\RemoveMappingControllerTest.cs" />
