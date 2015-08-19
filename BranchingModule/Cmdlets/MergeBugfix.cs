@@ -4,7 +4,7 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	[Cmdlet("Merge", "Bugfix")]
+	[Cmdlet(VerbsData.Merge, "Bugfix")]
 	public class MergeBugfix : PSCmdlet, ITextOutputListener
 	{
 		#region Properties
