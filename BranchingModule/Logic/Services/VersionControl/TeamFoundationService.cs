@@ -106,16 +106,6 @@ namespace BranchingModule.Logic
 			return affectedBranches.Single();
 		}
 
-		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
-		{
-			MergeChangeset(strChangesetToMerge, sourceBranch, targetBranches, true);
-		}
-
-		public void MergeChangesetWithoutCheckIn(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
-		{
-			MergeChangeset(strChangesetToMerge, sourceBranch, targetBranches, false);
-		}
-
 		public ISet<BranchInfo> GetReleasebranches(string strTeamProject)
 		{
 			string[] items = this.VersionControlAdapter.GetItemsByPath(this.Convention.GetReleaseBranchesPath(strTeamProject));
@@ -131,19 +121,7 @@ namespace BranchingModule.Logic
 			return releaseBranches;
 		}
 
-		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
-		{
-			return MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, true);
-		}
-
-		public string MergeChangesetWithoutCheckIn(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
-		{
-			return MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, false);
-		}
-		#endregion
-
-		#region Privates
-		private void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, IEnumerable<BranchInfo> targetBranches, bool bCheckIn)
+		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
 
@@ -151,13 +129,13 @@ namespace BranchingModule.Logic
 
 			foreach(BranchInfo targetBranch in targetBranches)
 			{
-				MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch, bCheckIn);
+				MergeChangeset(strChangesetToMerge, sourceBranch, targetBranch);
 			}
 
 			if(bSourcebranchMappingCreated) DeleteMapping(sourceBranch);
 		}
 
-		private string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch, bool bCheckIn)
+		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
 
@@ -168,7 +146,7 @@ namespace BranchingModule.Logic
 
 			string strChangeset = null;
 
-			if(bCheckIn && !this.VersionControlAdapter.HasConflicts(this.Convention.GetServerPath(targetBranch)))
+			if(!this.VersionControlAdapter.HasConflicts(this.Convention.GetServerPath(targetBranch)))
 			{
 				strChangeset = CheckIn(strChangesetToMerge, targetBranch);
 
@@ -179,7 +157,9 @@ namespace BranchingModule.Logic
 
 			return strChangeset;
 		}
+		#endregion
 
+		#region Privates
 		private string CheckIn(string strChangesetToMerge, BranchInfo targetBranch)
 		{
 			string strComment = this.VersionControlAdapter.GetComment(strChangesetToMerge);
