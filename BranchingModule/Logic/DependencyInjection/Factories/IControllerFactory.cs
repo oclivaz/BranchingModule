@@ -1,6 +1,6 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface IDependencyInjectionFactory
+	public interface IControllerFactory
 	{
 		T Get<T>();
 	}

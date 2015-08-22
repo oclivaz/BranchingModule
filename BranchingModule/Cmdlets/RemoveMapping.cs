@@ -24,7 +24,7 @@ namespace BranchingModule.Cmdlets
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
-			IDependencyInjectionFactory factory = new DependencyInjectionFactory();
+			IControllerFactory factory = new ControllerFactory();
 			RemoveMappingController controller = factory.Get<RemoveMappingController>();
 
 			ITextOutputService textOutputService = factory.Get<ITextOutputService>();

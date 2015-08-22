@@ -62,8 +62,7 @@
     <Compile Include="Base\BranchingModuleTestBase.cs" />
     <Compile Include="Builder\DateTimeBuilder.cs" />
     <Compile Include="DependencyInjection\Factories\SettingsFactory.cs" />
-    <Compile Include="DependencyInjection\InjectionModule.cs" />
-    <Compile Include="DependencyInjection\DependencyInjectionTest.cs" />
+    <Compile Include="DependencyInjection\ControllerFactoryTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\OpenSolutionControllerTest.cs" />
     <Compile Include="Logic\Controller\MergeBugfixControllerText.cs" />
