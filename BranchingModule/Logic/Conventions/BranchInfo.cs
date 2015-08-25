@@ -23,6 +23,16 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
+		public static BranchInfo Create(string strTeamProject, string strBranch)
+		{
+			if(strTeamProject == null) throw new ArgumentNullException("strTeamProject");
+			if(string.IsNullOrEmpty(strTeamProject)) throw new ArgumentException("No TeamProject provided", strTeamProject);
+
+			if(!string.IsNullOrEmpty(strBranch)) return new BranchInfo(strTeamProject, strBranch);
+
+			return new BranchInfo(strTeamProject, "Main");
+		}
+
 		public static ISet<BranchInfo> CreateSet(string strTeamProject, string[] names)
 		{
 			ISet<BranchInfo> set = new HashSet<BranchInfo>();

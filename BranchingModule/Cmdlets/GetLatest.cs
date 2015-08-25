@@ -4,8 +4,8 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	[Cmdlet(VerbsCommon.Open, "Solution")]
-	public class OpenSolution : PSCmdlet, ITextOutputListener
+	[Cmdlet(VerbsCommon.Get, "Latest")]
+	public class GetLatest : PSCmdlet, ITextOutputListener
 	{
 		#region Properties
 		[Parameter(
@@ -19,20 +19,26 @@ namespace BranchingModule.Cmdlets
 			Position = 1
 			)]
 		public string Branch { get; set; }
+
+		[Parameter(
+			Mandatory = false,
+			Position = 3
+			)]
+		public SwitchParameter OpenSolution { get; set; }
 		#endregion
 
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
 			IControllerFactory factory = new ControllerFactory();
-			OpenSolutionController controller = factory.Get<OpenSolutionController>();
+			GetLatestController controller = factory.Get<GetLatestController>();
 
 			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
 			textOutputService.RegisterListener(this);
 
 			try
 			{
-				controller.OpenSolution(BranchInfo.Create(this.Teamproject, this.Branch));
+				controller.GetLatest(BranchInfo.Create(this.Teamproject, this.Branch), this.OpenSolution);
 			}
 			catch(Exception ex)
 			{

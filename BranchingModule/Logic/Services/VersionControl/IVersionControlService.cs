@@ -15,5 +15,6 @@ namespace BranchingModule.Logic
 		string MergeChangeset(string strChangeset, BranchInfo sourceBranch, BranchInfo targetBranch);
 		void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches);
 		ISet<BranchInfo> GetReleasebranches(string strTeamProject);
+		void GetLatest(BranchInfo branch);
 	}
 }

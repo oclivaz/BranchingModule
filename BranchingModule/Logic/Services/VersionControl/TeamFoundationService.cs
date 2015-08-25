@@ -121,6 +121,11 @@ namespace BranchingModule.Logic
 			return releaseBranches;
 		}
 
+		public void GetLatest(BranchInfo branch)
+		{
+			this.VersionControlAdapter.Get(this.Convention.GetServerPath(branch));
+		}
+
 		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");

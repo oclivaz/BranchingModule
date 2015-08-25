@@ -367,6 +367,16 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			Assert.AreEqual(0, branches.Count);
 		}
+
+		[TestMethod]
+		public void TestGetLatest()
+		{
+			// Act
+			this.VersionControlService.GetLatest(AKISBV_5_0_35);
+
+			// Assert
+			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_5_0_35);
+		}
 		#endregion
 
 		#region Privates
