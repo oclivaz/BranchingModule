@@ -7,7 +7,7 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private ISettings Settings { get; set; }
-		private IBranchConventionFactory BranchConventionFactory { get; set; }
+		private IBranchConventionRegistry BranchConventionRegistry { get; set; }
 		#endregion
 
 		#region Constructors
@@ -17,9 +17,9 @@ namespace BranchingModule.Logic
 
 			this.Settings = settings;
 
-			this.BranchConventionFactory = new BranchConventionFactory();
-			this.BranchConventionFactory.RegisterBranchConvention(new MSMainbranchConvention(this.Settings));
-			this.BranchConventionFactory.RegisterBranchConvention(new MSReleasebranchConvention(this.Settings));
+			this.BranchConventionRegistry = new BranchConventionRegistry();
+			this.BranchConventionRegistry.Register(new MSMainbranchConvention(this.Settings));
+			this.BranchConventionRegistry.Register(new MSReleasebranchConvention(this.Settings));
 		}
 		#endregion
 
@@ -41,7 +41,7 @@ namespace BranchingModule.Logic
 
 		public bool TryGetBranchInfoByServerPath(string strServerPath, out BranchInfo branch)
 		{
-			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
+			var followedConvention = (from convention in this.BranchConventionRegistry.GetAllConventions()
 									  where convention.ServerPathFollowsConvention(strServerPath)
 									  select convention).ToArray();
 
@@ -59,7 +59,7 @@ namespace BranchingModule.Logic
 
 		public BranchType GetBranchType(BranchInfo branch)
 		{
-			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
+			var followedConvention = (from convention in this.BranchConventionRegistry.GetAllConventions()
 			                          where convention.BranchnameFollowsConvention(branch.Name)
 			                          select convention).Single();
 
@@ -110,7 +110,7 @@ namespace BranchingModule.Logic
 		#region Privates
 		private IBranchConvention Convention(BranchInfo branch)
 		{
-			return this.BranchConventionFactory.GetConvention(branch);
+			return this.BranchConventionRegistry.GetConvention(branch);
 		}
 		#endregion
 	}

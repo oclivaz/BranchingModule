@@ -2,9 +2,9 @@
 
 namespace BranchingModule.Logic
 {
-	public interface IBranchConventionFactory
+	public interface IBranchConventionRegistry
 	{
-		void RegisterBranchConvention(IBranchConvention convention);
+		void Register(IBranchConvention convention);
 		IBranchConvention GetConvention(BranchInfo branch);
 		IEnumerable<IBranchConvention> GetAllConventions();
 	}

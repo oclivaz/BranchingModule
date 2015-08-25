@@ -7,15 +7,15 @@ namespace BranchingModuleTest.TestDoubles
 	public class ConventionDummy : IConvention
 	{
 		#region Properties
-		private IBranchConventionFactory BranchConventionFactory { get; set; }
+		private IBranchConventionRegistry BranchConventionRegistry { get; set; }
 		#endregion
 
 		#region Constructors
 		public ConventionDummy()
 		{
-			this.BranchConventionFactory = new BranchConventionFactory();
-			this.BranchConventionFactory.RegisterBranchConvention(new MainbranchConventionDummy());
-			this.BranchConventionFactory.RegisterBranchConvention(new ReleasebranchConventionDummy());
+			this.BranchConventionRegistry = new BranchConventionRegistry();
+			this.BranchConventionRegistry.Register(new MainbranchConventionDummy());
+			this.BranchConventionRegistry.Register(new ReleasebranchConventionDummy());
 		}
 		#endregion
 
@@ -42,7 +42,7 @@ namespace BranchingModuleTest.TestDoubles
 
 		public BranchType GetBranchType(BranchInfo branch)
 		{
-			var followedConvention = (from convention in this.BranchConventionFactory.GetAllConventions()
+			var followedConvention = (from convention in this.BranchConventionRegistry.GetAllConventions()
 			                          where convention.BranchnameFollowsConvention(branch.Name)
 			                          select convention).Single();
 
@@ -98,7 +98,7 @@ namespace BranchingModuleTest.TestDoubles
 		#region Privates
 		private IBranchConvention Convention(BranchInfo branch)
 		{
-			return this.BranchConventionFactory.GetConvention(branch);
+			return this.BranchConventionRegistry.GetConvention(branch);
 		}
 		#endregion
 	}

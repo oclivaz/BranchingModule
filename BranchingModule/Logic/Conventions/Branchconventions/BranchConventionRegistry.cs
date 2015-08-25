@@ -3,21 +3,21 @@ using System.Linq;
 
 namespace BranchingModule.Logic
 {
-	internal class BranchConventionFactory : IBranchConventionFactory
+	internal class BranchConventionRegistry : IBranchConventionRegistry
 	{
 		#region Properties
 		private ISet<IBranchConvention> BranchConventions { get; set; }
 		#endregion
 
 		#region Constructors
-		public BranchConventionFactory()
+		public BranchConventionRegistry()
 		{
 			this.BranchConventions = new HashSet<IBranchConvention>();
 		}
 		#endregion
 
 		#region Publics
-		public void RegisterBranchConvention(IBranchConvention convention)
+		public void Register(IBranchConvention convention)
 		{
 			this.BranchConventions.Add(convention);
 		}
