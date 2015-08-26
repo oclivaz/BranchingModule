@@ -21,6 +21,7 @@ namespace BranchingModule.Logic
 
 		void Merge(string strChangeset, string strSourcePath, string strTargetPath);
 		bool HasConflicts(string strServerPath);
+		bool HasPendingChanges(string strServerPath);
 		void Undo(string strServerPath);
 		string CheckIn(string strServerPath, string strComment);
 		string GetComment(string strChangeset);

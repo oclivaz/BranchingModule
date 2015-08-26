@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Management.Automation.Language;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.VersionControl.Common;
@@ -68,6 +67,11 @@ namespace BranchingModule.Logic
 		public bool HasConflicts(string strServerPath)
 		{
 			return this.Workspace.QueryConflicts(new[] { strServerPath }, true).Any();
+		}
+
+		public bool HasPendingChanges(string strServerPath)
+		{
+			return this.Workspace.GetPendingChanges(strServerPath, RecursionType.Full).Any();
 		}
 
 		public void Undo(string strServerPath)

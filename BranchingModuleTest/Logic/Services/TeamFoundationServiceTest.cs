@@ -197,7 +197,10 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			// Arrange
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
+			this.VersionControlAdapter.HasPendingChanges(SERVER_PATH_AKISBV_MAIN).Returns(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 
 			// Act
 			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN);
@@ -223,6 +226,8 @@ namespace BranchingModuleTest.Logic.Services
 			// Arrange
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 
 			// Act
 			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN);
@@ -264,6 +269,9 @@ namespace BranchingModuleTest.Logic.Services
 			// Arrange
 			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_40).Returns(true);
 
 			// Act
 			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_MAIN, new HashSet<BranchInfo> { AKISBV_5_0_35, AKISBV_5_0_40 });
@@ -300,6 +308,20 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlAdapter.Received().Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_MAIN, SERVER_PATH_AKISBV_5_0_40);
 			this.VersionControlAdapter.Received().CheckIn(SERVER_PATH_AKISBV_5_0_40, Arg.Any<string>());
 			this.VersionControlAdapter.Received().DeleteMapping(SERVER_PATH_AKISBV_5_0_40, Arg.Any<string>());
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
+		public void TestMergeChangeset_PendingChanges_on_Targetbranch()
+		{
+			// Arrange
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
+
+			this.VersionControlAdapter.HasPendingChanges(SERVER_PATH_AKISBV_MAIN).Returns(true);
+			
+			// Act
+			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN);
 		}
 
 		[TestMethod]

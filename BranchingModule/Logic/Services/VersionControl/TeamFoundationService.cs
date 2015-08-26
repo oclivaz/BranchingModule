@@ -143,6 +143,9 @@ namespace BranchingModule.Logic
 		public string MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, BranchInfo targetBranch)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");
+			if(!this.VersionControlAdapter.ServerItemExists(this.Convention.GetServerPath(sourceBranch))) throw new ArgumentException(string.Format("Serverpath {0} for {1} does not exist.", this.Convention.GetServerPath(sourceBranch), sourceBranch));
+			if(!this.VersionControlAdapter.ServerItemExists(this.Convention.GetServerPath(targetBranch))) throw new ArgumentException(string.Format("Serverpath {0} for {1} does not exist.", this.Convention.GetServerPath(targetBranch), targetBranch));
+			if(this.VersionControlAdapter.HasPendingChanges(this.Convention.GetServerPath(targetBranch))) throw new ArgumentException(string.Format("Serverpath {0} for {1} has pending Changes.", this.Convention.GetServerPath(targetBranch), targetBranch));
 
 			bool bSourcebranchMappingCreated = EnsureMapping(sourceBranch);
 			bool bTargetbranchMappingCreated = EnsureMapping(targetBranch);
