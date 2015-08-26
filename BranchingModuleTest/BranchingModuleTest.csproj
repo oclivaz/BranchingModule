@@ -59,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
+    <Compile Include="Base\ExceptionAssert.cs" />
     <Compile Include="Base\BranchingModuleTestBase.cs" />
     <Compile Include="Builder\DateTimeBuilder.cs" />
     <Compile Include="DependencyInjection\Factories\SettingsFactory.cs" />

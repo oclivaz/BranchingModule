@@ -90,14 +90,13 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void TestCreateMapping_with_invalid_server_path()
 		{
 			// Arrange
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(false);
 
 			// Act
-			this.VersionControlService.CreateMapping(AKISBV_5_0_35);
+			ExceptionAssert.Throws<ArgumentException>(() => this.VersionControlService.CreateMapping(AKISBV_5_0_35), "does not exist");
 		}
 
 		[TestMethod]
@@ -311,7 +310,6 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void TestMergeChangeset_PendingChanges_on_Targetbranch()
 		{
 			// Arrange
@@ -321,7 +319,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlAdapter.HasPendingChanges(SERVER_PATH_AKISBV_MAIN).Returns(true);
 			
 			// Act
-			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN);
+			ExceptionAssert.Throws<ArgumentException>(() => this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN), "has pending Changes");
 		}
 
 		[TestMethod]
