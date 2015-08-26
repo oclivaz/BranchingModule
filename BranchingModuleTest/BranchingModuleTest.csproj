@@ -62,7 +62,6 @@
     <Compile Include="Base\ExceptionAssert.cs" />
     <Compile Include="Base\BranchingModuleTestBase.cs" />
     <Compile Include="Builder\DateTimeBuilder.cs" />
-    <Compile Include="DependencyInjection\Factories\SettingsFactory.cs" />
     <Compile Include="DependencyInjection\ControllerFactoryTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
     <Compile Include="Logic\Controller\GetLatestControllerTest.cs" />
