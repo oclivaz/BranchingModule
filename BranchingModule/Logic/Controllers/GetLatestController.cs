@@ -16,7 +16,7 @@ namespace BranchingModule.Logic
 
 		#region Constructors
 		public GetLatestController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService,
-		                           IDumpService dumpService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
+								   IDumpService dumpService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");

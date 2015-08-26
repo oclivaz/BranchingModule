@@ -14,7 +14,6 @@ namespace BranchingModuleTest.Logic.Controller
 		private IVersionControlService VersionControl { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
 		private IAdeNetService AdeNet { get; set; }
-		private IConfigFileService ConfigFileService { get; set; }
 		private IDumpService Dump { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
 		#endregion
@@ -26,11 +25,10 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl = Substitute.For<IVersionControlService>();
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
-			this.ConfigFileService = Substitute.For<IConfigFileService>();
 			this.Dump = Substitute.For<IDumpService>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
 			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Dump, this.FileExecution, new ConventionDummy(),
-																 new TextOutputServiceDummy());
+			                                                   new TextOutputServiceDummy());
 		}
 		#endregion
 

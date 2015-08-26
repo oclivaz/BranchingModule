@@ -65,5 +65,15 @@ namespace BranchingModuleTest.DependencyInjection
 			// Act
 			factory.Get<RemoveReleasebranchController>();
 		}
+
+		[TestMethod]
+		public void TestCreate_GetLatestController()
+		{
+			// Arrange
+			IControllerFactory factory = new ControllerFactory();
+
+			// Act
+			factory.Get<GetLatestController>();
+		}
 	}
 }
