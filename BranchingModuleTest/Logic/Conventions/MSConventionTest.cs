@@ -118,6 +118,16 @@ namespace BranchingModuleTest.Logic.Conventions
 		}
 
 		[TestMethod]
+		public void TestGetBranchInfoByServerItem_Developmentbranch()
+		{
+			// Act
+			BranchInfo branch = this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Development/Std-10/Something/that/doesnt.matter");
+
+			// Assert
+			Assert.AreEqual(AKISBV_STD_10, branch);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(Exception))]
 		public void TestGetBranchInfoByServerItem_invalid_Releasebranch_without_number()
 		{
@@ -131,14 +141,6 @@ namespace BranchingModuleTest.Logic.Conventions
 		{
 			// Act
 			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Release/1.5z.7/Something/that/doesnt.matter");
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(Exception))]
-		public void TestGetBranchInfoByServerItem_Featurebranch()
-		{
-			// Act
-			this.MSConvention.GetBranchInfoByServerPath("$/AkisBV/Development/SomeName_1/Something/that/doesnt.matter");
 		}
 
 		[TestMethod]
@@ -170,6 +172,20 @@ namespace BranchingModuleTest.Logic.Conventions
 		}
 
 		[TestMethod]
+		public void TestTryGetBranchInfoByServerItem_Developmentbranch()
+		{
+			// Arrange
+			BranchInfo branch;
+
+			// Act
+			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Development/Std-10/Something/that/doesnt.matter", out branch);
+
+			// Assert
+			Assert.IsTrue(bSuccess);
+			Assert.AreEqual(AKISBV_STD_10, branch);
+		}
+
+		[TestMethod]
 		public void TestTryGetBranchInfoByServerItem_Releasebranch()
 		{
 			// Arrange
@@ -188,7 +204,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		{
 			// Arrange
 			BranchInfo branch;
-			
+
 			// Act
 			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Release", out branch);
 
@@ -204,19 +220,6 @@ namespace BranchingModuleTest.Logic.Conventions
 
 			// Act
 			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Release/1.5z.7/Something/that/doesnt.matter", out branch);
-
-			// Assert
-			Assert.IsFalse(bSuccess);
-		}
-
-		[TestMethod]
-		public void TestTryGetBranchInfoByServerItem_Featurebranch()
-		{
-			// Arrange
-			BranchInfo branch;
-
-			// Act
-			bool bSuccess = this.MSConvention.TryGetBranchInfoByServerPath("$/AkisBV/Development/SomeName_1/Something/that/doesnt.matter", out branch);
 
 			// Assert
 			Assert.IsFalse(bSuccess);

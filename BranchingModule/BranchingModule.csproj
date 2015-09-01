@@ -85,6 +85,7 @@
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\BranchConventionRegistry.cs" />
+    <Compile Include="Logic\Conventions\Branchconventions\MSDevelopmentBranchConvention.cs" />
     <Compile Include="Logic\Conventions\BranchType.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\IBranchConvention.cs" />
     <Compile Include="Logic\Conventions\IBranchConventionRegistry.cs" />

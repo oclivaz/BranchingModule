@@ -11,6 +11,7 @@ namespace BranchingModuleTest.Base
 	{
 		#region Constants
 		protected const string AKISBV = "AkisBV";
+		protected static readonly BranchInfo AKISBV_STD_10 = new BranchInfo(AKISBV, "Std-10");
 		protected static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo(AKISBV, "5.0.35");
 		protected static readonly BranchInfo AKISBV_5_0_40 = new BranchInfo(AKISBV, "5.0.40");
 		protected static readonly BranchInfo AKISBV_5_0_60 = new BranchInfo(AKISBV, "1.2.3");

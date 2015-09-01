@@ -20,6 +20,7 @@ namespace BranchingModule.Logic
 			this.BranchConventionRegistry = new BranchConventionRegistry();
 			this.BranchConventionRegistry.Register(new MSMainbranchConvention(this.Settings));
 			this.BranchConventionRegistry.Register(new MSReleasebranchConvention(this.Settings));
+			this.BranchConventionRegistry.Register(new MSDevelopmentBranchConvention(this.Settings));
 		}
 		#endregion
 
