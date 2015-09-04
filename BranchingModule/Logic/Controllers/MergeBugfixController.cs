@@ -8,18 +8,20 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IVersionControlService VersionControl { get; set; }
+		private IUserInputService UserInputService { get; set; }
 		private ISettings Settings { get; set; }
 		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors
-		public MergeBugfixController(IVersionControlService versionControlService, ISettings settings, IConvention convention)
+		public MergeBugfixController(IVersionControlService versionControlService, IUserInputService userInputService, ISettings settings, IConvention convention)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.VersionControl = versionControlService;
+			this.UserInputService = userInputService;
 			this.Settings = settings;
 			this.Convention = convention;
 		}
@@ -30,6 +32,12 @@ namespace BranchingModule.Logic
 		{
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
+
+			string strComment = this.VersionControl.GetChangesetComment(strChangeset);
+			if(!this.UserInputService.RequestConfirmation(string.Format("Merge Changeset {0} - \"{1}\"?", strChangeset, strComment)))
+			{
+				return;
+			}
 
 			BranchInfo sourceBranch = this.VersionControl.GetBranchInfoByChangeset(strChangeset);
 

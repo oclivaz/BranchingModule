@@ -126,6 +126,13 @@ namespace BranchingModule.Logic
 			this.VersionControlAdapter.Get(this.Convention.GetServerPath(branch));
 		}
 
+		public string GetChangesetComment(string strChangeset)
+		{
+			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
+
+			return this.VersionControlAdapter.GetComment(strChangeset);
+		}
+
 		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)
 		{
 			if(strChangesetToMerge == null) throw new ArgumentNullException("strChangesetToMerge");

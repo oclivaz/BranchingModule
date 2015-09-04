@@ -42,6 +42,7 @@ namespace BranchingModule.Logic
 				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
 				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();
 				Bind<ITextOutputService>().To<TextOutputService>().InSingletonScope();
+				Bind<IUserInputService>().To<UserInputService>().InSingletonScope();
 				Bind<IFileExecutionService>().To<FileExecutionService>().InSingletonScope();
 
 				// Other

@@ -2,7 +2,7 @@
 
 namespace BranchingModuleTest.TestDoubles
 {
-	class TextOutputServiceDummy : ITextOutputService
+	internal class TextOutputServiceDummy : ITextOutputService
 	{
 		public void RegisterListener(ITextOutputListener listener)
 		{

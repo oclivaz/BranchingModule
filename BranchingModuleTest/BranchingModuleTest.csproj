@@ -82,6 +82,7 @@
     <Compile Include="Logic\Services\ConfigFileServiceTest.cs" />
     <Compile Include="Logic\Services\AdeNetServiceTest.cs" />
     <Compile Include="Logic\Services\MsBuildServiceTest.cs" />
+    <Compile Include="Logic\Services\UserInputServiceTest.cs" />
     <Compile Include="Logic\Settings\SettingsTest.cs" />
     <Compile Include="Logic\Conventions\BranchInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="TestDoubles\ReleasebranchConventionDummy.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />
     <Compile Include="TestDoubles\TextOutputServiceDummy.cs" />
+    <Compile Include="TestDoubles\UserInputServiceDummy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BranchingModule\BranchingModule.csproj">

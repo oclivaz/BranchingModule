@@ -5,7 +5,7 @@ using BranchingModule.Logic;
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsData.Merge, "Bugfix")]
-	public class MergeBugfix : PSCmdlet, ITextOutputListener
+	public class MergeBugfix : PSCmdlet, ITextOutputListener, IUserInputProvider
 	{
 		#region Properties
 		[Parameter(
@@ -21,6 +21,16 @@ namespace BranchingModule.Cmdlets
 		public string Targetbranches { get; set; }
 		#endregion
 
+		#region Publics
+		public bool RequestConfirmation(string strMessageToConfirm)
+		{
+			Console.WriteLine(strMessageToConfirm);
+			string strInput = Console.ReadLine();
+
+			return strInput == "yes";
+		}
+		#endregion
+
 		#region Protecteds
 		protected override void ProcessRecord()
 		{
@@ -29,6 +39,9 @@ namespace BranchingModule.Cmdlets
 
 			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
 			textOutputService.RegisterListener(this);
+
+			IUserInputService userInputService = factory.Get<IUserInputService>();
+			userInputService.SetProvider(this);
 
 			try
 			{

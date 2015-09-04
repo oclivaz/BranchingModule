@@ -109,6 +109,9 @@
     <Compile Include="Logic\Adapters\FileSystem\FileSystemAdapter.cs" />
     <Compile Include="Logic\Services\FileSystem\IFileExecutionService.cs" />
     <Compile Include="Logic\Adapters\FileSystem\IFileSystemAdapter.cs" />
+    <Compile Include="Logic\Services\UserInput\IUserInputProvider.cs" />
+    <Compile Include="Logic\Services\UserInput\IUserInputService.cs" />
+    <Compile Include="Logic\Services\UserInput\UserInputService.cs" />
     <Compile Include="Logic\Services\VersionControl\IVersionControlService.cs" />
     <Compile Include="Logic\Adapters\VersionControl\ITeamFoundationVersionControlAdapter.cs" />
     <Compile Include="Logic\Services\VersionControl\TeamFoundationService.cs" />

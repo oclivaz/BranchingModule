@@ -153,7 +153,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlService.CreateBranch(AKISBV_5_0_35);
 
 			// Assert
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateBranch(DONT_CARE, DONT_CARE, DONT_CARE);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateBranch(ANY_STRING, ANY_STRING, ANY_STRING);
 		}
 
 		[TestMethod]
@@ -162,7 +162,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Arrange
 			IConvention convention = Substitute.For<IConvention>();
 
-			convention.GetBranchInfoByServerPath(DONT_CARE).ReturnsForAnyArgs(AKISBV_5_0_35);
+			convention.GetBranchInfoByServerPath(ANY_STRING).ReturnsForAnyArgs(AKISBV_5_0_35);
 			this.VersionControlAdapter.GetServerItemsByChangeset(CHANGESETNUMBER).Returns(new[] { SERVER_PATH_AKISBV_5_0_35 });
 
 			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
@@ -195,7 +195,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestMergeChangeset_both_branches_mapped_without_conflict()
 		{
 			// Arrange
-			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
+			this.VersionControlAdapter.IsServerPathMapped(ANY_STRING).ReturnsForAnyArgs(true);
 			this.VersionControlAdapter.HasPendingChanges(SERVER_PATH_AKISBV_MAIN).Returns(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
@@ -205,25 +205,25 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN);
 
 			// Assert
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(DONT_CARE, DONT_CARE);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(ANY_STRING, ANY_STRING);
 			Received.InOrder(() =>
 			                 {
-								 this.VersionControlAdapter.Get(SERVER_PATH_AKISBV_MAIN);
+				                 this.VersionControlAdapter.Get(SERVER_PATH_AKISBV_MAIN);
 				                 this.VersionControlAdapter.Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN);
 				                 this.VersionControlAdapter.Get(SERVER_PATH_AKISBV_MAIN); // Leider nötig
 				                 this.VersionControlAdapter.CheckIn(SERVER_PATH_AKISBV_MAIN, Arg.Any<string>());
 			                 }
 				);
-			
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(DONT_CARE, DONT_CARE);
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(DONT_CARE, DONT_CARE);
+
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().CreateMapping(ANY_STRING, ANY_STRING);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(ANY_STRING, ANY_STRING);
 		}
 
 		[TestMethod]
 		public void TestMergeChangeset_both_branches_mapped_with_conflict()
 		{
 			// Arrange
-			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
+			this.VersionControlAdapter.IsServerPathMapped(ANY_STRING).ReturnsForAnyArgs(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
@@ -235,8 +235,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlAdapter.Received().Merge(CHANGESETNUMBER, SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN);
 			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_5_0_35);
 			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_MAIN);
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().Undo(DONT_CARE);
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(DONT_CARE, DONT_CARE);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().Undo(ANY_STRING);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteMapping(ANY_STRING, ANY_STRING);
 		}
 
 		[TestMethod]
@@ -245,7 +245,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Arrange
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
-			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
+			this.VersionControlAdapter.IsServerPathMapped(ANY_STRING).ReturnsForAnyArgs(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
 
 			// Act
@@ -266,7 +266,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestMergeChangeset_multiple_targetbranches()
 		{
 			// Arrange
-			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(true);
+			this.VersionControlAdapter.IsServerPathMapped(ANY_STRING).ReturnsForAnyArgs(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_MAIN).Returns(false);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
@@ -289,7 +289,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_40).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
-			this.VersionControlAdapter.IsServerPathMapped(DONT_CARE).ReturnsForAnyArgs(false);
+			this.VersionControlAdapter.IsServerPathMapped(ANY_STRING).ReturnsForAnyArgs(false);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_5_0_35).Returns(true);
 			this.VersionControlAdapter.HasConflicts(SERVER_PATH_AKISBV_5_0_40).Returns(false);
 
@@ -317,7 +317,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlAdapter.ServerItemExists(SERVER_PATH_AKISBV_MAIN).Returns(true);
 
 			this.VersionControlAdapter.HasPendingChanges(SERVER_PATH_AKISBV_MAIN).Returns(true);
-			
+
 			// Act
 			ExceptionAssert.Throws<ArgumentException>(() => this.VersionControlService.MergeChangeset(CHANGESETNUMBER, AKISBV_5_0_35, AKISBV_MAIN), "has pending Changes");
 		}
@@ -345,7 +345,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.VersionControlService.DeleteBranch(AKISBV_5_0_35);
 
 			// Assert
-			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteBranch(DONT_CARE);
+			this.VersionControlAdapter.DidNotReceiveWithAnyArgs().DeleteBranch(ANY_STRING);
 		}
 
 		[TestMethod]
@@ -358,7 +358,7 @@ namespace BranchingModuleTest.Logic.Services
 
 			BranchInfo branch;
 			convention.TryGetBranchInfoByServerPath(SERVER_BASEPATH_AKISBV_5_0_35, out branch).Returns(BranchInfoOut(AKISBV_5_0_35));
-			
+
 			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
 
 			// Act
@@ -397,6 +397,19 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.VersionControlAdapter.Received().Get(SERVER_PATH_AKISBV_5_0_35);
 		}
+
+		[TestMethod]
+		public void TestGetChangesetComment()
+		{
+			// Arrange
+			this.VersionControlAdapter.GetComment(CHANGESETNUMBER).Returns(COMMENT);
+
+			// Act
+			string strComment = this.VersionControlService.GetChangesetComment(CHANGESETNUMBER);
+
+			// Assert
+			Assert.AreEqual(COMMENT, strComment);
+		}
 		#endregion
 
 		#region Privates
@@ -412,10 +425,10 @@ namespace BranchingModuleTest.Logic.Services
 		private static Func<CallInfo, bool> NoSuccess()
 		{
 			return x =>
-			{
-				x[1] = new BranchInfo();
-				return false;
-			};
+			       {
+				       x[1] = new BranchInfo();
+				       return false;
+			       };
 		}
 		#endregion
 	}
