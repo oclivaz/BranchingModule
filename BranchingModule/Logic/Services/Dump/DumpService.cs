@@ -40,7 +40,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void RestoreDump(BranchInfo branch)
 		{
-			EnsureLocalDump(branch);
+			GetDump(branch);
 
 			RestoreLocalDump(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
 		}
@@ -66,27 +66,19 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Privates
-		private void EnsureLocalDump(BranchInfo branch)
+		private void GetDump(BranchInfo branch)
 		{
-			string strLocalDump = this.Convention.GetLocalDump(branch);
-
-			if(this.FileSystem.Exists(strLocalDump))
-			{
-				this.TextOutput.WriteVerbose("Dump already exists locally. Skipping...");
-				return;
-			}
-
 			string strBuildServerDump = this.Convention.GetBuildserverDump(branch);
 
 			if(this.FileSystem.Exists(strBuildServerDump))
 			{
 				this.TextOutput.WriteVerbose(string.Format("Getting {0}", strBuildServerDump));
-				this.FileSystem.Copy(strBuildServerDump, strLocalDump);
+				this.FileSystem.Copy(strBuildServerDump, this.Convention.GetLocalDump(branch));
 			}
 			else
 			{
 				this.TextOutput.WriteVerbose("Getting Dump from Repository");
-				this.DumpRepository.CopyDump(branch, strLocalDump);
+				this.DumpRepository.CopyDump(branch, this.Convention.GetLocalDump(branch));
 			}
 		}
 
