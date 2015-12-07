@@ -43,7 +43,7 @@ namespace BranchingModule.Logic
 		{
 			// TODO: Introduce ISettings.LocalDatabasePath
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
-			return String.Format(@"c:\Database\{0}\{1}.bak", teamProjectSettings.LocalDB, teamProjectSettings.RefDB);
+			return String.Format(@"c:\Database\{0}\{1}.bak", teamProjectSettings.LocalDB, branch.TeamProject);
 		}
 
 		public override string GetApplicationName(BranchInfo branch)

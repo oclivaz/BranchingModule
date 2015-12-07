@@ -73,7 +73,7 @@ namespace BranchingModuleTest.Logic.Conventions
 			string strBuildserverDump = this.MSMainbranchConvention.GetLocalDump(AKISBV_5_0_35);
 
 			// Assert
-			Assert.AreEqual(@"c:\database\TheLocalDBName\dump.bak", strBuildserverDump, true);
+			Assert.AreEqual(@"c:\database\TheLocalDBName\AkisBV.bak", strBuildserverDump, true);
 		}
 
 		[TestMethod]
