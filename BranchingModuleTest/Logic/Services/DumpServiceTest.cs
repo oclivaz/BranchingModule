@@ -1,4 +1,5 @@
-﻿using BranchingModule.Logic;
+﻿using System;
+using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,8 +10,11 @@ namespace BranchingModuleTest.Logic.Services
 	[TestClass]
 	public class DumpServiceTest : BranchingModuleTestBase
 	{
-		#region Fields
+		#region Constants
 		private const string RESTORE_DATABASE = "RESTORE DATABASE";
+		#endregion
+
+		#region Fields
 		private readonly string LOCAL_DUMP = ReleasebranchConventionDummy.GetLocalDump(AKISBV_5_0_35);
 		private readonly string BUILDSERVER_DUMP = ReleasebranchConventionDummy.GetBuildserverDump(AKISBV_5_0_35);
 		#endregion
@@ -24,7 +28,7 @@ namespace BranchingModuleTest.Logic.Services
 
 		private IDumpRepositoryService DumpRepository { get; set; }
 
-		private ISQLServerAdapter IsqlServer { get; set; }
+		private ISQLServerAdapter SQLServer { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -34,8 +38,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
-			this.IsqlServer = Substitute.For<ISQLServerAdapter>();
-			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.IsqlServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
+			this.SQLServer = Substitute.For<ISQLServerAdapter>();
+			this.DumpService = new DumpService(this.DumpRepository, this.FileSystem, this.SQLServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -55,7 +59,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.Received().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
-			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
@@ -72,7 +76,7 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
-			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
@@ -90,7 +94,27 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
 			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
-			this.IsqlServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestoreDump_with_exception_while_restoring()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP).Returns(true);
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Kill"))).Returns("Kill");
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Post"))).Returns("Post");
+
+			RestoreDatabaseThrowsExceptionForFirstTwoTimes();
+
+			// Act
+			this.DumpService.RestoreDump(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+			this.SQLServer.Received(3).ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
@@ -116,6 +140,23 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+		}
+		#endregion
+
+		#region Privates
+		private void RestoreDatabaseThrowsExceptionForFirstTwoTimes()
+		{
+			int i = 0;
+
+			this.SQLServer.When(x => x.ExecuteScript(RESTORE_DATABASE, Arg.Any<string>()))
+			    .Do(x =>
+			        {
+				        if(i < 2)
+				        {
+					        i++;
+					        throw new Exception();
+				        }
+			        });
 		}
 		#endregion
 	}

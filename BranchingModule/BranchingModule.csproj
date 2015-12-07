@@ -130,6 +130,7 @@
     <Compile Include="Logic\Services\TextOutput\TextOutputService.cs" />
     <Compile Include="Logic\Settings\Settings.cs" />
     <Compile Include="Logic\Settings\TeamProjectSettings.cs" />
+    <Compile Include="Logic\Utils\Retry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\Settings\ITeamProjectSettings.cs" />
     <Compile Include="Logic\Settings\ISettings.cs" />
