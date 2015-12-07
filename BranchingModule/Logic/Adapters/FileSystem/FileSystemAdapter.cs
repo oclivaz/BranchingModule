@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using BranchingModule.Logic.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace BranchingModule.Logic
@@ -41,7 +42,7 @@ namespace BranchingModule.Logic
 
 		public void DeleteDirectory(string strDirectory)
 		{
-			if(Directory.Exists(strDirectory)) Directory.Delete(strDirectory, true);
+			if(Directory.Exists(strDirectory)) Retry.Do(() => Directory.Delete(strDirectory, true), new TimeSpan(0, 0, 0, 0, 200));
 		}
 
 		public bool Exists(string strFile)
