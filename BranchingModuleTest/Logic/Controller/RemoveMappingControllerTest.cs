@@ -14,6 +14,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
+		private IDumpService Dump { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -23,8 +24,9 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl = Substitute.For<IVersionControlService>();
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
+			this.Dump = Substitute.For<IDumpService>();
 
-			this.RemoveMappingController = new RemoveMappingController(this.VersionControl, this.AdeNet, this.FileSystem, new ConventionDummy(), new TextOutputServiceDummy());
+			this.RemoveMappingController = new RemoveMappingController(this.VersionControl, this.AdeNet, this.FileSystem, this.Dump, new ConventionDummy(), new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -39,6 +41,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().DeleteMapping(AKISBV_5_0_35);
 			this.FileSystem.Received().DeleteDirectory(LOCAL_PATH_AKISBV_5_0_35);
 			this.AdeNet.Received().RemoveApplication(AKISBV_5_0_35);
+			this.Dump.Received().DeleteLocalDump(AKISBV_5_0_35);
 		}
 		#endregion
 	}

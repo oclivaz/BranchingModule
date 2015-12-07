@@ -141,6 +141,32 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
 		}
+
+		[TestMethod]
+		public void TestDeleteLocalDump_with_local_dump()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
+
+			// Act
+			this.DumpService.DeleteLocalDump(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.Received().DeleteFile(LOCAL_DUMP_AKISBV_5_0_35);
+		}
+
+		[TestMethod]
+		public void TestDeleteLocalDump_without_local_dump()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(false);
+			
+			// Act
+			this.DumpService.DeleteLocalDump(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.DidNotReceive().DeleteFile(LOCAL_DUMP_AKISBV_5_0_35);
+		}
 		#endregion
 
 		#region Privates

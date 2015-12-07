@@ -15,16 +15,18 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Properties
+		public ISQLServerAdapter SQLServer { get; set; }
+		public ITextOutputService TextOutput { get; set; }
+
 		private IDumpRepositoryService DumpRepository { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
-		public ISQLServerAdapter SQLServer { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
-		public ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IConvention convention, ISettings settings,
+		                   ITextOutputService textOutputService)
 		{
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemAdapter;
@@ -52,6 +54,14 @@ namespace BranchingModule.Logic
 			}
 
 			this.DumpRepository.CopyDump(branch, this.Convention.GetBuildserverDump(branch));
+		}
+
+		public void DeleteLocalDump(BranchInfo branch)
+		{
+			if(this.FileSystem.Exists(this.Convention.GetLocalDump(branch)))
+			{
+				this.FileSystem.DeleteFile(this.Convention.GetLocalDump(branch));
+			}
 		}
 		#endregion
 
@@ -87,13 +97,12 @@ namespace BranchingModule.Logic
 
 			Retry.Do(() =>
 			         {
-						 this.TextOutput.WriteVerbose(string.Format("Restoring {0} into {1}", strDump, strDB));
+				         this.TextOutput.WriteVerbose(string.Format("Restoring {0} into {1}", strDump, strDB));
 
 				         this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
 				         this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
 				         this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);
 			         }, new TimeSpan(0, 0, 0, 0, 500));
-
 		}
 
 		private string GetKillConnectionsScript(string strDB)

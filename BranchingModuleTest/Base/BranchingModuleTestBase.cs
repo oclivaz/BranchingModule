@@ -18,6 +18,7 @@ namespace BranchingModuleTest.Base
 		protected static readonly BranchInfo AKISBV_MAIN = ConventionDummy.MainBranch(AKISBV);
 		protected static readonly BranchInfo ANY_BRANCH = new BranchInfo(ANY_STRING, ANY_STRING);
 		protected static readonly string LOCAL_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);
+		protected static readonly string LOCAL_DUMP_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalDump(AKISBV_5_0_35);
 		protected static readonly string LOCAL_SOLUTION_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);
 		protected static readonly string LOCAL_SOLUTION_FILE_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetSolutionFile(AKISBV_5_0_35);
 		protected static readonly string SERVER_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetServerPath(AKISBV_5_0_35);
