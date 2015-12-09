@@ -15,7 +15,7 @@ namespace BranchingModule.Cmdlets
 		public string Teamproject { get; set; }
 
 		[Parameter(
-			Mandatory = true,
+			Mandatory = false,
 			Position = 1
 			)]
 		public string Branch { get; set; }
@@ -32,7 +32,7 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.RemoveMapping(new BranchInfo(this.Teamproject, this.Branch));
+				controller.RemoveMapping(BranchInfo.Create(this.Teamproject, this.Branch));
 			}
 			catch(Exception ex)
 			{

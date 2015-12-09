@@ -15,7 +15,7 @@ namespace BranchingModule.Cmdlets
 		public string Teamproject { get; set; }
 
 		[Parameter(
-			Mandatory = true,
+			Mandatory = false,
 			Position = 1
 			)]
 		public string Branch { get; set; }
@@ -44,7 +44,7 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
-				controller.AddMapping(new BranchInfo(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
+				controller.AddMapping(BranchInfo.Create(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
 			}
 			catch(Exception ex)
 			{
