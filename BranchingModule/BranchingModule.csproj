@@ -72,18 +72,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
+    <Compile Include="Cmdlets\RestoreDatabase.cs" />
     <Compile Include="Cmdlets\GetLatest.cs" />
     <Compile Include="Cmdlets\OpenSolution.cs" />
     <Compile Include="Cmdlets\MergeBugfix.cs" />
     <Compile Include="Cmdlets\AddReleaseBranch.cs" />
     <Compile Include="Cmdlets\RemoveReleasebranch.cs" />
     <Compile Include="Cmdlets\RemoveMapping.cs" />
+    <Compile Include="Cmdlets\BackupDatabase.cs" />
+    <Compile Include="Logic\Controllers\RestoreDatabaseController.cs" />
     <Compile Include="Logic\Controllers\GetLatestController.cs" />
     <Compile Include="Logic\Controllers\OpenSolutionController.cs" />
     <Compile Include="Logic\Controllers\MergeBugfixController.cs" />
     <Compile Include="Logic\Controllers\AddReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
+    <Compile Include="Logic\Controllers\BackupDatabaseController.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\BranchConventionRegistry.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\MSDevelopmentBranchConvention.cs" />
     <Compile Include="Logic\Conventions\BranchType.cs" />
@@ -100,10 +104,10 @@
     <Compile Include="Logic\Services\AdeNet\IAdeNetService.cs" />
     <Compile Include="Logic\Services\BuildEngine\IBuildEngineService.cs" />
     <Compile Include="Logic\Services\BuildEngine\MsBuildService.cs" />
-    <Compile Include="Logic\Services\Dump\DumpRepositoryService.cs" />
-    <Compile Include="Logic\Services\Dump\DumpService.cs" />
-    <Compile Include="Logic\Services\Dump\IDumpRepositoryService.cs" />
-    <Compile Include="Logic\Services\Dump\IDumpService.cs" />
+    <Compile Include="Logic\Services\Database\DumpRepositoryService.cs" />
+    <Compile Include="Logic\Services\Database\DatabaseService.cs" />
+    <Compile Include="Logic\Services\Database\IDumpRepositoryService.cs" />
+    <Compile Include="Logic\Services\Database\IDatabaseService.cs" />
     <Compile Include="Logic\Services\FileSystem\Executables.cs" />
     <Compile Include="Logic\Services\FileSystem\FileExecutionService.cs" />
     <Compile Include="Logic\Adapters\FileSystem\FileSystemAdapter.cs" />

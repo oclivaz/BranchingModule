@@ -8,7 +8,7 @@ namespace BranchingModule.Logic
 		public IFileExecutionService FileExecution { get; set; }
 		public IConvention Convention { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
-		private IDumpService Dump { get; set; }
+		private IDatabaseService Database { get; set; }
 		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private ITextOutputService TextOutput { get; set; }
@@ -16,7 +16,7 @@ namespace BranchingModule.Logic
 
 		#region Constructors
 		public GetLatestController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService,
-								   IDumpService dumpService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
+								   IDatabaseService databaseService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
@@ -26,7 +26,7 @@ namespace BranchingModule.Logic
 			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
-			this.Dump = dumpService;
+			this.Database = databaseService;
 			this.FileExecution = fileExecutionService;
 			this.Convention = convention;
 			this.TextOutput = textOutputService;
@@ -43,7 +43,7 @@ namespace BranchingModule.Logic
 			this.AdeNet.InstallPackages(branch);
 
 			this.TextOutput.WriteVerbose("Restoring Dump");
-			this.Dump.RestoreDump(branch);
+			this.Database.Restore(branch);
 
 			this.TextOutput.WriteVerbose("Building Solution");
 			this.BuildEngine.Build(branch);

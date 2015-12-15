@@ -1,8 +1,9 @@
 ﻿namespace BranchingModule.Logic
 {
-	public interface IDumpService
+	public interface IDatabaseService
 	{
-		void RestoreDump(BranchInfo branch);
+		void Backup(BranchInfo branch);
+		void Restore(BranchInfo branch);
 		void InstallBuildserverDump(BranchInfo branch);
 		void DeleteLocalDump(BranchInfo branch);
 	}

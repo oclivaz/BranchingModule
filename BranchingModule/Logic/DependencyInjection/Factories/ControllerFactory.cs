@@ -37,7 +37,7 @@ namespace BranchingModule.Logic
 				Bind<IAdeNetService>().To<AdeNetService>().InSingletonScope();
 				Bind<IBuildEngineService>().To<MsBuildService>().InSingletonScope();
 				Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
-				Bind<IDumpService>().To<DumpService>().InSingletonScope();
+				Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
 				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
 				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();

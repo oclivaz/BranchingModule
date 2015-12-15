@@ -10,8 +10,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Properties
-		public ITextOutputService TextOutput { get; set; }
-
+		private ITextOutputService TextOutput { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }

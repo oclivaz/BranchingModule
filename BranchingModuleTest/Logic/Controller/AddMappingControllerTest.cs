@@ -15,7 +15,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IBuildEngineService BuildEngine { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IConfigFileService ConfigFileService { get; set; }
-		private IDumpService Dump { get; set; }
+		private IDatabaseService Database { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
 		#endregion
 
@@ -27,9 +27,9 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
-			this.Dump = Substitute.For<IDumpService>();
+			this.Database = Substitute.For<IDatabaseService>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Dump, this.FileExecution, new ConventionDummy(),
+			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Database, this.FileExecution, new ConventionDummy(),
 			                                                     new TextOutputServiceDummy());
 		}
 		#endregion
@@ -49,7 +49,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.Received().BuildWebConfig(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
-			this.Dump.Received().RestoreDump(AKISBV_5_0_35);
+			this.Database.Received().Restore(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
@@ -66,7 +66,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
-			this.Dump.DidNotReceive().RestoreDump(Arg.Any<BranchInfo>());
+			this.Database.DidNotReceive().Restore(Arg.Any<BranchInfo>());
 		}
 
 		[TestMethod]
@@ -83,7 +83,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
-			this.Dump.DidNotReceive().RestoreDump(Arg.Any<BranchInfo>());
+			this.Database.DidNotReceive().Restore(Arg.Any<BranchInfo>());
 			this.FileExecution.Received().StartProcess(Executables.EXPLORER, LOCAL_SOLUTION_FILE_PATH_AKISBV_5_0_35);
 		}
 

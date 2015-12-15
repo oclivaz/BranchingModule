@@ -8,9 +8,9 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IVersionControlService VersionControl { get; set; }
-		public IFileSystemAdapter FileSystem { get; set; }
+		private IFileSystemAdapter FileSystem { get; set; }
 		private ISettings Settings { get; set; }
-		public ITextOutputService TextOutput { get; set; }
+		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors

@@ -4,20 +4,20 @@ using SmartFormat;
 
 namespace BranchingModule.Logic
 {
-	internal class DumpService : IDumpService
+	internal class DatabaseService : IDatabaseService
 	{
 		#region Constants
 		private const string MASTER = "master";
 
+		private const string SCRIPT_BACKUP_DATABASE = "BackupDatabase.sql";
 		private const string SCRIPT_RESTORE_DATABASE = "RestoreDatabase.sql";
 		private const string SCRIPT_KILL_CONNECTIONS = "KillConnections.sql";
 		private const string SCRIPT_POST_RESTORE_UPDATES = "PostRestoreUpdates.sql";
 		#endregion
 
 		#region Properties
-		public ISQLServerAdapter SQLServer { get; set; }
-		public ITextOutputService TextOutput { get; set; }
-
+		private ISQLServerAdapter SQLServer { get; set; }
+		private ITextOutputService TextOutput { get; set; }
 		private IDumpRepositoryService DumpRepository { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
 		private IConvention Convention { get; set; }
@@ -25,8 +25,8 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public DumpService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IConvention convention, ISettings settings,
-		                   ITextOutputService textOutputService)
+		public DatabaseService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IConvention convention, ISettings settings,
+		                       ITextOutputService textOutputService)
 		{
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemAdapter;
@@ -38,7 +38,12 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void RestoreDump(BranchInfo branch)
+		public void Backup(BranchInfo branch)
+		{
+			this.SQLServer.ExecuteScript(GetBackupDatabaseScript(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
+		}
+
+		public void Restore(BranchInfo branch)
 		{
 			GetDump(branch);
 
@@ -101,6 +106,12 @@ namespace BranchingModule.Logic
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_KILL_CONNECTIONS);
 			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
+		}
+
+		private string GetBackupDatabaseScript(string strDump, string strDB)
+		{
+			string strScriptPath = GetScriptPath(SCRIPT_BACKUP_DATABASE);
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
 		}
 
 		private string GetRestoreDatabaseScript(string strDump, string strDB)

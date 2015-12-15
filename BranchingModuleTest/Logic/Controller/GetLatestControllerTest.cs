@@ -14,7 +14,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IVersionControlService VersionControl { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
 		private IAdeNetService AdeNet { get; set; }
-		private IDumpService Dump { get; set; }
+		private IDatabaseService Database { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
 		#endregion
 
@@ -25,9 +25,9 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl = Substitute.For<IVersionControlService>();
 			this.AdeNet = Substitute.For<IAdeNetService>();
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
-			this.Dump = Substitute.For<IDumpService>();
+			this.Database = Substitute.For<IDatabaseService>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Dump, this.FileExecution, new ConventionDummy(),
+			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Database, this.FileExecution, new ConventionDummy(),
 			                                                   new TextOutputServiceDummy());
 		}
 		#endregion
@@ -43,7 +43,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().GetLatest(AKISBV_5_0_35);
 			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
-			this.Dump.Received().RestoreDump(AKISBV_5_0_35);
+			this.Database.Received().Restore(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
