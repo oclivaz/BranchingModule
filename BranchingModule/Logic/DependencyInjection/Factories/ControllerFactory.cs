@@ -3,23 +3,23 @@ using Ninject.Modules;
 
 namespace BranchingModule.Logic
 {
-	internal class ControllerFactory : IControllerFactory
+	internal class ControllerFactory
 	{
 		#region Fields
-		private IKernel _kernel;
+		private static IKernel _kernel;
 		#endregion
 
 		#region Properties
-		private IKernel NinjectKernel
+		private static IKernel NinjectKernel
 		{
 			get { return _kernel ?? (_kernel = new StandardKernel(new InjectionModule())); }
 		}
 		#endregion
 
 		#region Publics
-		public T Get<T>()
+		public static T Get<T>()
 		{
-			return this.NinjectKernel.Get<T>();
+			return NinjectKernel.Get<T>();
 		}
 		#endregion
 

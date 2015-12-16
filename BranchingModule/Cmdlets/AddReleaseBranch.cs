@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsCommon.Add, "Releasebranch")]
-	public class AddReleasebranch : PSCmdlet, ITextOutputListener
+	public class AddReleasebranch : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -22,23 +21,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			AddReleasebranchController controller = factory.Get<AddReleasebranchController>();
+			AddReleasebranchController controller = ControllerFactory.Get<AddReleasebranchController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			try
-			{
-				controller.AddReleasebranch(new BranchInfo(this.Teamproject, this.Branch));
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.AddReleasebranch(new BranchInfo(this.Teamproject, this.Branch));
 		}
 		#endregion
 	}

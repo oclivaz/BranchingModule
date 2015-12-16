@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsData.Restore, "Database")]
-	public class RestoreDatabase : PSCmdlet, ITextOutputListener
+	public class RestoreDatabase : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -22,20 +21,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			RestoreDatabaseController controller = factory.Get<RestoreDatabaseController>();
+			RestoreDatabaseController controller = ControllerFactory.Get<RestoreDatabaseController>();
 
-			try
-			{
-				controller.RestoreDatabase(BranchInfo.Create(this.Teamproject, this.Branch));
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.RestoreDatabase(BranchInfo.Create(this.Teamproject, this.Branch));
 		}
 		#endregion
 	}

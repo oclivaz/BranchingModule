@@ -43,6 +43,16 @@ namespace BranchingModule.Logic
 				listener.WriteVerbose(string.Format("{0}.{1}: {2}", sourceClassName, sourceMethod.Name, strText));
 			}
 		}
+
+		public void Write(string strText)
+		{
+			if(strText == null) throw new ArgumentNullException("strText");
+
+			foreach(var listener in this.Listeners)
+			{
+				listener.Write(strText);
+			}
+		}
 		#endregion
 	}
 }

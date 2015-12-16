@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsCommon.Add, "Mapping")]
-	public class AddMapping : PSCmdlet, ITextOutputListener
+	public class AddMapping : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -34,23 +33,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			AddMappingController controller = factory.Get<AddMappingController>();
+			AddMappingController controller = ControllerFactory.Get<AddMappingController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			try
-			{
-				controller.AddMapping(BranchInfo.Create(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.AddMapping(BranchInfo.Create(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
 		}
 		#endregion
 	}

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsCommon.Open, "Solution")]
-	public class OpenSolution : PSCmdlet, ITextOutputListener
+	public class OpenSolution : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -22,23 +21,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			OpenSolutionController controller = factory.Get<OpenSolutionController>();
+			OpenSolutionController controller = ControllerFactory.Get<OpenSolutionController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			try
-			{
-				controller.OpenSolution(BranchInfo.Create(this.Teamproject, this.Branch));
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.OpenSolution(BranchInfo.Create(this.Teamproject, this.Branch));
 		}
 		#endregion
 	}

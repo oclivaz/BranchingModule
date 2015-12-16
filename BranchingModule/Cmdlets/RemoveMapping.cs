@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsCommon.Remove, "Mapping")]
-	public class RemoveMapping : PSCmdlet, ITextOutputListener
+	public class RemoveMapping : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -22,23 +21,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			RemoveMappingController controller = factory.Get<RemoveMappingController>();
+			RemoveMappingController controller = ControllerFactory.Get<RemoveMappingController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			try
-			{
-				controller.RemoveMapping(BranchInfo.Create(this.Teamproject, this.Branch));
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.RemoveMapping(BranchInfo.Create(this.Teamproject, this.Branch));
 		}
 		#endregion
 	}

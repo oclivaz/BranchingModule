@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsCommon.Get, "Latest")]
-	public class GetLatest : PSCmdlet, ITextOutputListener
+	public class GetLatest : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -28,23 +27,11 @@ namespace BranchingModule.Cmdlets
 		#endregion
 
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			GetLatestController controller = factory.Get<GetLatestController>();
+			GetLatestController controller = ControllerFactory.Get<GetLatestController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			try
-			{
-				controller.GetLatest(BranchInfo.Create(this.Teamproject, this.Branch), this.OpenSolution);
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			controller.GetLatest(BranchInfo.Create(this.Teamproject, this.Branch), this.OpenSolution);
 		}
 		#endregion
 	}

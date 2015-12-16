@@ -1,11 +1,10 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
 	[Cmdlet(VerbsData.Merge, "Bugfix")]
-	public class MergeBugfix : PSCmdlet, ITextOutputListener, IUserInputProvider
+	public class MergeBugfix : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		[Parameter(
@@ -21,38 +20,13 @@ namespace BranchingModule.Cmdlets
 		public string Targetbranches { get; set; }
 		#endregion
 
-		#region Publics
-		public bool RequestConfirmation(string strMessageToConfirm)
-		{
-			Console.WriteLine(strMessageToConfirm);
-			string strInput = Console.ReadLine();
-
-			return strInput == "yes";
-		}
-		#endregion
-
 		#region Protecteds
-		protected override void ProcessRecord()
+		protected override void OnProcessRecord()
 		{
-			IControllerFactory factory = new ControllerFactory();
-			MergeBugfixController controller = factory.Get<MergeBugfixController>();
+			MergeBugfixController controller = ControllerFactory.Get<MergeBugfixController>();
 
-			ITextOutputService textOutputService = factory.Get<ITextOutputService>();
-			textOutputService.RegisterListener(this);
-
-			IUserInputService userInputService = factory.Get<IUserInputService>();
-			userInputService.SetProvider(this);
-
-			try
-			{
-				string[] targetBranches = this.Targetbranches != null ? this.Targetbranches.Split(',') : new string[0];
-				controller.MergeBugfix(this.Changeset, targetBranches);
-			}
-			catch(Exception ex)
-			{
-				WriteObject(ex.StackTrace);
-				throw;
-			}
+			string[] targetBranches = this.Targetbranches != null ? this.Targetbranches.Split(',') : new string[0];
+			controller.MergeBugfix(this.Changeset, targetBranches);
 		}
 		#endregion
 	}

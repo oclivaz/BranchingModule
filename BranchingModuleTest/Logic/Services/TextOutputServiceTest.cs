@@ -57,6 +57,23 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
+		public void TestWrite_two_Listeners()
+		{
+			// Arrange
+			ITextOutputListener listener1 = Substitute.For<ITextOutputListener>();
+			ITextOutputListener listener2 = Substitute.For<ITextOutputListener>();
+			this.TextOutputService.RegisterListener(listener1);
+			this.TextOutputService.RegisterListener(listener2);
+
+			// Act
+			this.TextOutputService.Write(SOME_TEXT);
+
+			// Assert
+			listener1.Received().Write(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
+			listener2.Received().Write(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
+		}
+
+		[TestMethod]
 		public void TestWriteVerbose_no_Listener()
 		{
 			// Act

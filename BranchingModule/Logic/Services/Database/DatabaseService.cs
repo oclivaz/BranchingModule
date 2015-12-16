@@ -47,7 +47,7 @@ namespace BranchingModule.Logic
 		{
 			GetDump(branch);
 
-			RestoreLocalDump(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
+			Restore(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
 		}
 
 		public void InstallBuildserverDump(BranchInfo branch)
@@ -87,7 +87,7 @@ namespace BranchingModule.Logic
 			}
 		}
 
-		private void RestoreLocalDump(string strDump, string strDB)
+		private void Restore(string strDump, string strDB)
 		{
 			if(strDump == null) throw new ArgumentNullException("strDump");
 			if(strDB == null) throw new ArgumentNullException("strDB");

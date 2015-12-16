@@ -6,74 +6,76 @@ namespace BranchingModuleTest.DependencyInjection
 	[TestClass]
 	public class ControllerFactoryTest
 	{
+		#region Tests
 		[TestMethod]
 		public void TestCreate_AddMappingController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<AddMappingController>();
+			ControllerFactory.Get<AddMappingController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_AddReleasebranchController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<AddReleasebranchController>();
+			ControllerFactory.Get<AddReleasebranchController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_MergeBugfixController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<MergeBugfixController>();
+			ControllerFactory.Get<MergeBugfixController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_OpenSolutionController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<OpenSolutionController>();
+			ControllerFactory.Get<OpenSolutionController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_RemoveMappingController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<RemoveMappingController>();
+			ControllerFactory.Get<RemoveMappingController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_RemoveReleasebranchController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<RemoveReleasebranchController>();
+			ControllerFactory.Get<RemoveReleasebranchController>();
 		}
 
 		[TestMethod]
 		public void TestCreate_GetLatestController()
 		{
-			// Arrange
-			IControllerFactory factory = new ControllerFactory();
-
 			// Act
-			factory.Get<GetLatestController>();
+			ControllerFactory.Get<GetLatestController>();
 		}
+
+		[TestMethod]
+		public void TestCreate_BackupDatabaseController()
+		{
+			// Act
+			ControllerFactory.Get<BackupDatabaseController>();
+		}
+
+		[TestMethod]
+		public void TestCreate_RestoreDatabaseController()
+		{
+			// Act
+			ControllerFactory.Get<RestoreDatabaseController>();
+		}
+
+		[TestMethod]
+		public void TestCreate_GetReleasebranchesController()
+		{
+			// Act
+			ControllerFactory.Get<GetReleasebranchesController>();
+		}
+		#endregion
 	}
 }
