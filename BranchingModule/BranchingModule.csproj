@@ -99,7 +99,6 @@
     <Compile Include="Logic\Conventions\Branchconventions\MSBranchConventionBase.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\MSMainbranchConvention.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\MSReleasebranchConvention.cs" />
-    <Compile Include="Logic\DependencyInjection\Factories\IControllerFactory.cs" />
     <Compile Include="Logic\DependencyInjection\Factories\ControllerFactory.cs" />
     <Compile Include="Logic\Services\AdeNet\AdeNetService.cs">
       <SubType>Code</SubType>
