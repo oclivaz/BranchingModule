@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Management.Automation;
 using BranchingModule.Logic;
 
@@ -7,9 +8,9 @@ namespace BranchingModule.Cmdlets
 	public abstract class BranchingModulePSCmdletBase : PSCmdlet, ITextOutputListener, IUserInputProvider
 	{
 		#region Publics
-		public void Write(string strText)
+		public void WriteLine(string strText)
 		{
-			WriteObject(strText);
+			Console.WriteLine(strText);
 		}
 
 		public bool RequestConfirmation(string strMessageToConfirm)
@@ -32,12 +33,21 @@ namespace BranchingModule.Cmdlets
 
 			try
 			{
+				Stopwatch watch = Stopwatch.StartNew();
+
 				OnProcessRecord();
+
+				watch.Stop();
+				WriteVerbose(string.Format("Finished in {0} minutes, {1} seconds and {2} milliseconds.", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds));
 			}
 			catch(Exception ex)
 			{
-				WriteObject(ex.StackTrace);
+				Console.WriteLine(ex.StackTrace);
 				throw;
+			}
+			finally
+			{
+				textOutputService.UnregisterListener(this);
 			}
 		}
 

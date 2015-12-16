@@ -50,8 +50,13 @@ namespace BranchingModule.Logic
 
 			foreach(var listener in this.Listeners)
 			{
-				listener.Write(strText);
+				listener.WriteLine(strText);
 			}
+		}
+
+		public void UnregisterListener(ITextOutputListener listener)
+		{
+			this.Listeners.Remove(listener);
 		}
 		#endregion
 	}

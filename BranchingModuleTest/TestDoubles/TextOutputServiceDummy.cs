@@ -19,6 +19,11 @@ namespace BranchingModuleTest.TestDoubles
 			// TextOutputServiceDummpy don't care
 		}
 
+		public void UnregisterListener(ITextOutputListener listener)
+		{
+			// TextOutputServiceDummpy don't care
+		}
+
 		public void WriteVerbose(string strText, string strSource)
 		{
 			// TextOutputServiceDummpy don't care

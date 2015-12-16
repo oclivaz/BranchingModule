@@ -69,8 +69,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.TextOutputService.Write(SOME_TEXT);
 
 			// Assert
-			listener1.Received().Write(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
-			listener2.Received().Write(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
+			listener1.Received().WriteLine(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
+			listener2.Received().WriteLine(Arg.Is<string>(s => s.Contains(SOME_TEXT)));
 		}
 
 		[TestMethod]
@@ -78,6 +78,21 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			// Act
 			this.TextOutputService.WriteVerbose(SOME_TEXT);
+		}
+
+		[TestMethod]
+		public void TestUnregisterlistener_one_Listener()
+		{
+			// Arrange
+			ITextOutputListener listener = Substitute.For<ITextOutputListener>();
+			this.TextOutputService.RegisterListener(listener);
+
+			// Act
+			this.TextOutputService.UnregisterListener(listener);
+
+			// Assert
+			this.TextOutputService.WriteVerbose(SOME_TEXT);
+			listener.DidNotReceive().WriteVerbose(Arg.Any<string>());
 		}
 		#endregion
 	}
