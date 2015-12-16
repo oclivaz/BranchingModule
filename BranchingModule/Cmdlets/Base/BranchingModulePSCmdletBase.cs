@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Management.Automation;
+using System.Text;
 using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
@@ -38,7 +39,7 @@ namespace BranchingModule.Cmdlets
 				OnProcessRecord();
 
 				watch.Stop();
-				WriteVerbose(string.Format("Finished in {0} minutes, {1} seconds and {2} milliseconds.", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds));
+				WriteVerbose(GetElapsedTime(watch));
 			}
 			catch(Exception ex)
 			{
@@ -52,6 +53,20 @@ namespace BranchingModule.Cmdlets
 		}
 
 		protected abstract void OnProcessRecord();
+		#endregion
+
+		#region Privates
+		private static string GetElapsedTime(Stopwatch watch)
+		{
+			if(watch == null) throw new ArgumentNullException("watch");
+
+			StringBuilder builder = new StringBuilder();
+			builder.Append("Finished in ");
+			if(watch.Elapsed.Minutes > 0) builder.AppendFormat("{0} minutes and ", watch.Elapsed.Minutes);
+			builder.AppendFormat("{0} seconds.", watch.Elapsed.Seconds + (decimal) watch.ElapsedMilliseconds / 1000);
+
+			return builder.ToString();
+		}
 		#endregion
 	}
 }
