@@ -35,10 +35,9 @@ namespace BranchingModule.Cmdlets
 			try
 			{
 				Stopwatch watch = Stopwatch.StartNew();
-
 				OnProcessRecord();
-
 				watch.Stop();
+
 				WriteVerbose(GetElapsedTime(watch));
 			}
 			catch(Exception ex)
@@ -63,7 +62,8 @@ namespace BranchingModule.Cmdlets
 			StringBuilder builder = new StringBuilder();
 			builder.Append("Finished in ");
 			if(watch.Elapsed.Minutes > 0) builder.AppendFormat("{0} minutes and ", watch.Elapsed.Minutes);
-			builder.AppendFormat("{0} seconds.", watch.Elapsed.Seconds + (decimal) watch.ElapsedMilliseconds / 1000);
+			builder.AppendFormat("{0} seconds.", watch.Elapsed.Seconds
+			                                     + (decimal) watch.Elapsed.Milliseconds / 1000);
 
 			return builder.ToString();
 		}
