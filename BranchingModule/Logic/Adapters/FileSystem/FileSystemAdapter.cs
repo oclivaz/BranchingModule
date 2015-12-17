@@ -56,6 +56,11 @@ namespace BranchingModule.Logic
 			return dir.GetFiles().Select(systemFileinfo => (IFileInfo) (new FileInfo(systemFileinfo))).ToArray();
 		}
 
+		public IFileInfo GetFileInfo(string strFile)
+		{
+			return new FileInfo(new System.IO.FileInfo(strFile));
+		}
+
 		public void ExtractZip(string strFile, string strTargetDirectory)
 		{
 			FastZip fastZip = new FastZip();
@@ -80,6 +85,11 @@ namespace BranchingModule.Logic
 			public DateTime CreationTime
 			{
 				get { return this.FrameworkFileInfo.CreationTime; }
+			}
+
+			public DateTime ModificationTime
+			{
+				get { return this.FrameworkFileInfo.LastWriteTime; }
 			}
 
 			private System.IO.FileInfo FrameworkFileInfo { get; set; }

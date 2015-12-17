@@ -15,6 +15,7 @@ namespace BranchingModule.Logic
 
 		bool Exists(string strFile);
 		IFileInfo[] GetFiles(string strDirectory);
+		IFileInfo GetFileInfo(string strFile);
 
 		void ExtractZip(string strFile, string strTargetDirectory);
 	}
@@ -24,5 +25,6 @@ namespace BranchingModule.Logic
 		string FileName { get; }
 		string FullName { get; }
 		DateTime CreationTime { get; }
+		DateTime ModificationTime { get; }
 	}
 }

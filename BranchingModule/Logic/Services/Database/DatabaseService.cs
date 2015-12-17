@@ -74,17 +74,34 @@ namespace BranchingModule.Logic
 		private void GetDump(BranchInfo branch)
 		{
 			string strBuildServerDump = this.Convention.GetBuildserverDump(branch);
+			string strLocalDump = this.Convention.GetLocalDump(branch);
 
-			if(this.FileSystem.Exists(strBuildServerDump))
+			if(!this.FileSystem.Exists(strLocalDump))
+			{
+				if(this.FileSystem.Exists(strBuildServerDump))
+				{
+					this.TextOutput.WriteVerbose(string.Format("Getting {0}", strBuildServerDump));
+					this.FileSystem.Copy(strBuildServerDump, this.Convention.GetLocalDump(branch));
+				}
+				else
+				{
+					this.TextOutput.WriteVerbose("Getting Dump from Repository");
+					this.DumpRepository.CopyDump(branch, this.Convention.GetLocalDump(branch));
+				}
+
+				return;
+			}
+
+			if(this.FileSystem.Exists(strBuildServerDump) && this.FileSystem.GetFileInfo(strBuildServerDump).ModificationTime > this.FileSystem.GetFileInfo(strLocalDump).ModificationTime)
 			{
 				this.TextOutput.WriteVerbose(string.Format("Getting {0}", strBuildServerDump));
 				this.FileSystem.Copy(strBuildServerDump, this.Convention.GetLocalDump(branch));
 			}
 			else
 			{
-				this.TextOutput.WriteVerbose("Getting Dump from Repository");
-				this.DumpRepository.CopyDump(branch, this.Convention.GetLocalDump(branch));
+				this.TextOutput.WriteVerbose(string.Format("Local Dump is up to Date"));
 			}
+			
 		}
 
 		private void Restore(string strDump, string strDB)

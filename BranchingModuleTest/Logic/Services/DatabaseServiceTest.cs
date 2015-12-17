@@ -15,8 +15,8 @@ namespace BranchingModuleTest.Logic.Services
 		#endregion
 
 		#region Fields
-		private readonly string LOCAL_DUMP = ReleasebranchConventionDummy.GetLocalDump(AKISBV_5_0_35);
-		private readonly string BUILDSERVER_DUMP = ReleasebranchConventionDummy.GetBuildserverDump(AKISBV_5_0_35);
+		private readonly DateTime CHRISTMAS_2014 = new DateTime(2014, 12, 25, 13, 25, 01);
+		private readonly DateTime EASTER_2015 = new DateTime(2015, 04, 05, 08, 13, 02);
 		#endregion
 
 		#region Properties
@@ -45,36 +45,105 @@ namespace BranchingModuleTest.Logic.Services
 
 		#region Tests
 		[TestMethod]
-		public void TestRestore_with_Dump_on_Buildserver()
+		public void TestRestore_with_Dump_only_on_Buildserver()
 		{
 			// Arrange
-			this.FileSystem.Exists(LOCAL_DUMP).Returns(false);
-			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(true);
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(false);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(true);
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
 
 			// Act
 			this.DatabaseService.Restore(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
+			this.FileSystem.Received().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
 			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
 		[TestMethod]
-		public void TestRestore_with_Dump_locally()
+		public void TestRestore_with_Dump_only_locally()
 		{
 			// Arrange
-			this.FileSystem.Exists(LOCAL_DUMP).Returns(true);
-			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(false);
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
 
 			// Act
 			this.DatabaseService.Restore(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
-			this.DumpRepository.Received().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestore_with_newer_dump_on_Buildserver()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
+			IFileInfo dumpModifiedOnChristmas2014 = DumpModifiedOn(CHRISTMAS_2014);
+			this.FileSystem.GetFileInfo(LOCAL_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnChristmas2014);
+
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(true);
+			IFileInfo dumpModifiedOnEaster2015 = DumpModifiedOn(EASTER_2015);
+			this.FileSystem.GetFileInfo(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnEaster2015);
+
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.Received().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestore_with_same_Dump_locally()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
+			IFileInfo dumpModifiedOnChristmas2014 = DumpModifiedOn(CHRISTMAS_2014);
+			this.FileSystem.GetFileInfo(LOCAL_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnChristmas2014);
+
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(true);
+			this.FileSystem.GetFileInfo(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnChristmas2014);
+
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestore_with_older_Dump_on_buildserver()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
+			IFileInfo dumpModifiedOnEaster2015 = DumpModifiedOn(EASTER_2015);
+			this.FileSystem.GetFileInfo(LOCAL_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnEaster2015);
+
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(true);
+
+			IFileInfo dumpModifiedOnChristmas2014 = DumpModifiedOn(CHRISTMAS_2014);
+			this.FileSystem.GetFileInfo(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(dumpModifiedOnChristmas2014);
+
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_5_0_35);
+
+			// Assert
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
+			this.DumpRepository.DidNotReceive().CopyDump(Arg.Any<BranchInfo>(), Arg.Any<string>());
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
@@ -82,8 +151,8 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestore_with_no_Dump_yet()
 		{
 			// Arrange
-			this.FileSystem.Exists(LOCAL_DUMP).Returns(false);
-			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(false);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(false);
 
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
 
@@ -91,8 +160,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.DatabaseService.Restore(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP, LOCAL_DUMP);
-			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, LOCAL_DUMP);
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
+			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, LOCAL_DUMP_AKISBV_5_0_35);
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 
@@ -100,7 +169,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestore_with_exception_while_restoring()
 		{
 			// Arrange
-			this.FileSystem.Exists(LOCAL_DUMP).Returns(true);
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(true);
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Kill"))).Returns("Kill");
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Post"))).Returns("Post");
@@ -118,19 +187,19 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestInstallBuildserverDump()
 		{
 			// Arrange
-			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(false);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(false);
 
 			// Act
 			this.DatabaseService.InstallBuildserverDump(AKISBV_5_0_35);
 
 			// Assert
-			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, BUILDSERVER_DUMP);
+			this.DumpRepository.Received().CopyDump(AKISBV_5_0_35, BUILDSERVER_DUMP_AKISBV_5_0_35);
 		}
 
 		[TestMethod]
 		public void TestInstallBuildserverDump_dump_already_on_Buildserver()
 		{
-			this.FileSystem.Exists(BUILDSERVER_DUMP).Returns(true);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_5_0_35).Returns(true);
 
 			// Act
 			this.DatabaseService.InstallBuildserverDump(AKISBV_5_0_35);
@@ -157,7 +226,7 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			// Arrange
 			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_5_0_35).Returns(false);
-			
+
 			// Act
 			this.DatabaseService.DeleteLocalDump(AKISBV_5_0_35);
 
@@ -180,6 +249,13 @@ namespace BranchingModuleTest.Logic.Services
 		#endregion
 
 		#region Privates
+		private IFileInfo DumpModifiedOn(DateTime dtModification)
+		{
+			IFileInfo localDumpInfo = Substitute.For<IFileInfo>();
+			localDumpInfo.ModificationTime.Returns(dtModification);
+			return localDumpInfo;
+		}
+
 		private void RestoreDatabaseThrowsExceptionForFirstTwoTimes()
 		{
 			int i = 0;
