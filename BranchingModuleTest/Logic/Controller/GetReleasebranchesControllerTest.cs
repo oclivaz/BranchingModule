@@ -31,17 +31,18 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Tests
 		[TestMethod]
-		public void TestGetReleasebranches()
+		public void TestGetReleasebranchestwo_branches_one_mapped()
 		{
 			// Arrange
 			this.VersionControl.GetReleasebranches(AKISBV).Returns(AKISBV_5_0_35_AND_5_0_40);
+			this.VersionControl.IsMapped(AKISBV_5_0_35).Returns(true);
 
 			// Act
 			this.GetReleasebranchesController.GetReleasebranches(AKISBV);
 
 			// Assert
-			this.TextOutpt.Received().Write(Arg.Is<string>(s => s.Contains(AKISBV_5_0_35.Name)));
-			this.TextOutpt.Received().Write(Arg.Is<string>(s => s.Contains(AKISBV_5_0_40.Name)));
+			this.TextOutpt.Received().Write(Arg.Is<string>(s => s.Contains(AKISBV_5_0_35.Name) && s.Contains("mapped")));
+			this.TextOutpt.Received().Write(Arg.Is<string>(s => s.Contains(AKISBV_5_0_40.Name) && !s.Contains("mapped")));
 		}
 		#endregion
 	}

@@ -6,8 +6,8 @@ namespace BranchingModule.Logic
 	internal class GetReleasebranchesController
 	{
 		#region Properties
-		private IVersionControlService VersionControl { get; set; }
 		public ITextOutputService TextOutput { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		#endregion
 
 		#region Constructors
@@ -28,7 +28,7 @@ namespace BranchingModule.Logic
 
 			foreach(BranchInfo releasebranch in releasebranches)
 			{
-				this.TextOutput.Write(releasebranch.ToString());
+				this.TextOutput.Write(String.Format("{0}{1}", releasebranch, this.VersionControl.IsMapped(releasebranch) ? ", mapped" : string.Empty));
 			}
 		}
 		#endregion

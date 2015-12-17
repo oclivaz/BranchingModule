@@ -7,6 +7,7 @@ namespace BranchingModule.Logic
 	{
 		void CreateMapping(BranchInfo branch);
 		void DeleteMapping(BranchInfo branch);
+		bool IsMapped(BranchInfo branch);
 		void CreateAppConfig(BranchInfo branch);
 		DateTime GetCreationTime(BranchInfo branch);
 		void CreateBranch(BranchInfo branch);

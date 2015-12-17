@@ -54,6 +54,11 @@ namespace BranchingModule.Logic
 			this.VersionControlAdapter.Get();
 		}
 
+		public bool IsMapped(BranchInfo branch)
+		{
+			return this.VersionControlAdapter.IsServerPathMapped(this.Convention.GetServerPath(branch));
+		}
+
 		public void CreateAppConfig(BranchInfo branch)
 		{
 			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));

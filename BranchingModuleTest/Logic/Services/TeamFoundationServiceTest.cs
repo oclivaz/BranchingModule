@@ -410,6 +410,32 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			Assert.AreEqual(COMMENT, strComment);
 		}
+
+		[TestMethod]
+		public void TestIsMapped_with_mapping()
+		{
+			// Arrange
+			this.VersionControlAdapter.IsServerPathMapped(SERVER_PATH_AKISBV_5_0_35).Returns(true);
+
+			// Act
+			bool bMapped = this.VersionControlService.IsMapped(AKISBV_5_0_35);
+
+			// Assert
+			Assert.IsTrue(bMapped);
+		}
+
+		[TestMethod]
+		public void TestIsMapped_without_mapping()
+		{
+			// Arrange
+			this.VersionControlAdapter.IsServerPathMapped(SERVER_PATH_AKISBV_5_0_35).Returns(false);
+
+			// Act
+			bool bMapped = this.VersionControlService.IsMapped(AKISBV_5_0_35);
+
+			// Assert
+			Assert.IsFalse(bMapped);
+		}
 		#endregion
 
 		#region Privates
