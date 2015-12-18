@@ -31,11 +31,11 @@ namespace BranchingModule.Logic
     <appSettings>
         <add key=""ConnectionString"" value=""server=localhost;Database={0};User ID=sa;Pwd=password-123"" />
         <add key=""SMTPServer"" value=""193.135.175.18"" /> 
-        <add key=""AppTitle"" value=""{1} Release {2}"" />
+        <add key=""AppTitle"" value=""{1}"" />
         <add key=""Company"" value=""M-S¦Pension"" />
         <add key=""EnableUserThemes"" value=""true"" />
         <add key=""SessionKeepAlive"" value=""true"" />
-    </appSettings>", teamProjectSettings.LocalDB, branch.TeamProject, branch.Name);
+    </appSettings>", teamProjectSettings.LocalDB, branch);
 
 			string strIndivConfig = String.Format(@"{0}\Web\Indiv\indiv.config", this.Convention.GetLocalPath(branch));
 			this.FileSystem.WriteAllText(strIndivConfig, strContent, Encoding.UTF8);

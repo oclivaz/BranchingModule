@@ -52,6 +52,7 @@ namespace BranchingModule.Logic
 		public ITeamProjectSettings GetTeamProjectSettings(string strTeamproject)
 		{
 			if(strTeamproject == null) throw new ArgumentNullException("strTeamproject");
+			if(!IsSupportedTeamproject(strTeamproject)) throw new ArgumentException(string.Format("Das Teamproject {0} wird nicht unterstützt.", strTeamproject));
 
 			return this.TeamprojectSettings[strTeamproject];
 		}

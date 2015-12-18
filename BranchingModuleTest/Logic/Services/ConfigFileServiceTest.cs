@@ -11,11 +11,11 @@ namespace BranchingModuleTest.Logic.Services
 	public class ConfigFileServiceTest : BranchingModuleTestBase
 	{
 		#region Constants
-		private const string INDIV_CONFIG_AKISBVPK_5_0_35 = @"<?xml version=""1.0"" encoding=""utf-8""?>
+		private const string INDIV_CONFIG_AKISBV_5_0_35 = @"<?xml version=""1.0"" encoding=""utf-8""?>
     <appSettings>
         <add key=""ConnectionString"" value=""server=localhost;Database=AskNet;User ID=sa;Pwd=password-123"" />
         <add key=""SMTPServer"" value=""193.135.175.18"" /> 
-        <add key=""AppTitle"" value=""AkisBV Release 5.0.35"" />
+        <add key=""AppTitle"" value=""AkisBV 5.0.35"" />
         <add key=""Company"" value=""M-S¦Pension"" />
         <add key=""EnableUserThemes"" value=""true"" />
         <add key=""SessionKeepAlive"" value=""true"" />
@@ -49,7 +49,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.ConfigFileService.CreateIndivConfig(AKISBV_5_0_35);
 
 			// Assert
-			this.FileSystem.Received().WriteAllText(string.Format(@"{0}\Web\Indiv\indiv.config", LOCAL_PATH_AKISBV_5_0_35), INDIV_CONFIG_AKISBVPK_5_0_35, Encoding.UTF8);
+			this.FileSystem.Received().WriteAllText(string.Format(@"{0}\Web\Indiv\indiv.config", LOCAL_PATH_AKISBV_5_0_35), INDIV_CONFIG_AKISBV_5_0_35, Encoding.UTF8);
 		}
 		#endregion
 	}
