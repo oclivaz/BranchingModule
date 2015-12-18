@@ -43,11 +43,25 @@ namespace BranchingModule.Logic
 			this.SQLServer.ExecuteScript(GetBackupDatabaseScript(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
 		}
 
+		public void Backup(BranchInfo branch, string strFile)
+		{
+			if(strFile == null) throw new ArgumentNullException("strFile");
+
+			this.SQLServer.ExecuteScript(GetBackupDatabaseScript(strFile, this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
+		}
+
 		public void Restore(BranchInfo branch)
 		{
 			GetDump(branch);
 
-			Restore(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB);
+			Restore(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB, branch);
+		}
+
+		public void Restore(BranchInfo branch, string strFile)
+		{
+			if(strFile == null) throw new ArgumentNullException("strFile");
+
+			Restore(strFile, this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB, branch);
 		}
 
 		public void InstallBuildserverDump(BranchInfo branch)
@@ -104,7 +118,7 @@ namespace BranchingModule.Logic
 			
 		}
 
-		private void Restore(string strDump, string strDB)
+		private void Restore(string strDump, string strDB, BranchInfo branch)
 		{
 			if(strDump == null) throw new ArgumentNullException("strDump");
 			if(strDB == null) throw new ArgumentNullException("strDB");
@@ -115,7 +129,7 @@ namespace BranchingModule.Logic
 
 				         this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
 				         this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
-				         this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB), strDB);
+				         this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB, branch), strDB);
 			         }, new TimeSpan(0, 0, 0, 0, 500));
 		}
 
@@ -137,10 +151,15 @@ namespace BranchingModule.Logic
 			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Dump = strDump, Database = strDB });
 		}
 
-		private string GetPostRestoreScript(string strDB)
+		private string GetPostRestoreScript(string strDB, BranchInfo branch)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_POST_RESTORE_UPDATES);
-			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new
+			                                                                {
+				                                                                Database = strDB,
+				                                                                Host = Environment.MachineName,
+																				ApplicationName = this.Convention.GetApplicationName(branch)
+			                                                                });
 		}
 
 		private string GetScriptPath(string strScriptName)

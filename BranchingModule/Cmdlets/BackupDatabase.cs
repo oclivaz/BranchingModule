@@ -18,6 +18,12 @@ namespace BranchingModule.Cmdlets
 			Position = 1
 			)]
 		public string Branch { get; set; }
+
+		[Parameter(
+			Mandatory = false,
+			Position = 2
+			)]
+		public string File { get; set; }
 		#endregion
 
 		#region Protecteds
@@ -25,7 +31,8 @@ namespace BranchingModule.Cmdlets
 		{
 			BackupDatabaseController controller = ControllerFactory.Get<BackupDatabaseController>();
 
-			controller.BackupDatabase(BranchInfo.Create(this.Teamproject, this.Branch));
+			if(string.IsNullOrEmpty(this.File)) controller.BackupDatabase(BranchInfo.Create(this.Teamproject, this.Branch));
+			else controller.BackupDatabase(BranchInfo.Create(this.Teamproject, this.Branch), this.File);
 		}
 		#endregion
 	}

@@ -184,6 +184,19 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
+		public void TestRestore_with_explicit_file()
+		{
+			// Arrange
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns("Restore {Dump}");
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_5_0_35, "my_special_file");
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(s => s.Contains("Restore") && s.Contains("my_special_file")), Arg.Any<string>());
+		}
+
+		[TestMethod]
 		public void TestInstallBuildserverDump()
 		{
 			// Arrange
@@ -245,6 +258,19 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.SQLServer.Received().ExecuteScript("Backup", Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestBackupDatabase_with_filepath()
+		{
+			// Arrange
+			this.FileSystem.ReadAllText(Arg.Is<string>(script => script.Contains("Backup"))).Returns("Backup {Dump}");
+
+			// Act
+			this.DatabaseService.Backup(AKISBV_5_0_35, "my_special_bak_file");
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(s => s.Contains("my_special_bak_file") && s.Contains("Backup")), Arg.Any<string>());
 		}
 		#endregion
 

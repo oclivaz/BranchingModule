@@ -18,6 +18,11 @@
 		{
 			this.Database.Restore(branch);
 		}
+
+		public void RestoreDatabase(BranchInfo branch, string strFile)
+		{
+			this.Database.Restore(branch, strFile);
+		}
 		#endregion
 	}
 }

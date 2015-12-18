@@ -1,4 +1,6 @@
-﻿namespace BranchingModule.Logic
+﻿using System;
+
+namespace BranchingModule.Logic
 {
 	internal class BackupDatabaseController
 	{
@@ -17,6 +19,13 @@
 		public void BackupDatabase(BranchInfo branch)
 		{
 			this.Database.Backup(branch);
+		}
+
+		public void BackupDatabase(BranchInfo branch, string strFile)
+		{
+			if(strFile == null) throw new ArgumentNullException("strFile");
+
+			this.Database.Backup(branch, strFile);
 		}
 		#endregion
 	}
