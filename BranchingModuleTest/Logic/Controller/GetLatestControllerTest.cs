@@ -16,6 +16,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IAdeNetService AdeNet { get; set; }
 		private IDatabaseService Database { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
+		private IAblageService Ablage { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -27,7 +28,8 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine = Substitute.For<IBuildEngineService>();
 			this.Database = Substitute.For<IDatabaseService>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Database, this.FileExecution, new ConventionDummy(),
+			this.Ablage = Substitute.For<IAblageService>();
+			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Database, this.FileExecution, this.Ablage, new ConventionDummy(),
 			                                                   new TextOutputServiceDummy());
 		}
 		#endregion
@@ -44,6 +46,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.Database.Received().Restore(AKISBV_5_0_35);
+			this.Ablage.Received().Reset(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
