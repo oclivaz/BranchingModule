@@ -17,7 +17,6 @@ namespace BranchingModuleTest.Logic.Services
 		#endregion
 
 		#region Fields
-		private readonly BranchInfo AKISBV_5_0_35 = new BranchInfo("AkisBV", "5.0.35");
 		private readonly DateTimeBuilder MONDAY = new DateTimeBuilder(10, 08, 2015);
 		private const string ASK = "ASK";
 		#endregion
