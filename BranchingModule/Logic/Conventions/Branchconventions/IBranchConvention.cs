@@ -10,6 +10,7 @@
 		string GetBuildserverDump(BranchInfo branch);
 		string GetLocalDump(BranchInfo branch);
 		string GetApplicationName(BranchInfo branch);
+		string GetAblagePath(BranchInfo branch);
 		string GetSolutionFile(BranchInfo branch);
 
 		bool ServerPathFollowsConvention(string strServerpath);

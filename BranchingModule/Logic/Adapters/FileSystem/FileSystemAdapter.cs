@@ -37,17 +37,37 @@ namespace BranchingModule.Logic
 
 		public void DeleteFile(string strFile)
 		{
+			if(strFile == null) throw new ArgumentNullException("strFile");
+
 			File.Delete(strFile);
 		}
 
 		public void DeleteDirectory(string strDirectory)
 		{
+			if(strDirectory == null) throw new ArgumentNullException("strDirectory");
+
 			if(Directory.Exists(strDirectory)) Retry.Do(() => Directory.Delete(strDirectory, true), new TimeSpan(0, 0, 0, 0, 200));
 		}
 
-		public bool Exists(string strFile)
+		public void CreateDirectory(string strDirectory)
 		{
-			return File.Exists(strFile);
+			if(strDirectory == null) throw new ArgumentNullException("strDirectory");
+
+			Directory.CreateDirectory(strDirectory);
+		}
+
+		public void EmptyDirectory(string strDirectory)
+		{
+			if(strDirectory == null) throw new ArgumentNullException("strDirectory");
+
+			Array.ForEach(Directory.GetFiles(strDirectory), File.Delete);
+		}
+
+		public bool Exists(string strPath)
+		{
+			if(strPath == null) throw new ArgumentNullException("strPath");
+
+			return File.Exists(strPath) || Directory.Exists(strPath);
 		}
 
 		public IFileInfo[] GetFiles(string strDirectory)

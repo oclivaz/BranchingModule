@@ -6,31 +6,33 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		public IFileExecutionService FileExecution { get; set; }
+		public IAblageService Ablage { get; set; }
 		public IConvention Convention { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
 		private IDatabaseService Database { get; set; }
 		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
-		private IConfigFileService ConfigFileService { get; set; }
+		private IConfigFileService ConfigFile { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public AddMappingController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService,
-		                            IDatabaseService databaseService, IFileExecutionService fileExecutionService, IConvention convention, ITextOutputService textOutputService)
+		public AddMappingController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IConfigFileService configFileService, IDatabaseService databaseService, IFileExecutionService fileExecutionService, IAblageService ablageService, IConvention convention, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
 			if(buildEngineService == null) throw new ArgumentNullException("buildEngineService");
 			if(configFileService == null) throw new ArgumentNullException("configFileService");
 			if(fileExecutionService == null) throw new ArgumentNullException("fileExecutionService");
+			if(ablageService == null) throw new ArgumentNullException("ablageService");
 
 			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
-			this.ConfigFileService = configFileService;
+			this.ConfigFile = configFileService;
 			this.Database = databaseService;
 			this.FileExecution = fileExecutionService;
+			this.Ablage = ablageService;
 			this.Convention = convention;
 			this.TextOutput = textOutputService;
 		}
@@ -58,7 +60,7 @@ namespace BranchingModule.Logic
 			this.AdeNet.InstallPackages(branch);
 
 			this.TextOutput.WriteVerbose("Creating Indiv.config");
-			this.ConfigFileService.CreateIndivConfig(branch);
+			this.ConfigFile.CreateIndivConfig(branch);
 
 			this.TextOutput.WriteVerbose("Creating App.config");
 			this.VersionControl.CreateAppConfig(branch);
@@ -74,6 +76,9 @@ namespace BranchingModule.Logic
 
 			this.TextOutput.WriteVerbose("Restoring Dump");
 			this.Database.Restore(branch);
+
+			this.TextOutput.WriteVerbose("Resetting Ablage");
+			this.Ablage.Reset(branch);
 		}
 
 		private void OpenSolution(BranchInfo branch)

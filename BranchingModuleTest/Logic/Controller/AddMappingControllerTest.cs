@@ -17,6 +17,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IConfigFileService ConfigFileService { get; set; }
 		private IDatabaseService Database { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
+		private IAblageService Ablage { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -29,7 +30,8 @@ namespace BranchingModuleTest.Logic.Controller
 			this.ConfigFileService = Substitute.For<IConfigFileService>();
 			this.Database = Substitute.For<IDatabaseService>();
 			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Database, this.FileExecution, new ConventionDummy(),
+			this.Ablage = Substitute.For<IAblageService>();
+			this.AddMappingController = new AddMappingController(this.VersionControl, this.AdeNet, this.BuildEngine, this.ConfigFileService, this.Database, this.FileExecution, this.Ablage, new ConventionDummy(),
 			                                                     new TextOutputServiceDummy());
 		}
 		#endregion
@@ -50,6 +52,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
 			this.Database.Received().Restore(AKISBV_5_0_35);
+			this.Ablage.Received().Reset(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
@@ -67,6 +70,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
 			this.Database.DidNotReceive().Restore(Arg.Any<BranchInfo>());
+			this.Ablage.DidNotReceive().Reset(Arg.Any<BranchInfo>());
 		}
 
 		[TestMethod]
@@ -85,6 +89,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
 			this.Database.DidNotReceive().Restore(Arg.Any<BranchInfo>());
 			this.FileExecution.Received().StartProcess(Executables.EXPLORER, LOCAL_SOLUTION_FILE_PATH_AKISBV_5_0_35);
+			this.Ablage.DidNotReceive().Reset(Arg.Any<BranchInfo>());
 		}
 
 		[TestMethod]

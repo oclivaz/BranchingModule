@@ -15,5 +15,6 @@
 		string GetLocalDump(BranchInfo branch);
 		string GetApplicationName(BranchInfo branch);
 		string GetSolutionFile(BranchInfo branch);
+		string GetAblagePath(BranchInfo branch);
 	}
 }

@@ -27,6 +27,11 @@ namespace BranchingModule.Logic
 			return String.Format(@"{0}\{1}.sln", GetLocalPath(branch), branch.TeamProject);
 		}
 
+		public string GetAblagePath(BranchInfo branch)
+		{
+			return String.Format(@"c:\temp\ablage\{0}", this.GetApplicationName(branch));
+		}
+
 		public abstract string GetServerBasePath(BranchInfo branch);
 
 		public abstract string GetBuildserverDump(BranchInfo branch);

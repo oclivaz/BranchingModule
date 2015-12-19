@@ -285,6 +285,26 @@ namespace BranchingModuleTest.Logic.Conventions
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Release", strReleaseBranchesPath);
 		}
+
+		[TestMethod]
+		public void TestGetAblagePath_Release()
+		{
+			// Act
+			string strAblagePath = this.MSConvention.GetAblagePath(AKISBV_5_0_35);
+
+			// Assert
+			Assert.AreEqual(@"c:\temp\ablage\AkisBV_5_0_35", strAblagePath, true);
+		}
+
+		[TestMethod]
+		public void TestGetAblagePath_Main()
+		{
+			// Act
+			string strAblagePath = this.MSConvention.GetAblagePath(AKISBV_MAIN);
+
+			// Assert
+			Assert.AreEqual(@"c:\temp\ablage\AkisBVDev", strAblagePath, true);
+		}
 		#endregion
 
 		#region Privates

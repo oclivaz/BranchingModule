@@ -158,7 +158,8 @@ namespace BranchingModule.Logic
 			                                                                {
 				                                                                Database = strDB,
 				                                                                Host = Environment.MachineName,
-																				ApplicationName = this.Convention.GetApplicationName(branch)
+																				ApplicationName = this.Convention.GetApplicationName(branch),
+																				AblagePath = this.Convention.GetAblagePath(branch)
 			                                                                });
 		}
 

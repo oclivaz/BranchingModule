@@ -45,6 +45,11 @@ namespace BranchingModuleTest.TestDoubles
 			return GetApplicationName(branch);
 		}
 
+		string IBranchConvention.GetAblagePath(BranchInfo branch)
+		{
+			return GetAblagePath(branch);
+		}
+
 		string IBranchConvention.GetSolutionFile(BranchInfo branch)
 		{
 			return GetSolutionFile(branch);
@@ -68,6 +73,11 @@ namespace BranchingModuleTest.TestDoubles
 		public static string GetServerPath(BranchInfo branch)
 		{
 			return string.Format(@"MainbranchConventionDummy.GetServerPath {0}", branch);
+		}
+
+		public static string GetAblagePath(BranchInfo branch)
+		{
+			return string.Format(@"MainbranchConventionDummy.GetAblagePath {0}", branch);
 		}
 
 		public static string GetServerBasePath(BranchInfo branch)

@@ -64,6 +64,7 @@
     <Compile Include="Builder\DateTimeBuilder.cs" />
     <Compile Include="DependencyInjection\ControllerFactoryTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
+    <Compile Include="Logic\Controller\RestoreDatabaseControllerTest.cs" />
     <Compile Include="Logic\Controller\GetLatestControllerTest.cs" />
     <Compile Include="Logic\Controller\GetReleasebranchesControllerTest.cs" />
     <Compile Include="Logic\Controller\OpenSolutionControllerTest.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Logic\Conventions\MSReleasebranchConventionTest.cs" />
     <Compile Include="Logic\Conventions\MSMainbranchConventionTest.cs" />
     <Compile Include="Logic\Conventions\MSDevelpmentBranchConventionTest.cs" />
+    <Compile Include="Logic\Services\AblageServiceTest.cs" />
     <Compile Include="Logic\Services\TeamFoundationServiceTest.cs" />
     <Compile Include="Logic\Services\TextOutputServiceTest.cs" />
     <Compile Include="Logic\Services\DumpRepositoryServiceTest.cs" />

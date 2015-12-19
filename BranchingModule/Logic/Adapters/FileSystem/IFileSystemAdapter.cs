@@ -12,8 +12,10 @@ namespace BranchingModule.Logic
 		void Move(string strSource, string strDestination);
 		void DeleteFile(string strFile);
 		void DeleteDirectory(string strDirectory);
+		void CreateDirectory(string strDirectory);
+		void EmptyDirectory(string strDirectory);
 
-		bool Exists(string strFile);
+		bool Exists(string strPath);
 		IFileInfo[] GetFiles(string strDirectory);
 		IFileInfo GetFileInfo(string strFile);
 

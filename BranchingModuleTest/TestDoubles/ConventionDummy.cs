@@ -93,6 +93,11 @@ namespace BranchingModuleTest.TestDoubles
 		{
 			return Convention(branch).GetSolutionFile(branch);
 		}
+
+		public string GetAblagePath(BranchInfo branch)
+		{
+			return Convention(branch).GetAblagePath(branch);
+		}
 		#endregion
 
 		#region Privates

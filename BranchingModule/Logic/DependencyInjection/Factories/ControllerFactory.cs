@@ -38,6 +38,7 @@ namespace BranchingModule.Logic
 				Bind<IBuildEngineService>().To<MsBuildService>().InSingletonScope();
 				Bind<IConfigFileService>().To<ConfigFileService>().InSingletonScope();
 				Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
+				Bind<IAblageService>().To<AblageService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
 				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
 				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();
