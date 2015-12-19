@@ -1,14 +1,9 @@
 ﻿using System;
-using Microsoft.Web.Administration;
 
 namespace BranchingModule.Logic
 {
 	internal class AdeNetService : IAdeNetService
 	{
-		#region Constants
-		private const string DEFAULT_WEB_SITE = "Default Web Site";
-		#endregion
-
 		#region Properties
 		private ITextOutputService TextOutput { get; set; }
 		private IFileExecutionService FileExecution { get; set; }
@@ -45,21 +40,9 @@ namespace BranchingModule.Logic
 			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
 		}
 
-		public void RemoveApplication(BranchInfo branch)
+		public void CleanupIIS(BranchInfo branch)
 		{
-			string strApplication = this.Convention.GetApplicationName(branch);
-
-			using(ServerManager serverManager = new ServerManager())
-			{
-				Site site = serverManager.Sites[DEFAULT_WEB_SITE];
-				Application application = site.Applications[string.Format("/{0}", strApplication)];
-
-				if(application != null)
-				{
-					site.Applications.Remove(application);
-					serverManager.CommitChanges();
-				}
-			}
+			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -cleanupiis -development", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void CreateBuildDefinition(BranchInfo branch)

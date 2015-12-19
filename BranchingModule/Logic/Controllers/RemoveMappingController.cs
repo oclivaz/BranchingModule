@@ -43,8 +43,8 @@ namespace BranchingModule.Logic
 			this.TextOutput.WriteVerbose("Deleting Solution");
 			this.FileSystem.DeleteDirectory(this.Convention.GetLocalPath(branch));
 
-			this.TextOutput.WriteVerbose("Removing Application");
-			this.AdeNet.RemoveApplication(branch);
+			this.TextOutput.WriteVerbose("Cleaning up IIS");
+			this.AdeNet.CleanupIIS(branch);
 
 			this.TextOutput.WriteVerbose("Removing local dump file");
 			this.Database.DeleteLocalDump(branch);

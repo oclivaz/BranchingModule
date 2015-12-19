@@ -65,6 +65,16 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
+		public void TestCleanupIIS()
+		{
+			// Act
+			this.AdeNetService.CleanupIIS(AKISBV_5_0_35);
+
+			// Asseri
+			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-workingdirectory {0} -cleanupiis -development", LOCAL_PATH_AKISBV_5_0_35));
+		}
+
+		[TestMethod]
 		public void TestCreateBuildDefinition()
 		{
 			// Act

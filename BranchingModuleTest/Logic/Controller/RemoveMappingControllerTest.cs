@@ -42,7 +42,7 @@ namespace BranchingModuleTest.Logic.Controller
 			// Assert
 			this.VersionControl.Received().DeleteMapping(AKISBV_5_0_35);
 			this.FileSystem.Received().DeleteDirectory(LOCAL_PATH_AKISBV_5_0_35);
-			this.AdeNet.Received().RemoveApplication(AKISBV_5_0_35);
+			this.AdeNet.Received().CleanupIIS(AKISBV_5_0_35);
 			this.Database.Received().DeleteLocalDump(AKISBV_5_0_35);
 			this.Ablage.Received().Remove(AKISBV_5_0_35);
 		}
