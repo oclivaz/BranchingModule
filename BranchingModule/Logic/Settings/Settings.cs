@@ -6,7 +6,7 @@ namespace BranchingModule.Logic
 	internal class Settings : ISettings
 	{
 		#region Constants
-		public static readonly string DEFAULT_SETTINGS_FILE = @"Y:\#Admin\Tools\PowershellModules\Branching\BranchingModule.config";
+		public static readonly string DEFAULT_SETTINGS_FILE = @"\\m-s.ch\Ablage\AkisNetBV\#Admin\Tools\PowershellModules\Branching\BranchingModule.config";
 		#endregion
 
 		#region Properties
