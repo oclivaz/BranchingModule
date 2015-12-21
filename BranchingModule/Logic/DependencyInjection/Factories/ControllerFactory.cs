@@ -31,6 +31,8 @@ namespace BranchingModule.Logic
 			{
 				// Adapters
 				Bind<ITeamFoundationVersionControlAdapter>().To<TeamFoundationVersionControlAdapter>();
+				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
+				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();
 
 				// Services
 				Bind<IVersionControlService>().To<TeamFoundationService>().InSingletonScope();
@@ -40,8 +42,6 @@ namespace BranchingModule.Logic
 				Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
 				Bind<IAblageService>().To<AblageService>().InSingletonScope();
 				Bind<IDumpRepositoryService>().To<DumpRepositoryService>().InSingletonScope();
-				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
-				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();
 				Bind<ITextOutputService>().To<TextOutputService>().InSingletonScope();
 				Bind<IUserInputService>().To<UserInputService>().InSingletonScope();
 				Bind<IFileExecutionService>().To<FileExecutionService>().InSingletonScope();
