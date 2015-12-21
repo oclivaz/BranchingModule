@@ -7,11 +7,14 @@ namespace BranchingModule.Cmdlets
 	public class GetReleasebranches : BranchingModulePSCmdletBase
 	{
 		#region Properties
-		[Parameter(
-			Mandatory = true,
-			Position = 0
-			)]
-		public string Teamproject { get; set; }
+		internal DynamicParameter<string> Teamproject { get; set; }
+		#endregion
+
+		#region Constructors
+		public GetReleasebranches()
+		{
+			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
+		}
 		#endregion
 
 		#region Protecteds

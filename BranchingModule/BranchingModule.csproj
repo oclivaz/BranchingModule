@@ -73,6 +73,9 @@
   <ItemGroup>
     <Compile Include="Cmdlets\AddMapping.cs" />
     <Compile Include="Cmdlets\Base\BranchingModulePSCmdletBase.cs" />
+    <Compile Include="Cmdlets\DynamicParameter\DynamicParameter.cs" />
+    <Compile Include="Cmdlets\DynamicParameter\DynamicParameterFactory.cs" />
+    <Compile Include="Cmdlets\DynamicParameter\IDynamicParameter.cs" />
     <Compile Include="Cmdlets\GetReleasebranches.cs" />
     <Compile Include="Cmdlets\RestoreDatabase.cs" />
     <Compile Include="Cmdlets\GetLatest.cs" />

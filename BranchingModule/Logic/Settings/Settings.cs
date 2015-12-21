@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BranchingModule.Logic
 {
@@ -21,8 +22,12 @@ namespace BranchingModule.Logic
 		public string TempDirectory { get; private set; }
 		public string SQLScriptPath { get; private set; }
 		public string SQLConnectionString { get; private set; }
-
 		private Dictionary<string, ITeamProjectSettings> TeamprojectSettings { get; set; }
+
+		public string[] SupportedTeamprojects
+		{
+			get { return this.TeamprojectSettings.Keys.ToArray(); }
+		}
 		#endregion
 
 		#region Constructors
@@ -60,6 +65,11 @@ namespace BranchingModule.Logic
 		public bool IsSupportedTeamproject(string strTeamProject)
 		{
 			return this.TeamprojectSettings.ContainsKey(strTeamProject);
+		}
+
+		public static string[] GetSupportetTeamProjects()
+		{
+			return ControllerFactory.Get<Settings>().TeamprojectSettings.Keys.ToArray();
 		}
 		#endregion
 	}

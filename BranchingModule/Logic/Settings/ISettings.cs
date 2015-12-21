@@ -13,6 +13,7 @@
 		string TempDirectory { get; }
 		string SQLConnectionString { get; }
 		string SQLScriptPath { get; }
+		string[] SupportedTeamprojects { get; }
 
 		ITeamProjectSettings GetTeamProjectSettings(string strTeamproject);
 		bool IsSupportedTeamproject(string strTeamProject);

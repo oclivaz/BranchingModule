@@ -7,23 +7,18 @@ namespace BranchingModule.Cmdlets
 	public class GetLatest : BranchingModulePSCmdletBase
 	{
 		#region Properties
-		[Parameter(
-			Mandatory = true,
-			Position = 0
-			)]
-		public string Teamproject { get; set; }
+		internal DynamicParameter<string> Teamproject { get; set; }
+		internal DynamicParameter<string> Branch { get; set; }
+		internal DynamicParameter<bool> OpenSolution { get; set; }
+		#endregion
 
-		[Parameter(
-			Mandatory = false,
-			Position = 1
-			)]
-		public string Branch { get; set; }
-
-		[Parameter(
-			Mandatory = false,
-			Position = 3
-			)]
-		public SwitchParameter OpenSolution { get; set; }
+		#region Constructors
+		public GetLatest()
+		{
+			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
+			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
+			this.OpenSolution = DynamicParameterFactory.CreateOpenSolutionParameter(this, 2);
+		}
 		#endregion
 
 		#region Protecteds

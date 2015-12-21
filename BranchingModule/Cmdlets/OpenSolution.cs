@@ -7,17 +7,16 @@ namespace BranchingModule.Cmdlets
 	public class OpenSolution : BranchingModulePSCmdletBase
 	{
 		#region Properties
-		[Parameter(
-			Mandatory = true,
-			Position = 0
-			)]
-		public string Teamproject { get; set; }
+		internal DynamicParameter<string> Teamproject { get; set; }
+		internal DynamicParameter<string> Branch { get; set; }
+		#endregion
 
-		[Parameter(
-			Mandatory = false,
-			Position = 1
-			)]
-		public string Branch { get; set; }
+		#region Constructors
+		public OpenSolution()
+		{
+			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
+			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
+		}
 		#endregion
 
 		#region Protecteds

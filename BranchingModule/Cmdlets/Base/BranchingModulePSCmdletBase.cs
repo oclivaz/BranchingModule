@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management.Automation;
 using System.Text;
@@ -6,8 +7,19 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	public abstract class BranchingModulePSCmdletBase : PSCmdlet, ITextOutputListener, IUserInputProvider
+	public abstract class BranchingModulePSCmdletBase : PSCmdlet, ITextOutputListener, IUserInputProvider, IDynamicParameters
 	{
+		#region Fields
+		private readonly IList<IDynamicParameter> DynamicParameters;
+		#endregion
+
+		#region Constructors
+		protected BranchingModulePSCmdletBase()
+		{
+			this.DynamicParameters = new List<IDynamicParameter>();
+		}
+		#endregion
+
 		#region Publics
 		public void WriteLine(string strText)
 		{
@@ -20,6 +32,25 @@ namespace BranchingModule.Cmdlets
 			string strInput = Console.ReadLine();
 
 			return strInput == "yes";
+		}
+
+		public object GetDynamicParameters()
+		{
+			RuntimeDefinedParameterDictionary parameters = new RuntimeDefinedParameterDictionary();
+
+			foreach(IDynamicParameter dynamicParameter in this.DynamicParameters)
+			{
+				dynamicParameter.AddRuntimeDefinedParameterTo(parameters);
+			}
+
+			return parameters;
+		}
+		#endregion
+
+		#region Internals
+		internal void AddDynamicParameter(IDynamicParameter dynamicParameter)
+		{
+			this.DynamicParameters.Add(dynamicParameter);
 		}
 		#endregion
 

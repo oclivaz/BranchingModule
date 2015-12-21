@@ -7,29 +7,20 @@ namespace BranchingModule.Cmdlets
 	public class AddMapping : BranchingModulePSCmdletBase
 	{
 		#region Properties
-		[Parameter(
-			Mandatory = true,
-			Position = 0
-			)]
-		public string Teamproject { get; set; }
+		internal DynamicParameter<string> Teamproject { get; set; }
+		internal DynamicParameter<string> Branch { get; set; }
+		internal DynamicParameter<bool> Minimal { get; set; }
+		internal DynamicParameter<bool> OpenSolution { get; set; }
+		#endregion
 
-		[Parameter(
-			Mandatory = false,
-			Position = 1
-			)]
-		public string Branch { get; set; }
-
-		[Parameter(
-			Mandatory = false,
-			Position = 2
-			)]
-		public SwitchParameter Minimal { get; set; }
-
-		[Parameter(
-			Mandatory = false,
-			Position = 3
-			)]
-		public SwitchParameter OpenSolution { get; set; }
+		#region Constructors
+		public AddMapping()
+		{
+			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
+			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
+			this.Minimal = DynamicParameterFactory.CreateMinimalParameter(this, 2);
+			this.OpenSolution = DynamicParameterFactory.CreateOpenSolutionParameter(this, 3);
+		}
 		#endregion
 
 		#region Protecteds
