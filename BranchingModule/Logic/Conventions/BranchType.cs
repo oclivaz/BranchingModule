@@ -3,6 +3,7 @@
 	public enum BranchType
 	{
 		Main,
-		Release
+		Release,
+		Development
 	}
 }

@@ -16,7 +16,7 @@ namespace BranchingModule.Logic
 
 		public override BranchType BranchType
 		{
-			get { return BranchType.Release; }
+			get { return BranchType.Development; }
 		}
 		#endregion
 
