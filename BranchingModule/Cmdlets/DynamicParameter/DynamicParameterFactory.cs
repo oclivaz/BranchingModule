@@ -1,4 +1,5 @@
-﻿using BranchingModule.Logic;
+﻿using System.Management.Automation;
+using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
@@ -17,14 +18,14 @@ namespace BranchingModule.Cmdlets
 			return new DynamicParameter<string>(cmdLet, "Branch", false, nPosition);
 		}
 
-		public static DynamicParameter<bool> CreateMinimalParameter(BranchingModulePSCmdletBase cmdLet, int nPosition)
+		public static DynamicParameter<SwitchParameter> CreateMinimalParameter(BranchingModulePSCmdletBase cmdLet, int nPosition)
 		{
-			return new DynamicParameter<bool>(cmdLet, "Minimal", false, nPosition);
+			return new DynamicParameter<SwitchParameter>(cmdLet, "Minimal", false, nPosition);
 		}
 
-		public static DynamicParameter<bool> CreateOpenSolutionParameter(BranchingModulePSCmdletBase cmdLet, int nPosition)
+		public static DynamicParameter<SwitchParameter> CreateOpenSolutionParameter(BranchingModulePSCmdletBase cmdLet, int nPosition)
 		{
-			return new DynamicParameter<bool>(cmdLet, "Opensolution", false, nPosition);
+			return new DynamicParameter<SwitchParameter>(cmdLet, "OpenSolution", false, nPosition);
 		}
 		#endregion
 	}

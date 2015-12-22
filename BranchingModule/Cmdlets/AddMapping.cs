@@ -9,8 +9,8 @@ namespace BranchingModule.Cmdlets
 		#region Properties
 		internal DynamicParameter<string> Teamproject { get; set; }
 		internal DynamicParameter<string> Branch { get; set; }
-		internal DynamicParameter<bool> Minimal { get; set; }
-		internal DynamicParameter<bool> OpenSolution { get; set; }
+		internal DynamicParameter<SwitchParameter> Minimal { get; set; }
+		internal DynamicParameter<SwitchParameter> OpenSolution { get; set; }
 		#endregion
 
 		#region Constructors
@@ -28,7 +28,7 @@ namespace BranchingModule.Cmdlets
 		{
 			AddMappingController controller = ControllerFactory.Get<AddMappingController>();
 
-			controller.AddMapping(BranchInfo.Create(this.Teamproject, this.Branch), this.Minimal, this.OpenSolution);
+			controller.AddMapping(BranchInfo.Create(this.Teamproject, this.Branch), this.Minimal.Value, this.OpenSolution.Value);
 		}
 		#endregion
 	}

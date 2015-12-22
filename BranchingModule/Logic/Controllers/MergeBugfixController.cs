@@ -70,7 +70,6 @@ namespace BranchingModule.Logic
 
 			this.VersionControl.MergeChangeset(strChangeset, sourceBranch, BranchInfo.CreateSet(sourceBranch.TeamProject, targetBranches));
 		}
-
 		#endregion
 	}
 }
