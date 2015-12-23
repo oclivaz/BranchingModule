@@ -64,6 +64,7 @@
     <Compile Include="Builder\DateTimeBuilder.cs" />
     <Compile Include="DependencyInjection\ControllerFactoryTest.cs" />
     <Compile Include="IntegrationTests\ExplorationalTests.cs" />
+    <Compile Include="Logic\Controller\OpenWebControllerTest.cs" />
     <Compile Include="Logic\Controller\RestoreDatabaseControllerTest.cs" />
     <Compile Include="Logic\Controller\GetLatestControllerTest.cs" />
     <Compile Include="Logic\Controller\GetReleasebranchesControllerTest.cs" />
