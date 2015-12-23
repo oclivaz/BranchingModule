@@ -27,6 +27,11 @@ namespace BranchingModule.Cmdlets
 		{
 			return new DynamicParameter<SwitchParameter>(cmdLet, "OpenSolution", false, nPosition);
 		}
+
+		public static DynamicParameter<SwitchParameter> CreateOpenWebParameter(BranchingModulePSCmdletBase cmdLet, int nPosition)
+		{
+			return new DynamicParameter<SwitchParameter>(cmdLet, "OpenWeb", false, nPosition);
+		}
 		#endregion
 	}
 }

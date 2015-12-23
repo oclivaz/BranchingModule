@@ -10,6 +10,7 @@ namespace BranchingModule.Cmdlets
 		internal DynamicParameter<string> Teamproject { get; set; }
 		internal DynamicParameter<string> Branch { get; set; }
 		internal DynamicParameter<SwitchParameter> OpenSolution { get; set; }
+		internal DynamicParameter<SwitchParameter> OpenWeb { get; set; }
 		#endregion
 
 		#region Constructors
@@ -18,6 +19,7 @@ namespace BranchingModule.Cmdlets
 			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
 			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
 			this.OpenSolution = DynamicParameterFactory.CreateOpenSolutionParameter(this, 2);
+			this.OpenWeb = DynamicParameterFactory.CreateOpenWebParameter(this, 2);
 		}
 		#endregion
 
@@ -26,7 +28,7 @@ namespace BranchingModule.Cmdlets
 		{
 			GetLatestController controller = ControllerFactory.Get<GetLatestController>();
 
-			controller.GetLatest(BranchInfo.Create(this.Teamproject, this.Branch), this.OpenSolution.Value);
+			controller.GetLatest(BranchInfo.Create(this.Teamproject, this.Branch), this.OpenSolution.Value, this.OpenWeb.Value);
 		}
 		#endregion
 	}

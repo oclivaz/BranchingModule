@@ -117,6 +117,8 @@
     <Compile Include="Logic\Services\Database\DatabaseService.cs" />
     <Compile Include="Logic\Services\Database\IDumpRepositoryService.cs" />
     <Compile Include="Logic\Services\Database\IDatabaseService.cs" />
+    <Compile Include="Logic\Services\Environment\EnvironmentService.cs" />
+    <Compile Include="Logic\Services\Environment\IEnvironmentService.cs" />
     <Compile Include="Logic\Services\FileSystem\Executables.cs" />
     <Compile Include="Logic\Services\FileSystem\FileExecutionService.cs" />
     <Compile Include="Logic\Adapters\FileSystem\FileSystemAdapter.cs" />

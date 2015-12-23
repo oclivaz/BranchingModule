@@ -1,29 +1,22 @@
-﻿using System;
-
-namespace BranchingModule.Logic
+﻿namespace BranchingModule.Logic
 {
 	internal class OpenWebController
 	{
 		#region Properties
-		public IFileExecutionService FileExecution { get; set; }
-		public IConvention Convention { get; set; }
+		private IEnvironmentService Environment { get; set; }
 		#endregion
 
 		#region Constructors
-		public OpenWebController(IFileExecutionService fileExecutionService, IConvention convention)
+		public OpenWebController(IEnvironmentService environmentService)
 		{
-			if(fileExecutionService == null) throw new ArgumentNullException("fileExecutionService");
-			if(convention == null) throw new ArgumentNullException("convention");
-
-			this.FileExecution = fileExecutionService;
-			this.Convention = convention;
+			this.Environment = environmentService;
 		}
 		#endregion
 
 		#region Publics
 		public void OpenWeb(BranchInfo branch)
 		{
-			this.FileExecution.StartProcess(Executables.INTERNET_EXPLORER, string.Format("http://localhost/{0}", this.Convention.GetApplicationName(branch)));
+			this.Environment.OpenWeb(branch);
 		}
 		#endregion
 	}

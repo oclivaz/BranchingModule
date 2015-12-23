@@ -45,6 +45,7 @@ namespace BranchingModule.Logic
 				Bind<ITextOutputService>().To<TextOutputService>().InSingletonScope();
 				Bind<IUserInputService>().To<UserInputService>().InSingletonScope();
 				Bind<IFileExecutionService>().To<FileExecutionService>().InSingletonScope();
+				Bind<IEnvironmentService>().To<EnvironmentService>().InSingletonScope();
 
 				// Other
 				Bind<IConvention>().To<MSConvention>().InSingletonScope();

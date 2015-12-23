@@ -5,17 +5,17 @@ namespace BranchingModule.Logic
 	internal class OpenSolutionController
 	{
 		#region Properties
-		public IFileExecutionService FileExecution { get; set; }
-		public IConvention Convention { get; set; }
+		private IEnvironmentService Environment { get; set; }
+		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors
-		public OpenSolutionController(IFileExecutionService fileExecutionService, IConvention convention)
+		public OpenSolutionController(IEnvironmentService environmentService, IConvention convention)
 		{
-			if(fileExecutionService == null) throw new ArgumentNullException("fileExecutionService");
+			if(environmentService == null) throw new ArgumentNullException("environmentService");
 			if(convention == null) throw new ArgumentNullException("convention");
 
-			this.FileExecution = fileExecutionService;
+			this.Environment = environmentService;
 			this.Convention = convention;
 		}
 		#endregion
@@ -23,7 +23,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void OpenSolution(BranchInfo branch)
 		{
-			this.FileExecution.StartProcess(Executables.EXPLORER, this.Convention.GetSolutionFile(branch));
+			this.Environment.OpenSolution(branch);
 		}
 		#endregion
 	}
