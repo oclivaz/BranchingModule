@@ -11,15 +11,15 @@ namespace BranchingModuleTest.Logic.Controller
 	{
 		#region Properties
 		private OpenSolutionController OpenSolutionController { get; set; }
-		private IFileExecutionService FileExecution { get; set; }
+		private IEnvironmentService Environment { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.FileExecution = Substitute.For<IFileExecutionService>();
-			this.OpenSolutionController = new OpenSolutionController(this.FileExecution, new ConventionDummy());
+			this.Environment = Substitute.For<IEnvironmentService>();
+			this.OpenSolutionController = new OpenSolutionController(this.Environment, new ConventionDummy());
 		}
 		#endregion
 
@@ -31,7 +31,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.OpenSolutionController.OpenSolution(AKISBV_5_0_35);
 
 			// Assert
-			this.FileExecution.Received().StartProcess(Executables.EXPLORER, LOCAL_SOLUTION_FILE_PATH_AKISBV_5_0_35);
+			this.Environment.Received().OpenSolution(AKISBV_5_0_35);
 		}
 		#endregion
 	}

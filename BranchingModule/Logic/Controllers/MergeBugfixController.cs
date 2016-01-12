@@ -8,7 +8,7 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IVersionControlService VersionControl { get; set; }
-		private IUserInputService UserInputService { get; set; }
+		private IUserInputService UserInput { get; set; }
 		private ISettings Settings { get; set; }
 		private IConvention Convention { get; set; }
 		#endregion
@@ -21,7 +21,7 @@ namespace BranchingModule.Logic
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.VersionControl = versionControlService;
-			this.UserInputService = userInputService;
+			this.UserInput = userInputService;
 			this.Settings = settings;
 			this.Convention = convention;
 		}
@@ -34,7 +34,7 @@ namespace BranchingModule.Logic
 			if(targetBranches == null) throw new ArgumentNullException("targetBranches");
 
 			string strComment = this.VersionControl.GetChangesetComment(strChangeset);
-			if(!this.UserInputService.RequestConfirmation(string.Format("Merge Changeset {0} - \"{1}\"?", strChangeset, strComment)))
+			if(!this.UserInput.RequestConfirmation(string.Format("Merge Changeset {0} - \"{1}\"?", strChangeset, strComment)))
 			{
 				return;
 			}

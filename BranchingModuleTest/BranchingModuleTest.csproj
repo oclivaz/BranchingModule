@@ -79,6 +79,7 @@
     <Compile Include="Logic\Conventions\MSMainbranchConventionTest.cs" />
     <Compile Include="Logic\Conventions\MSDevelpmentBranchConventionTest.cs" />
     <Compile Include="Logic\Services\AblageServiceTest.cs" />
+    <Compile Include="Logic\Services\EnvironmentServiceTest.cs" />
     <Compile Include="Logic\Services\TeamFoundationServiceTest.cs" />
     <Compile Include="Logic\Services\TextOutputServiceTest.cs" />
     <Compile Include="Logic\Services\DumpRepositoryServiceTest.cs" />

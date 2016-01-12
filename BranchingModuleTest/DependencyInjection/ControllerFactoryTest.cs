@@ -36,6 +36,13 @@ namespace BranchingModuleTest.DependencyInjection
 		}
 
 		[TestMethod]
+		public void TestCreate_OpenWebController()
+		{
+			// Act
+			ControllerFactory.Get<OpenWebController>();
+		}
+
+		[TestMethod]
 		public void TestCreate_RemoveMappingController()
 		{
 			// Act
