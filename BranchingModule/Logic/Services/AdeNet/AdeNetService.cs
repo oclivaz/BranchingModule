@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BranchingModule.Logic
@@ -79,7 +80,7 @@ namespace BranchingModule.Logic
 			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -install {1} -development", this.Convention.GetLocalPath(branch), strPackage));
 		}
 
-		private static string FindLastRevisionOrBugfix(string[] packages)
+		private static string FindLastRevisionOrBugfix(IEnumerable<string> packages)
 		{
 			return packages.LastOrDefault(p => !string.IsNullOrEmpty(p) && !p.Contains("-"));
 		}
