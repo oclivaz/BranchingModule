@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BranchingModule.Logic
 {
@@ -28,6 +29,11 @@ namespace BranchingModule.Logic
 		public void InstallPackages(BranchInfo branch)
 		{
 			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -deploy -development", this.Convention.GetLocalPath(branch)));
+
+			foreach(string strReference in this.Settings.GetTeamProjectSettings(branch.TeamProject).AditionalReferences)
+			{
+				InstallLatestPackage(branch, strReference);
+			}
 		}
 
 		public void BuildWebConfig(BranchInfo branch)
@@ -49,6 +55,38 @@ namespace BranchingModule.Logic
 		{
 			this.TextOutput.WriteVerbose(string.Format("Starting Internet Explorer. Add a build configuration for {0}", branch));
 			this.FileExecution.StartProcess(Executables.INTERNET_EXPLORER, this.Settings.BuildConfigurationUrl);
+		}
+		#endregion
+
+		#region Privates
+		private void InstallLatestPackage(BranchInfo branch, string strReference)
+		{
+			string[] packages = ListPackages(strReference);
+
+			string package = FindLastRevisionOrBugfix(packages);
+
+			if(package != null)
+			{
+				InstallPackage(branch, package);
+			}
+		}
+
+		private void InstallPackage(BranchInfo branch, string package)
+		{
+			string strPackage = package.Replace(":", string.Empty);
+			this.TextOutput.WriteVerbose(string.Format("Installing {0}", strPackage));
+
+			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -install {1} -development", this.Convention.GetLocalPath(branch), strPackage));
+		}
+
+		private static string FindLastRevisionOrBugfix(string[] packages)
+		{
+			return packages.LastOrDefault(p => !string.IsNullOrEmpty(p) && !p.Contains("-"));
+		}
+
+		private string[] ListPackages(string strReference)
+		{
+			return this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-list {0}", strReference)).Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 		}
 		#endregion
 	}

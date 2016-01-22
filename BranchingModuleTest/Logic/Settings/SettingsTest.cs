@@ -36,7 +36,7 @@ namespace BranchingModuleTest
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
 			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
-			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalPackages.Single());
+			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalReferences.Single());
 		}
 
 		[TestMethod]
@@ -52,7 +52,7 @@ namespace BranchingModuleTest
 			// Assert
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
-			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalPackages.Single());
+			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalReferences.Single());
 		}
 
 		[TestMethod]
@@ -107,7 +107,7 @@ namespace BranchingModuleTest
 			                             {
 				                             LocalDB = "LocalDB",
 				                             RefDB = "RefDB",
-				                             AditionalPackages = new[] { ASKFB }
+				                             AditionalReferences = new[] { ASKFB }
 			                             });
 			return dto;
 		}

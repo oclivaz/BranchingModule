@@ -1,24 +1,35 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace BranchingModule.Logic
 {
 	internal class FileExecutionService : IFileExecutionService
 	{
-		public void ExecuteInCmd(string strFile, string strArguments)
+		public string ExecuteInCmd(string strFile, string strArguments)
 		{
 			string strCmdarguments = string.Format(@"/C {0} {1}", strFile, strArguments);
+
+			string strOutput = string.Empty;
 
 			ProcessStartInfo startInfo = new ProcessStartInfo(Executables.CMD_EXE)
 			{
 				Arguments = strCmdarguments,
 				CreateNoWindow = true,
-				UseShellExecute = false
+				UseShellExecute = false,
+				RedirectStandardInput = false,
+				RedirectStandardOutput = true
 			};
 
 			using(Process process = Process.Start(startInfo))
 			{
-				if(process != null) process.WaitForExit();
+				if(process != null)
+				{
+					strOutput = process.StandardOutput.ReadToEnd();
+					process.WaitForExit();
+				}
 			}
+
+			return strOutput;
 		}
 
 		public void Execute(string strFile, string strArguments)

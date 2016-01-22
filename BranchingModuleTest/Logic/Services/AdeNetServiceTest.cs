@@ -26,7 +26,10 @@ namespace BranchingModuleTest.Logic.Services
 		[TestInitialize]
 		public void InitializeTest()
 		{
-			this.Settings = new SettingsDummy();
+			this.Settings = Substitute.For<ISettings>();
+			this.Settings.AdeNetExePath.Returns(ADENET_EXE_PATH);
+			this.Settings.BuildConfigurationUrl.Returns(BUILDCONFIGURATION_URL);
+
 			this.FileExecution = Substitute.For<IFileExecutionService>();
 
 			this.AdeNetService = new AdeNetService(this.FileExecution, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
@@ -37,11 +40,19 @@ namespace BranchingModuleTest.Logic.Services
 		[TestMethod]
 		public void TestInstallPackages()
 		{
+			// Arrange
+			ITeamProjectSettings teamprojectSettings = TeamProjectSettings("someDB", "someDB", new[] { ASKFB });
+			this.Settings.GetTeamProjectSettings(AKISBV).Returns(teamprojectSettings);
+			this.FileExecution.ExecuteInCmd(ADENET_EXE_PATH, "-list AskFB").Returns(@"AskFB: 3.1.0.1
+AskFB: 3.1.0.1-Schubidu
+");
+
 			// Act
 			this.AdeNetService.InstallPackages(AKISBV_5_0_35);
 
 			// Assert
 			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-workingdirectory {0} -deploy -development", LOCAL_PATH_AKISBV_5_0_35));
+			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-workingdirectory {0} -install AskFB 3.1.0.1 -development", LOCAL_PATH_AKISBV_5_0_35));
 		}
 
 		[TestMethod]

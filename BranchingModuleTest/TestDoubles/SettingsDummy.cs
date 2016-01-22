@@ -3,7 +3,7 @@ using BranchingModule.Logic;
 
 namespace BranchingModuleTest.TestDoubles
 {
-	internal class SettingsDummy : ISettings
+	public class SettingsDummy : ISettings
 	{
 		#region Properties
 		public static string TeamFoundationServerPath

@@ -52,7 +52,7 @@ namespace BranchingModuleTest.Base
 			{
 				LocalDB = strLocalDB,
 				RefDB = strRefDB,
-				AditionalPackages = aditionalPackages
+				AditionalReferences = aditionalPackages
 			};
 
 			return new TeamProjectSettings(dto);

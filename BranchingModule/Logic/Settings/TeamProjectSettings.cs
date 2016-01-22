@@ -7,7 +7,7 @@ namespace BranchingModule.Logic
 		#region Properties
 		public string LocalDB { get; private set; }
 		public string RefDB { get; private set; }
-		public string[] AditionalPackages { get; private set; }
+		public string[] AditionalReferences { get; private set; }
 		#endregion
 
 		#region Constructors
@@ -17,7 +17,7 @@ namespace BranchingModule.Logic
 
 			this.LocalDB = settingsDTO.LocalDB;
 			this.RefDB = settingsDTO.RefDB;
-			this.AditionalPackages = settingsDTO.AditionalPackages ?? new string[0];
+			this.AditionalReferences = settingsDTO.AditionalReferences ?? new string[0];
 		}
 		#endregion
 	}
