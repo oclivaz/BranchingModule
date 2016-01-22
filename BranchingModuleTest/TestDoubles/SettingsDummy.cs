@@ -61,6 +61,11 @@ namespace BranchingModuleTest.TestDoubles
 			get { return "SettingsDummy.SQLScriptPath"; }
 		}
 
+		public static int RetryInterval
+		{
+			get { return 1; }
+		}
+
 		public static string[] SupportedTeamProjects
 		{
 			get { return new[] { "one", "two", "three" }; }
@@ -133,6 +138,11 @@ namespace BranchingModuleTest.TestDoubles
 		string[] ISettings.SupportedTeamprojects
 		{
 			get { return SupportedTeamProjects; }
+		}
+
+		int ISettings.RetryInterval
+		{
+			get { return RetryInterval; }
 		}
 
 		string ISettings.TeamFoundationServerPath

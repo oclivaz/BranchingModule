@@ -14,6 +14,7 @@
 		string SQLConnectionString { get; }
 		string SQLScriptPath { get; }
 		string[] SupportedTeamprojects { get; }
+		int RetryInterval { get; }
 
 		ITeamProjectSettings GetTeamProjectSettings(string strTeamproject);
 		bool IsSupportedTeamproject(string strTeamProject);

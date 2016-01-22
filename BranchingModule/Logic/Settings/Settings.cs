@@ -8,6 +8,7 @@ namespace BranchingModule.Logic
 	{
 		#region Constants
 		public static readonly string DEFAULT_SETTINGS_FILE = @"\\m-s.ch\Ablage\AkisNetBV\#Admin\Tools\PowershellModules\Branching\BranchingModule.config";
+		private const int DEFAULT_RETRY_INTERVAL = 500;
 		#endregion
 
 		#region Properties
@@ -22,12 +23,14 @@ namespace BranchingModule.Logic
 		public string TempDirectory { get; private set; }
 		public string SQLScriptPath { get; private set; }
 		public string SQLConnectionString { get; private set; }
-		private Dictionary<string, ITeamProjectSettings> TeamprojectSettings { get; set; }
+		public int RetryInterval { get; set; }
 
 		public string[] SupportedTeamprojects
 		{
 			get { return this.TeamprojectSettings.Keys.ToArray(); }
 		}
+
+		private Dictionary<string, ITeamProjectSettings> TeamprojectSettings { get; set; }
 		#endregion
 
 		#region Constructors
@@ -50,6 +53,8 @@ namespace BranchingModule.Logic
 			{
 				this.TeamprojectSettings.Add(strTeamproject, new TeamProjectSettings(settingsDTO.Teamprojects[strTeamproject]));
 			}
+
+			this.RetryInterval = DEFAULT_RETRY_INTERVAL;
 		}
 		#endregion
 

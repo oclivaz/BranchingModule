@@ -130,7 +130,7 @@ namespace BranchingModule.Logic
 				         this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
 				         this.SQLServer.ExecuteScript(GetRestoreDatabaseScript(strDump, strDB), MASTER);
 				         this.SQLServer.ExecuteScript(GetPostRestoreScript(strDB, branch), strDB);
-			         }, new TimeSpan(0, 0, 0, 0, 500));
+			         }, new TimeSpan(0, 0, 0, 0, this.Settings.RetryInterval));
 		}
 
 		private string GetKillConnectionsScript(string strDB)
