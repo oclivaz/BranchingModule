@@ -4,5 +4,6 @@
 	{
 		string LocalDB { get; }
 		string RefDB { get; }
+		string[] AditionalPackages { get; }
 	}
 }

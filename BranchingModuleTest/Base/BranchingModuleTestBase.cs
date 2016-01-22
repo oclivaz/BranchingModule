@@ -11,6 +11,7 @@ namespace BranchingModuleTest.Base
 	{
 		#region Constants
 		protected const string AKISBV = "AkisBV";
+		protected const string ASKFB = "AskFB";
 		protected static readonly BranchInfo AKISBV_STD_10 = new BranchInfo(AKISBV, "Std-10");
 		protected static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo(AKISBV, "5.0.35");
 		protected static readonly BranchInfo AKISBV_5_0_40 = new BranchInfo(AKISBV, "5.0.40");
@@ -41,6 +42,18 @@ namespace BranchingModuleTest.Base
 				                             LocalDB = strLocalDB,
 				                             RefDB = strRefDB
 			                             };
+
+			return new TeamProjectSettings(dto);
+		}
+
+		protected ITeamProjectSettings TeamProjectSettings(string strLocalDB, string strRefDB, string[] aditionalPackages)
+		{
+			TeamProjectSettingsDTO dto = new TeamProjectSettingsDTO
+			{
+				LocalDB = strLocalDB,
+				RefDB = strRefDB,
+				AditionalPackages = aditionalPackages
+			};
 
 			return new TeamProjectSettings(dto);
 		}

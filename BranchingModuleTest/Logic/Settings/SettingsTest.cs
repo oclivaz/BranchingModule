@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,6 +36,7 @@ namespace BranchingModuleTest
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
 			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
+			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalPackages.Single());
 		}
 
 		[TestMethod]
@@ -50,7 +52,7 @@ namespace BranchingModuleTest
 			// Assert
 			Assert.IsNotNull(teamProjectSettings);
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
-			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
+			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalPackages.Single());
 		}
 
 		[TestMethod]
@@ -102,10 +104,11 @@ namespace BranchingModuleTest
 			                  };
 
 			dto.Teamprojects.Add(AKISBV, new TeamProjectSettingsDTO
-			                                      {
-				                                      LocalDB = "LocalDB",
-				                                      RefDB = "RefDB"
-			                                      });
+			                             {
+				                             LocalDB = "LocalDB",
+				                             RefDB = "RefDB",
+				                             AditionalPackages = new[] { ASKFB }
+			                             });
 			return dto;
 		}
 		#endregion
