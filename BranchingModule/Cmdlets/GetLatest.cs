@@ -19,7 +19,7 @@ namespace BranchingModule.Cmdlets
 			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
 			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
 			this.OpenSolution = DynamicParameterFactory.CreateOpenSolutionParameter(this, 2);
-			this.OpenWeb = DynamicParameterFactory.CreateOpenWebParameter(this, 2);
+			this.OpenWeb = DynamicParameterFactory.CreateOpenWebParameter(this, 3);
 		}
 		#endregion
 
