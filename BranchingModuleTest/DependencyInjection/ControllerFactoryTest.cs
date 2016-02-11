@@ -83,6 +83,13 @@ namespace BranchingModuleTest.DependencyInjection
 			// Act
 			ControllerFactory.Get<GetReleasebranchesController>();
 		}
+
+		[TestMethod]
+		public void TestCreate_ResetIndivConfigController()
+		{
+			// Act
+			ControllerFactory.Get<ResetIndivConfigController>();
+		}
 		#endregion
 	}
 }
