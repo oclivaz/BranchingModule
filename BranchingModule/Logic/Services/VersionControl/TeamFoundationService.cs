@@ -11,20 +11,16 @@ namespace BranchingModule.Logic
 
 		private IConvention Convention { get; set; }
 
-		private ISettings Settings { get; set; }
-
 		private ITeamFoundationVersionControlAdapter VersionControlAdapter { get; set; }
 		#endregion
 
 		#region Constructors
-		public TeamFoundationService(ITeamFoundationVersionControlAdapter versoControlAdapterAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
+		public TeamFoundationService(ITeamFoundationVersionControlAdapter versoControlAdapterAdapter, IConvention convention, ITextOutputService textOutputService)
 		{
-			if(settings == null) throw new ArgumentNullException("settings");
 			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.VersionControlAdapter = versoControlAdapterAdapter;
 			this.Convention = convention;
-			this.Settings = settings;
 			this.TextOutput = textOutputService;
 		}
 		#endregion
@@ -57,13 +53,6 @@ namespace BranchingModule.Logic
 		public bool IsMapped(BranchInfo branch)
 		{
 			return this.VersionControlAdapter.IsServerPathMapped(this.Convention.GetServerPath(branch));
-		}
-
-		public void CreateAppConfig(BranchInfo branch)
-		{
-			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));
-
-			this.VersionControlAdapter.DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
 		}
 
 		public DateTime GetCreationTime(BranchInfo branch)
@@ -136,6 +125,14 @@ namespace BranchingModule.Logic
 			if(strChangeset == null) throw new ArgumentNullException("strChangeset");
 
 			return this.VersionControlAdapter.GetComment(strChangeset);
+		}
+
+		public void DownloadFile(string strServerPath, string strLocalPath)
+		{
+			if(strServerPath == null) throw new ArgumentNullException("strServerPath");
+			if(strLocalPath == null) throw new ArgumentNullException("strLocalPath");
+
+			this.VersionControlAdapter.DownloadFile(strServerPath, strLocalPath);
 		}
 
 		public void MergeChangeset(string strChangesetToMerge, BranchInfo sourceBranch, ISet<BranchInfo> targetBranches)

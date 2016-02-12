@@ -26,6 +26,7 @@ namespace BranchingModuleTest.Logic.Services
 		private IConfigFileService ConfigFileService { get; set; }
 		private ISettings Settings { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
+		private IVersionControlService VersionControl { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -34,7 +35,8 @@ namespace BranchingModuleTest.Logic.Services
 		{
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
-			this.ConfigFileService = new ConfigFileService(new ConventionDummy(),  this.Settings, this.FileSystem);
+			this.VersionControl = Substitute.For<IVersionControlService>();
+			this.ConfigFileService = new ConfigFileService(this.VersionControl, new ConventionDummy(), this.Settings, this.FileSystem);
 		}
 		#endregion
 
@@ -50,6 +52,19 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.FileSystem.Received().WriteAllText(string.Format(@"{0}\Web\Indiv\indiv.config", LOCAL_PATH_AKISBV_5_0_35), INDIV_CONFIG_AKISBV_5_0_35, Encoding.UTF8);
+		}
+
+		[TestMethod]
+		public void TestCreateAppConfig()
+		{
+			// Arrange
+			this.Settings.AppConfigServerPath.Returns("$/app.config");
+
+			// Act
+			this.ConfigFileService.CreateAppConfig(AKISBV_5_0_35);
+
+			// Assert
+			this.VersionControl.Received().DownloadFile("$/app.config", string.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
 		}
 		#endregion
 	}

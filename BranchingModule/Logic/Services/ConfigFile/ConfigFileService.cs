@@ -6,16 +6,21 @@ namespace BranchingModule.Logic
 	internal class ConfigFileService : IConfigFileService
 	{
 		#region Properties
+		public IVersionControlService VersionControl { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
 		#endregion
 
 		#region Constructors
-		public ConfigFileService(IConvention convention, ISettings settings, IFileSystemAdapter fileSystemAdapter)
+		public ConfigFileService(IVersionControlService versionControlService, IConvention convention, ISettings settings, IFileSystemAdapter fileSystemAdapter)
 		{
+			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(convention == null) throw new ArgumentNullException("convention");
+			if(settings == null) throw new ArgumentNullException("settings");
+			if(fileSystemAdapter == null) throw new ArgumentNullException("fileSystemAdapter");
 
+			this.VersionControl = versionControlService;
 			this.Convention = convention;
 			this.Settings = settings;
 			this.FileSystem = fileSystemAdapter;
@@ -39,6 +44,13 @@ namespace BranchingModule.Logic
 
 			string strIndivConfig = String.Format(@"{0}\Web\Indiv\indiv.config", this.Convention.GetLocalPath(branch));
 			this.FileSystem.WriteAllText(strIndivConfig, strContent, Encoding.UTF8);
+		}
+
+		public void CreateAppConfig(BranchInfo branch)
+		{
+			string strLocalPath = string.Format(@"{0}\Web\app.config", this.Convention.GetLocalPath(branch));
+
+			this.VersionControl.DownloadFile(this.Settings.AppConfigServerPath, strLocalPath);
 		}
 		#endregion
 	}

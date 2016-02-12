@@ -63,7 +63,7 @@ namespace BranchingModule.Logic
 			this.ConfigFile.CreateIndivConfig(branch);
 
 			this.TextOutput.WriteVerbose("Creating App.config");
-			this.VersionControl.CreateAppConfig(branch);
+			this.ConfigFile.CreateAppConfig(branch);
 
 			this.TextOutput.WriteVerbose("Building Web.config");
 			this.AdeNet.BuildWebConfig(branch);

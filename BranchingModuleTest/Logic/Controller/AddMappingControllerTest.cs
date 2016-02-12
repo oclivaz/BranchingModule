@@ -47,7 +47,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
 			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
 			this.ConfigFileService.Received().CreateIndivConfig(AKISBV_5_0_35);
-			this.VersionControl.Received().CreateAppConfig(AKISBV_5_0_35);
+			this.ConfigFileService.Received().CreateAppConfig(AKISBV_5_0_35);
 			this.AdeNet.Received().BuildWebConfig(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
@@ -65,7 +65,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
 			this.AdeNet.DidNotReceive().InstallPackages(Arg.Any<BranchInfo>());
 			this.ConfigFileService.DidNotReceive().CreateIndivConfig(Arg.Any<BranchInfo>());
-			this.VersionControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
+			this.ConfigFileService.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());
@@ -83,7 +83,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().CreateMapping(AKISBV_5_0_35);
 			this.AdeNet.DidNotReceive().InstallPackages(Arg.Any<BranchInfo>());
 			this.ConfigFileService.DidNotReceive().CreateIndivConfig(Arg.Any<BranchInfo>());
-			this.VersionControl.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
+			this.ConfigFileService.DidNotReceive().CreateAppConfig(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().BuildWebConfig(Arg.Any<BranchInfo>());
 			this.BuildEngine.DidNotReceive().Build(Arg.Any<BranchInfo>());
 			this.AdeNet.DidNotReceive().InitializeIIS(Arg.Any<BranchInfo>());

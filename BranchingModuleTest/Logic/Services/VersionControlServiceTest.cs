@@ -11,7 +11,7 @@ using NSubstitute.Core;
 namespace BranchingModuleTest.Logic.Services
 {
 	[TestClass]
-	public class TeamFoundationServiceTest : BranchingModuleTestBase
+	public class VersionControlServiceTest : BranchingModuleTestBase
 	{
 		#region Constants
 		protected const string APPCONFIG_SERVER_PATH = @"£/pathtoappconfig";
@@ -34,7 +34,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Convention = new ConventionDummy();
 			this.Settings = Substitute.For<ISettings>();
 			this.VersionControlAdapter = Substitute.For<ITeamFoundationVersionControlAdapter>();
-			this.VersionControlService = new TeamFoundationService(this.VersionControlAdapter, this.Convention, this.Settings, new TextOutputServiceDummy());
+			this.VersionControlService = new TeamFoundationService(this.VersionControlAdapter, this.Convention, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -49,7 +49,7 @@ namespace BranchingModuleTest.Logic.Services
 			convention.GetBranchInfoByServerPath(SERVERITEM).Returns(AKISBV_MAIN);
 			convention.GetBranchInfoByServerPath(OTHER_SERVERITEM).Returns(AKISBV_MAIN);
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			BranchInfo branch = versionControlService.GetBranchInfoByChangeset(CHANGESETNUMBER);
@@ -69,7 +69,7 @@ namespace BranchingModuleTest.Logic.Services
 			convention.GetBranchInfoByServerPath(SERVERITEM).Returns(AKISBV_MAIN);
 			convention.GetBranchInfoByServerPath(OTHER_SERVERITEM).Returns(AKISBV_5_0_35);
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			versionControlService.GetBranchInfoByChangeset(CHANGESETNUMBER);
@@ -108,19 +108,6 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.VersionControlAdapter.Received().DeleteMapping(SERVER_PATH_AKISBV_5_0_35, LOCAL_PATH_AKISBV_5_0_35);
 			this.VersionControlAdapter.Received().Get();
-		}
-
-		[TestMethod]
-		public void TestCreateAppConfig()
-		{
-			// Arrange
-			this.Settings.AppConfigServerPath.Returns(APPCONFIG_SERVER_PATH);
-
-			// Act
-			this.VersionControlService.CreateAppConfig(AKISBV_5_0_35);
-
-			// Assert
-			this.VersionControlAdapter.Received().DownloadFile(APPCONFIG_SERVER_PATH, String.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
 		}
 
 		[TestMethod]
@@ -165,7 +152,7 @@ namespace BranchingModuleTest.Logic.Services
 			convention.GetBranchInfoByServerPath(ANY_STRING).ReturnsForAnyArgs(AKISBV_5_0_35);
 			this.VersionControlAdapter.GetServerItemsByChangeset(CHANGESETNUMBER).Returns(new[] { SERVER_PATH_AKISBV_5_0_35 });
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			BranchInfo branch = versionControlService.GetBranchInfoByChangeset(CHANGESETNUMBER);
@@ -185,7 +172,7 @@ namespace BranchingModuleTest.Logic.Services
 			convention.GetBranchInfoByServerPath(SERVER_PATH_AKISBV_MAIN).Returns(AKISBV_MAIN);
 			this.VersionControlAdapter.GetServerItemsByChangeset(CHANGESETNUMBER).Returns(new[] { SERVER_PATH_AKISBV_5_0_35, SERVER_PATH_AKISBV_MAIN });
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			versionControlService.GetBranchInfoByChangeset(CHANGESETNUMBER);
@@ -359,7 +346,7 @@ namespace BranchingModuleTest.Logic.Services
 			BranchInfo branch;
 			convention.TryGetBranchInfoByServerPath(SERVER_BASEPATH_AKISBV_5_0_35, out branch).Returns(BranchInfoOut(AKISBV_5_0_35));
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			ISet<BranchInfo> branches = versionControlService.GetReleasebranches(AKISBV);
@@ -379,7 +366,7 @@ namespace BranchingModuleTest.Logic.Services
 			BranchInfo branch;
 			convention.TryGetBranchInfoByServerPath(SERVER_BASEPATH_AKISBV_5_0_35, out branch).Returns(NoSuccess());
 
-			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, this.Settings, new TextOutputServiceDummy());
+			IVersionControlService versionControlService = new TeamFoundationService(this.VersionControlAdapter, convention, new TextOutputServiceDummy());
 
 			// Act
 			ISet<BranchInfo> branches = versionControlService.GetReleasebranches(AKISBV);
@@ -435,6 +422,16 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			Assert.IsFalse(bMapped);
+		}
+
+		[TestMethod]
+		public void TestDownloadFile()
+		{
+			// Act
+			this.VersionControlService.DownloadFile("serverPath", "localPath");
+
+			// Assert
+			this.VersionControlAdapter.Received().DownloadFile("serverPath", "localPath");
 		}
 		#endregion
 

@@ -8,7 +8,6 @@ namespace BranchingModule.Logic
 		void CreateMapping(BranchInfo branch);
 		void DeleteMapping(BranchInfo branch);
 		bool IsMapped(BranchInfo branch);
-		void CreateAppConfig(BranchInfo branch);
 		DateTime GetCreationTime(BranchInfo branch);
 		void CreateBranch(BranchInfo branch);
 		void DeleteBranch(BranchInfo branch);
@@ -18,5 +17,6 @@ namespace BranchingModule.Logic
 		ISet<BranchInfo> GetReleasebranches(string strTeamProject);
 		void GetLatest(BranchInfo branch);
 		string GetChangesetComment(string strChangeset);
+		void DownloadFile(string strServerPath, string strLocalPath);
 	}
 }
