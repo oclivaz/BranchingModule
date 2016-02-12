@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BranchingModule.Logic
 {
-	internal class GetReleasebranchesController
+	internal class ShowReleasebranchesController
 	{
 		#region Properties
 		public ITextOutputService TextOutput { get; set; }
@@ -11,7 +11,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public GetReleasebranchesController(IVersionControlService versionControlService, ITextOutputService textOutputService)
+		public ShowReleasebranchesController(IVersionControlService versionControlService, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(textOutputService == null) throw new ArgumentNullException("textOutputService");
@@ -22,7 +22,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
-		public void GetReleasebranches(string strTeamproject)
+		public void ShowReleasebranches(string strTeamproject)
 		{
 			ISet<BranchInfo> releasebranches = this.VersionControl.GetReleasebranches(strTeamproject);
 

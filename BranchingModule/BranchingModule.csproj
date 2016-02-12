@@ -76,7 +76,7 @@
     <Compile Include="Cmdlets\DynamicParameter\DynamicParameter.cs" />
     <Compile Include="Cmdlets\DynamicParameter\DynamicParameterFactory.cs" />
     <Compile Include="Cmdlets\DynamicParameter\IDynamicParameter.cs" />
-    <Compile Include="Cmdlets\GetReleasebranches.cs" />
+    <Compile Include="Cmdlets\ShowReleasebranches.cs" />
     <Compile Include="Cmdlets\ResetIndivConfig.cs" />
     <Compile Include="Cmdlets\OpenWeb.cs" />
     <Compile Include="Cmdlets\RestoreDatabase.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="Cmdlets\RemoveMapping.cs" />
     <Compile Include="Cmdlets\BackupDatabase.cs" />
     <Compile Include="Cmdlets\NewDatabase.cs" />
-    <Compile Include="Logic\Controllers\GetReleasebranchesController.cs" />
+    <Compile Include="Logic\Controllers\ShowReleasebranchesController.cs" />
     <Compile Include="Logic\Controllers\ResetIndivConfigController.cs" />
     <Compile Include="Logic\Controllers\OpenWebController.cs" />
     <Compile Include="Logic\Controllers\RestoreDatabaseController.cs" />

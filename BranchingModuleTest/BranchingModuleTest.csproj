@@ -68,7 +68,7 @@
     <Compile Include="Logic\Controller\OpenWebControllerTest.cs" />
     <Compile Include="Logic\Controller\RestoreDatabaseControllerTest.cs" />
     <Compile Include="Logic\Controller\GetLatestControllerTest.cs" />
-    <Compile Include="Logic\Controller\GetReleasebranchesControllerTest.cs" />
+    <Compile Include="Logic\Controller\ShowReleasebranchesControllerTest.cs" />
     <Compile Include="Logic\Controller\OpenSolutionControllerTest.cs" />
     <Compile Include="Logic\Controller\MergeBugfixControllerText.cs" />
     <Compile Include="Logic\Controller\RemoveReleasebranchControllerTest.cs" />

@@ -85,10 +85,10 @@ namespace BranchingModuleTest.DependencyInjection
 		}
 
 		[TestMethod]
-		public void TestCreate_GetReleasebranchesController()
+		public void TestCreate_ShowReleasebranchesController()
 		{
 			// Act
-			ControllerFactory.Get<GetReleasebranchesController>();
+			ControllerFactory.Get<ShowReleasebranchesController>();
 		}
 
 		[TestMethod]

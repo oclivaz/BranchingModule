@@ -3,15 +3,15 @@ using BranchingModule.Logic;
 
 namespace BranchingModule.Cmdlets
 {
-	[Cmdlet(VerbsCommon.Get, "Releasebranches")]
-	public class GetReleasebranches : BranchingModulePSCmdletBase
+	[Cmdlet(VerbsCommon.Show, "Releasebranches")]
+	public class ShowReleasebranches : BranchingModulePSCmdletBase
 	{
 		#region Properties
 		internal DynamicParameter<string> Teamproject { get; set; }
 		#endregion
 
 		#region Constructors
-		public GetReleasebranches()
+		public ShowReleasebranches()
 		{
 			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
 		}
@@ -20,9 +20,9 @@ namespace BranchingModule.Cmdlets
 		#region Protecteds
 		protected override void OnProcessRecord()
 		{
-			GetReleasebranchesController controller = ControllerFactory.Get<GetReleasebranchesController>();
+			ShowReleasebranchesController controller = ControllerFactory.Get<ShowReleasebranchesController>();
 
-			controller.GetReleasebranches(this.Teamproject);
+			controller.ShowReleasebranches(this.Teamproject);
 		}
 		#endregion
 	}
