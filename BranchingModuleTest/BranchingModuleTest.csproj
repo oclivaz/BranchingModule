@@ -75,6 +75,7 @@
     <Compile Include="Logic\Controller\RemoveMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddMappingControllerTest.cs" />
     <Compile Include="Logic\Controller\AddReleasebranchControllerTest.cs" />
+    <Compile Include="Logic\Controller\NewDatabaseControllerTest.cs" />
     <Compile Include="Logic\Conventions\MSConventionTest.cs" />
     <Compile Include="Logic\Conventions\MSReleasebranchConventionTest.cs" />
     <Compile Include="Logic\Conventions\MSMainbranchConventionTest.cs" />

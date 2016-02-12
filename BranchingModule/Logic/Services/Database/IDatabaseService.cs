@@ -2,6 +2,8 @@
 {
 	public interface IDatabaseService
 	{
+		void Create(BranchInfo branch);
+
 		void Backup(BranchInfo branch);
 		void Backup(BranchInfo branch, string strFile);
 

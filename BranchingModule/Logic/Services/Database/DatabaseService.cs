@@ -9,6 +9,7 @@ namespace BranchingModule.Logic
 		#region Constants
 		private const string MASTER = "master";
 
+		private const string SCRIPT_CREATE_DATABASE = "CreateDatabase.sql";
 		private const string SCRIPT_BACKUP_DATABASE = "BackupDatabase.sql";
 		private const string SCRIPT_RESTORE_DATABASE = "RestoreDatabase.sql";
 		private const string SCRIPT_KILL_CONNECTIONS = "KillConnections.sql";
@@ -38,6 +39,11 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
+		public void Create(BranchInfo branch)
+		{
+			this.SQLServer.ExecuteScript(GetCreateDatabaseScript(this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
+		}
+
 		public void Backup(BranchInfo branch)
 		{
 			this.SQLServer.ExecuteScript(GetBackupDatabaseScript(this.Convention.GetLocalDump(branch), this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
@@ -136,6 +142,12 @@ namespace BranchingModule.Logic
 		private string GetKillConnectionsScript(string strDB)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_KILL_CONNECTIONS);
+			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
+		}
+
+		private string GetCreateDatabaseScript(string strDB)
+		{
+			string strScriptPath = GetScriptPath(SCRIPT_CREATE_DATABASE);
 			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 		}
 

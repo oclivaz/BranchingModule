@@ -87,6 +87,7 @@
     <Compile Include="Cmdlets\RemoveReleasebranch.cs" />
     <Compile Include="Cmdlets\RemoveMapping.cs" />
     <Compile Include="Cmdlets\BackupDatabase.cs" />
+    <Compile Include="Cmdlets\NewDatabase.cs" />
     <Compile Include="Logic\Controllers\GetReleasebranchesController.cs" />
     <Compile Include="Logic\Controllers\ResetIndivConfigController.cs" />
     <Compile Include="Logic\Controllers\OpenWebController.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Logic\Controllers\RemoveReleasebranchController.cs" />
     <Compile Include="Logic\Controllers\RemoveMappingController.cs" />
     <Compile Include="Logic\Controllers\BackupDatabaseController.cs" />
+    <Compile Include="Logic\Controllers\NewDatabaseController.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\BranchConventionRegistry.cs" />
     <Compile Include="Logic\Conventions\Branchconventions\MSDevelopmentBranchConvention.cs" />
     <Compile Include="Logic\Conventions\BranchType.cs" />

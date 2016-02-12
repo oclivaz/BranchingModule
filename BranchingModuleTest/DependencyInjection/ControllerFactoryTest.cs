@@ -64,6 +64,13 @@ namespace BranchingModuleTest.DependencyInjection
 		}
 
 		[TestMethod]
+		public void TestCreate_NewDatabaseController()
+		{
+			// Act
+			ControllerFactory.Get<NewDatabaseController>();
+		}
+
+		[TestMethod]
 		public void TestCreate_BackupDatabaseController()
 		{
 			// Act

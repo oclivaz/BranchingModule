@@ -45,6 +45,19 @@ namespace BranchingModuleTest.Logic.Services
 
 		#region Tests
 		[TestMethod]
+		public void TestCreateDatabase()
+		{
+			// Arrange
+			this.FileSystem.ReadAllText(Arg.Is<string>(script => script.Contains("Create"))).Returns("Create");
+
+			// Act
+			this.DatabaseService.Create(AKISBV_5_0_35);
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript("Create", Arg.Any<string>());
+		}
+
+		[TestMethod]
 		public void TestRestore_with_Dump_only_on_Buildserver()
 		{
 			// Arrange
