@@ -71,10 +71,19 @@ namespace BranchingModule.Cmdlets
 
 				WriteVerbose(GetElapsedTime(watch));
 			}
+			catch(AggregateException ex)
+			{
+				foreach(Exception innerException in ex.InnerExceptions)
+				{
+					Console.WriteLine(innerException.Message);
+				}
+				
+				Console.WriteLine(ex.StackTrace);
+			}
 			catch(Exception ex)
 			{
+				Console.WriteLine(ex.Message);
 				Console.WriteLine(ex.StackTrace);
-				throw;
 			}
 			finally
 			{

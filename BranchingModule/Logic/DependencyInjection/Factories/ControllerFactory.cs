@@ -32,7 +32,7 @@ namespace BranchingModule.Logic
 				// Adapters
 				Bind<ITeamFoundationVersionControlAdapter>().To<TeamFoundationVersionControlAdapter>();
 				Bind<IFileSystemAdapter>().To<FileSystemAdapter>().InSingletonScope();
-				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>();
+				Bind<ISQLServerAdapter>().To<MssqlServerAdapter>().InSingletonScope();
 
 				// Services
 				Bind<IVersionControlService>().To<TeamFoundationService>().InSingletonScope();
