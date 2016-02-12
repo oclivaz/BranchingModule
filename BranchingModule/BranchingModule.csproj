@@ -162,7 +162,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\icon.ico" />
+    <Content Include="Resources\SQL Scripts\BackupDatabase.sql" />
+    <Content Include="Resources\SQL Scripts\CreateDatabase.sql" />
+    <Content Include="Resources\SQL Scripts\KillConnections.sql" />
+    <Content Include="Resources\SQL Scripts\PostRestoreUpdates.sql" />
+    <Content Include="Resources\SQL Scripts\RestoreDatabase.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

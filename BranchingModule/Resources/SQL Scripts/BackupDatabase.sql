@@ -1,0 +1,4 @@
+BACKUP DATABASE {Database}
+TO  DISK = '{Dump}'
+WITH NOFORMAT, INIT,  NAME = N'Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+
