@@ -30,6 +30,11 @@ namespace BranchingModule.Logic
 		{
 			this.FileExecution.StartProcess(Executables.INTERNET_EXPLORER, string.Format("http://localhost/{0}", this.Convention.GetApplicationName(branch)));
 		}
+
+		public void ResetLocalWebserver()
+		{
+			this.FileExecution.ExecuteInCmd(Executables.IISRESET, string.Empty);
+		}
 		#endregion
 	}
 }

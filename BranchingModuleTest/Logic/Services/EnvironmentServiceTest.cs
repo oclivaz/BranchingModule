@@ -48,6 +48,16 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileExecution.Received().StartProcess(Executables.INTERNET_EXPLORER, Arg.Is<string>(s => s.Contains(APPLICATION_NAME_AKISBV_5_0_35)));
 		}
+
+		[TestMethod]
+		public void TestResetLocalWebserver()
+		{
+			// Act
+			this.Environment.ResetLocalWebserver();
+
+			// Assert
+			this.FileExecution.Received().ExecuteInCmd(Executables.IISRESET, string.Empty);
+		}
 		#endregion
 	}
 }

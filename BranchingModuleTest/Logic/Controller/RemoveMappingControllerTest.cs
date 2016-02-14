@@ -16,6 +16,7 @@ namespace BranchingModuleTest.Logic.Controller
 		private IFileSystemAdapter FileSystem { get; set; }
 		private IDatabaseService Database { get; set; }
 		private IAblageService Ablage { get; set; }
+		private IEnvironmentService Environment { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -27,8 +28,10 @@ namespace BranchingModuleTest.Logic.Controller
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.Database = Substitute.For<IDatabaseService>();
 			this.Ablage = Substitute.For<IAblageService>();
+			this.Environment = Substitute.For<IEnvironmentService>();
 
-			this.RemoveMappingController = new RemoveMappingController(this.VersionControl, this.AdeNet, this.FileSystem, this.Database, this.Ablage, new ConventionDummy(), new TextOutputServiceDummy());
+			this.RemoveMappingController = new RemoveMappingController(this.VersionControl, this.AdeNet, this.FileSystem, this.Database, this.Ablage, this.Environment,
+			                                                           new ConventionDummy(), new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -41,6 +44,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 			// Assert
 			this.VersionControl.Received().DeleteMapping(AKISBV_5_0_35);
+			this.Environment.Received().ResetLocalWebserver();
 			this.FileSystem.Received().DeleteDirectory(LOCAL_PATH_AKISBV_5_0_35);
 			this.AdeNet.Received().CleanupIIS(AKISBV_5_0_35);
 			this.Database.Received().DeleteLocalDump(AKISBV_5_0_35);
