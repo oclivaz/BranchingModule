@@ -27,7 +27,6 @@ namespace BranchingModuleTest
 			Assert.AreEqual(dto.BuildConfigurationUrl, settings.BuildConfigurationUrl);
 			Assert.AreEqual(dto.DumpRepositoryPath, settings.DumpRepositoryPath);
 			Assert.AreEqual(dto.LogfilePath, settings.LogfilePath);
-			Assert.AreEqual(dto.AppConfigServerPath, settings.AppConfigServerPath);
 			Assert.AreEqual(dto.TempDirectory, settings.TempDirectory);
 			Assert.AreEqual(dto.SQLScriptPath, settings.SQLScriptPath);
 			Assert.AreEqual(dto.SQLConnectionString, settings.SQLConnectionString);
@@ -37,6 +36,7 @@ namespace BranchingModuleTest
 			Assert.AreEqual("LocalDB", teamProjectSettings.LocalDB);
 			Assert.AreEqual("RefDB", teamProjectSettings.RefDB);
 			Assert.AreEqual(ASKFB, teamProjectSettings.AditionalReferences.Single());
+			Assert.AreEqual(dto.Teamprojects[AKISBV].AppConfigPath, teamProjectSettings.AppConfigPath);
 		}
 
 		[TestMethod]
@@ -96,7 +96,6 @@ namespace BranchingModuleTest
 				                  BuildConfigurationUrl = "BuildConfigurationUrl",
 				                  DumpRepositoryPath = "DumpRepositoryPath",
 				                  LogfilePath = "LogfilePath",
-				                  AppConfigServerPath = "AppConfigServerPath",
 				                  TempDirectory = "TempDirectory",
 				                  SQLScriptPath = "SQLScriptPath",
 				                  SQLConnectionString = "SQLConnectionString",
@@ -107,7 +106,8 @@ namespace BranchingModuleTest
 			                             {
 				                             LocalDB = "LocalDB",
 				                             RefDB = "RefDB",
-				                             AditionalReferences = new[] { ASKFB }
+				                             AditionalReferences = new[] { ASKFB },
+											 AppConfigPath = "AppConfigPath"
 			                             });
 			return dto;
 		}

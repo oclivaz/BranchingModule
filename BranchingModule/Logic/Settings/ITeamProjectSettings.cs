@@ -5,5 +5,6 @@
 		string LocalDB { get; }
 		string RefDB { get; }
 		string[] AditionalReferences { get; }
+		string AppConfigPath { get; }
 	}
 }

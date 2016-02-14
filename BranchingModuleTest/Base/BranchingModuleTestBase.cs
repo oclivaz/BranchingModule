@@ -46,6 +46,18 @@ namespace BranchingModuleTest.Base
 			return new TeamProjectSettings(dto);
 		}
 
+		protected ITeamProjectSettings TeamProjectSettings(string strLocalDB, string strRefDB, string strAppConfigPath)
+		{
+			TeamProjectSettingsDTO dto = new TeamProjectSettingsDTO
+			{
+				LocalDB = strLocalDB,
+				RefDB = strRefDB,
+				AppConfigPath =  strAppConfigPath
+			};
+
+			return new TeamProjectSettings(dto);
+		}
+
 		protected ITeamProjectSettings TeamProjectSettings(string strLocalDB, string strRefDB, string[] aditionalPackages)
 		{
 			TeamProjectSettingsDTO dto = new TeamProjectSettingsDTO

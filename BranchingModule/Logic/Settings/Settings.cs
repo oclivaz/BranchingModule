@@ -19,7 +19,6 @@ namespace BranchingModule.Logic
 		public string BuildConfigurationUrl { get; private set; }
 		public string DumpRepositoryPath { get; private set; }
 		public string LogfilePath { get; private set; }
-		public string AppConfigServerPath { get; private set; }
 		public string TempDirectory { get; private set; }
 		public string SQLScriptPath { get; private set; }
 		public string SQLConnectionString { get; private set; }
@@ -43,7 +42,6 @@ namespace BranchingModule.Logic
 			this.BuildConfigurationUrl = settingsDTO.BuildConfigurationUrl;
 			this.DumpRepositoryPath = settingsDTO.DumpRepositoryPath;
 			this.LogfilePath = settingsDTO.LogfilePath;
-			this.AppConfigServerPath = settingsDTO.AppConfigServerPath;
 			this.TempDirectory = settingsDTO.TempDirectory;
 			this.SQLScriptPath = settingsDTO.SQLScriptPath;
 			this.SQLConnectionString = settingsDTO.SQLConnectionString;

@@ -11,6 +11,8 @@ namespace BranchingModuleTest.Logic.Services
 	public class ConfigFileServiceTest : BranchingModuleTestBase
 	{
 		#region Constants
+		private const string AKISBV_APPCONFIG_PATH = "AkisBV app.config Path";
+
 		private const string INDIV_CONFIG_AKISBV_5_0_35 = @"<?xml version=""1.0"" encoding=""utf-8""?>
     <appSettings>
         <add key=""ConnectionString"" value=""server=localhost;Database=AskNet;User ID=sa;Pwd=password-123"" />
@@ -36,7 +38,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings = Substitute.For<ISettings>();
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.VersionControl = Substitute.For<IVersionControlService>();
-			this.ConfigFileService = new ConfigFileService(this.VersionControl, new ConventionDummy(), this.Settings, this.FileSystem);
+			this.ConfigFileService = new ConfigFileService(new ConventionDummy(), this.Settings, this.FileSystem);
 		}
 		#endregion
 
@@ -58,13 +60,13 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestCreateAppConfig()
 		{
 			// Arrange
-			this.Settings.AppConfigServerPath.Returns("$/app.config");
+			this.Settings.GetTeamProjectSettings(AKISBV).Returns(TeamProjectSettings("AskNet", "egal", AKISBV_APPCONFIG_PATH));
 
 			// Act
 			this.ConfigFileService.CreateAppConfig(AKISBV_5_0_35);
 
 			// Assert
-			this.VersionControl.Received().DownloadFile("$/app.config", string.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
+			this.FileSystem.Received().Copy(AKISBV_APPCONFIG_PATH, string.Format(@"{0}\Web\app.config", LOCAL_PATH_AKISBV_5_0_35));
 		}
 		#endregion
 	}

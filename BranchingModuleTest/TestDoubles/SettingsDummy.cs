@@ -115,11 +115,6 @@ namespace BranchingModuleTest.TestDoubles
 			get { return LogfilePath; }
 		}
 
-		string ISettings.AppConfigServerPath
-		{
-			get { return AppConfigServerPath; }
-		}
-
 		string ISettings.TempDirectory
 		{
 			get { return TempDirectory; }
