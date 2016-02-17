@@ -9,7 +9,6 @@ namespace BranchingModule.Cmdlets
 		#region Properties
 		internal DynamicParameter<string> Teamproject { get; set; }
 		internal DynamicParameter<string> Branch { get; set; }
-		internal DynamicParameter<string> File { get; set; }
 		#endregion
 
 		#region Constructors
@@ -17,7 +16,6 @@ namespace BranchingModule.Cmdlets
 		{
 			this.Teamproject = DynamicParameterFactory.CreateTeamProjectParameter(this, 0);
 			this.Branch = DynamicParameterFactory.CreateBranchParameter(this, 1);
-			this.File = new DynamicParameter<string>(this, "File", false, 2);
 		}
 		#endregion
 
