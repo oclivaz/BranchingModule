@@ -5,7 +5,7 @@ namespace BranchingModule.Logic
 	internal class ResetIndivConfigController
 	{
 		#region Properties
-		public IConfigFileService ConfigFile { get; set; }
+		private IConfigFileService ConfigFile { get; set; }
 		#endregion
 
 		#region Constructors

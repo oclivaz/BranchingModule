@@ -7,7 +7,7 @@ namespace BranchingModule.Logic
 	internal class TeamFoundationService : IVersionControlService
 	{
 		#region Properties
-		public ITextOutputService TextOutput { get; set; }
+		private ITextOutputService TextOutput { get; set; }
 
 		private IConvention Convention { get; set; }
 

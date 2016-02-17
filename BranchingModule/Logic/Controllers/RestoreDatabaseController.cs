@@ -6,8 +6,7 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IDatabaseService Database { get; set; }
-		public IAblageService Ablage { get; set; }
-		public IFileSystemAdapter FileSystemAdapter { get; set; }
+		private IAblageService Ablage { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 

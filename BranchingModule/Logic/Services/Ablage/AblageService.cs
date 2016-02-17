@@ -3,8 +3,8 @@
 	internal class AblageService : IAblageService
 	{
 		#region Properties
-		public IFileSystemAdapter FileSystemAdapter { get; set; }
-		public IConvention Convention { get; set; }
+		private IFileSystemAdapter FileSystemAdapter { get; set; }
+		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors

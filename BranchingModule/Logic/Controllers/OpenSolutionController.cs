@@ -6,17 +6,14 @@ namespace BranchingModule.Logic
 	{
 		#region Properties
 		private IEnvironmentService Environment { get; set; }
-		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors
-		public OpenSolutionController(IEnvironmentService environmentService, IConvention convention)
+		public OpenSolutionController(IEnvironmentService environmentService)
 		{
 			if(environmentService == null) throw new ArgumentNullException("environmentService");
-			if(convention == null) throw new ArgumentNullException("convention");
 
 			this.Environment = environmentService;
-			this.Convention = convention;
 		}
 		#endregion
 

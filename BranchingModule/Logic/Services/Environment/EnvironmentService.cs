@@ -5,8 +5,8 @@ namespace BranchingModule.Logic
 	internal class EnvironmentService : IEnvironmentService
 	{
 		#region Properties
-		public IFileExecutionService FileExecution { get; set; }
-		public IConvention Convention { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
+		private IConvention Convention { get; set; }
 		#endregion
 
 		#region Constructors

@@ -6,7 +6,7 @@ namespace BranchingModule.Logic
 	internal class ShowReleasebranchesController
 	{
 		#region Properties
-		public ITextOutputService TextOutput { get; set; }
+		private ITextOutputService TextOutput { get; set; }
 		private IVersionControlService VersionControl { get; set; }
 		#endregion
 

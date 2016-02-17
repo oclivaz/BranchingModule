@@ -5,7 +5,7 @@ namespace BranchingModule.Logic
 	internal class MsBuildService : IBuildEngineService
 	{
 		#region Properties
-		public IFileExecutionService FileExecution { get; set; }
+		private IFileExecutionService FileExecution { get; set; }
 		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		#endregion

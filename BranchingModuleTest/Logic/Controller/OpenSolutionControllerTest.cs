@@ -1,6 +1,5 @@
 ﻿using BranchingModule.Logic;
 using BranchingModuleTest.Base;
-using BranchingModuleTest.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -19,7 +18,7 @@ namespace BranchingModuleTest.Logic.Controller
 		public void InitializeTest()
 		{
 			this.Environment = Substitute.For<IEnvironmentService>();
-			this.OpenSolutionController = new OpenSolutionController(this.Environment, new ConventionDummy());
+			this.OpenSolutionController = new OpenSolutionController(this.Environment);
 		}
 		#endregion
 
