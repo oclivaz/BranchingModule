@@ -72,7 +72,7 @@ AskFB: 3.1.0.1-Schubidu
 			this.AdeNetService.InitializeIIS(AKISBV_5_0_35);
 
 			// Asseri
-			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-workingdirectory {0} -initializeiis -development", LOCAL_PATH_AKISBV_5_0_35));
+			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-initializeiis {0}", LOCAL_PATH_AKISBV_5_0_35));
 		}
 
 		[TestMethod]
@@ -82,7 +82,7 @@ AskFB: 3.1.0.1-Schubidu
 			this.AdeNetService.CleanupIIS(AKISBV_5_0_35);
 
 			// Asseri
-			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-workingdirectory {0} -cleanupiis -development", LOCAL_PATH_AKISBV_5_0_35));
+			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-cleanupiis {0}", LOCAL_PATH_AKISBV_5_0_35));
 		}
 
 		[TestMethod]

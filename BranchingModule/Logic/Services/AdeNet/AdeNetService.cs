@@ -44,12 +44,12 @@ namespace BranchingModule.Logic
 
 		public void InitializeIIS(BranchInfo branch)
 		{
-			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -initializeiis -development", this.Convention.GetLocalPath(branch)));
+			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-initializeiis {0}", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void CleanupIIS(BranchInfo branch)
 		{
-			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-workingdirectory {0} -cleanupiis -development", this.Convention.GetLocalPath(branch)));
+			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-cleanupiis {0}", this.Convention.GetLocalPath(branch)));
 		}
 
 		public void CreateBuildDefinition(BranchInfo branch)

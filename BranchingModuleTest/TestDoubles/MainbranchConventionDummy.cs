@@ -5,7 +5,7 @@ namespace BranchingModuleTest.TestDoubles
 {
 	internal class MainbranchConventionDummy : IBranchConvention
 	{
-		public static string MAIN = "Main";
+		public const string MAIN = "Main";
 
 		#region Properties
 		public BranchType BranchType
