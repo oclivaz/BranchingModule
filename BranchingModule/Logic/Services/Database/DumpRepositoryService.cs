@@ -9,12 +9,13 @@ namespace BranchingModule.Logic
 		#region Properties
 		private IVersionControlService VersionControl { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
+		private IConvention Convention { get; set; }
 		private ISettings Settings { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		#endregion
 
 		#region Constructors
-		public DumpRepositoryService(IVersionControlService versionControlService, IFileSystemAdapter fileSystemAdapter, ISettings settings, ITextOutputService textOutputService)
+		public DumpRepositoryService(IVersionControlService versionControlService, IFileSystemAdapter fileSystemAdapter, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
 			if(settings == null) throw new ArgumentNullException("settings");
@@ -23,20 +24,25 @@ namespace BranchingModule.Logic
 			this.FileSystem = fileSystemAdapter;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
+			this.Convention = convention;
 		}
 		#endregion
 
 		#region Publics
 		public void CopyDump(BranchInfo branch, string strTarget)
 		{
-			DateTime dtBranchCreation = this.VersionControl.GetCreationTime(branch);
+			BranchType branchType = this.Convention.GetBranchType(branch);
+
+			DateTime dtBranchCreation = branchType == BranchType.Main
+				? DateTime.MaxValue
+				: this.VersionControl.GetCreationTime(branch);
 
 			ITeamProjectSettings teamProjectSettings = this.Settings.GetTeamProjectSettings(branch.TeamProject);
 
 			var archivesBevoreCreation = (from dumpArchive in this.FileSystem.GetFiles(this.Settings.DumpRepositoryPath)
-										 where dumpArchive.FileName.StartsWith(teamProjectSettings.RefDB)
-											   && dumpArchive.CreationTime < dtBranchCreation
-										 select dumpArchive).ToArray();
+			                              where dumpArchive.FileName.StartsWith(teamProjectSettings.RefDB)
+			                                    && dumpArchive.CreationTime < dtBranchCreation
+			                              select dumpArchive).ToArray();
 
 			if(!archivesBevoreCreation.Any()) throw new Exception(string.Format("No dump of database {0} before {1} in Repository at {2}", teamProjectSettings.RefDB, dtBranchCreation, Settings.DumpRepositoryPath));
 			IFileInfo newestArchive = archivesBevoreCreation.OrderByDescending(fileInfo => fileInfo.CreationTime).First();
