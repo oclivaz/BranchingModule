@@ -93,6 +93,18 @@ namespace BranchingModule.Logic
 		#region Privates
 		private void GetDump(BranchInfo branch)
 		{
+			BranchType branchType = this.Convention.GetBranchType(branch);
+			if(branchType == BranchType.Main)
+			{
+				this.DumpRepository.CopyDump(branch, this.Convention.GetLocalDump(branch));
+				return;
+			}
+
+			GetReleasebranchDump(branch);
+		}
+
+		private void GetReleasebranchDump(BranchInfo branch)
+		{
 			string strBuildServerDump = this.Convention.GetBuildserverDump(branch);
 			string strLocalDump = this.Convention.GetLocalDump(branch);
 
@@ -121,7 +133,6 @@ namespace BranchingModule.Logic
 			{
 				this.TextOutput.WriteVerbose(string.Format("Local Dump is up to Date"));
 			}
-			
 		}
 
 		private void Restore(string strDump, string strDB, BranchInfo branch)

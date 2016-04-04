@@ -32,6 +32,7 @@ namespace BranchingModule.Logic
 
 		public void Move(string strSource, string strDestination)
 		{
+			File.Delete(strDestination);
 			File.Move(strSource, strDestination);
 		}
 
