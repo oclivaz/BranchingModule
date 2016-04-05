@@ -16,6 +16,7 @@ namespace BranchingModuleTest.TestDoubles
 			this.BranchConventionRegistry = new BranchConventionRegistry();
 			this.BranchConventionRegistry.Register(new MainbranchConventionDummy());
 			this.BranchConventionRegistry.Register(new ReleasebranchConventionDummy());
+			this.BranchConventionRegistry.Register(new DevelopmentbranchConventionDummy());
 		}
 		#endregion
 

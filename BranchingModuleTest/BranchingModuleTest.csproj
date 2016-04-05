@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.TeamFoundation.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
@@ -96,6 +99,7 @@
     <Compile Include="TestDoubles\ConventionDummy.cs" />
     <Compile Include="TestDoubles\MainbranchConventionDummy.cs" />
     <Compile Include="TestDoubles\ReleasebranchConventionDummy.cs" />
+    <Compile Include="TestDoubles\DevelopmentbranchConventionDummy.cs" />
     <Compile Include="TestDoubles\SettingsDummy.cs" />
     <Compile Include="TestDoubles\TextOutputServiceDummy.cs" />
     <Compile Include="TestDoubles\UserInputServiceDummy.cs" />

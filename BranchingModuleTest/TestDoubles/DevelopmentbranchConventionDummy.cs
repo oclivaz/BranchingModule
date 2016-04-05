@@ -4,12 +4,12 @@ using BranchingModuleTest.Base;
 
 namespace BranchingModuleTest.TestDoubles
 {
-	internal class ReleasebranchConventionDummy : IBranchConvention
+	internal class DevelopmentbranchConventionDummy : IBranchConvention
 	{
 		#region Properties
 		public BranchType BranchType
 		{
-			get { return BranchType.Release; }
+			get { return BranchType.Development; }
 		}
 		#endregion
 
@@ -76,37 +76,37 @@ namespace BranchingModuleTest.TestDoubles
 
 		public static string GetServerPath(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetServerPath {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetServerPath {0}", branch);
 		}
 
 		public static string GetAblagePath(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetAblagePath {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetAblagePath {0}", branch);
 		}
 
 		public static string GetServerBasePath(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath/{0}/{1}", branch.TeamProject, branch.Name);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetServerBasePath/{0}/{1}", branch.TeamProject, branch.Name);
 		}
 
 		public static string GetBuildserverDump(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetBuildserverDump {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetBuildserverDump {0}", branch);
 		}
 
 		public static string GetLocalDump(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetLocalDump {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetLocalDump {0}", branch);
 		}
 
 		public static string GetApplicationName(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetApplicationName {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetApplicationName {0}", branch);
 		}
 
 		public static string GetSolutionFile(BranchInfo branch)
 		{
-			return string.Format(@"ReleasebranchConventionDummy.GetSolutionFile {0}", branch);
+			return string.Format(@"DevelopmentbranchConventionDummy.GetSolutionFile {0}", branch);
 		}
 
 		public static bool ServerPathFollowsConvention(string strServerpath)
@@ -116,12 +116,12 @@ namespace BranchingModuleTest.TestDoubles
 
 		public static bool BranchnameFollowsConvention(string strBranchname)
 		{
-			return strBranchname != MainbranchConventionDummy.MAIN && strBranchname != BranchingModuleTestBase.AKISBV_STD_10.Name;
+			return strBranchname == BranchingModuleTestBase.AKISBV_STD_10.Name;
 		}
 
 		public static BranchInfo CreateBranchInfoByServerPath(string strServerpath)
 		{
-			return new BranchInfo("ReleasebranchConventionDummy", "ReleasebranchConventionDummy");
+			return new BranchInfo("DevelopmentbranchConventionDummy", "DevelopmentbranchConventionDummy");
 		}
 		#endregion
 	}

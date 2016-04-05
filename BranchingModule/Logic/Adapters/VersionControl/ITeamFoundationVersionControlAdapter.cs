@@ -16,6 +16,7 @@ namespace BranchingModule.Logic
 
 		bool ServerItemExists(string strServerItem);
 		DateTime GetCreationTime(string strItem, string strVersionSpec);
+		DateTime GetLatestCheckingDate(string strItem);
 		string[] GetItemsByPath(string strServerPath);
 		string[] GetServerItemsByChangeset(string strChangeset);
 

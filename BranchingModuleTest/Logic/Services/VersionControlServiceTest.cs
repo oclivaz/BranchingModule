@@ -23,7 +23,6 @@ namespace BranchingModuleTest.Logic.Services
 		#region Properties
 		private IVersionControlService VersionControlService { get; set; }
 		private IConvention Convention { get; set; }
-		private ISettings Settings { get; set; }
 		private ITeamFoundationVersionControlAdapter VersionControlAdapter { get; set; }
 		#endregion
 
@@ -32,7 +31,6 @@ namespace BranchingModuleTest.Logic.Services
 		public void InitializeTest()
 		{
 			this.Convention = new ConventionDummy();
-			this.Settings = Substitute.For<ISettings>();
 			this.VersionControlAdapter = Substitute.For<ITeamFoundationVersionControlAdapter>();
 			this.VersionControlService = new TeamFoundationService(this.VersionControlAdapter, this.Convention, new TextOutputServiceDummy());
 		}
@@ -111,13 +109,23 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		public void TestGetCreationTime()
+		public void TestGetCreationTime_with_Releasebranch()
 		{
 			// Act
 			this.VersionControlService.GetCreationTime(AKISBV_5_0_35);
 
 			// Assert
 			this.VersionControlAdapter.Received().GetCreationTime(Arg.Any<string>(), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestGetCreationTime_with_development_branch()
+		{
+			// Act
+			this.VersionControlService.GetCreationTime(AKISBV_STD_10);
+
+			// Assert
+			this.VersionControlAdapter.Received().GetLatestCheckingDate(SERVER_PATH_AKISBV_STD_10);
 		}
 
 		[TestMethod]

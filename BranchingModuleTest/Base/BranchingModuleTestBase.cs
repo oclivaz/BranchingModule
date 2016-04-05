@@ -12,7 +12,7 @@ namespace BranchingModuleTest.Base
 		#region Constants
 		protected const string AKISBV = "AkisBV";
 		protected const string ASKFB = "AskFB";
-		protected static readonly BranchInfo AKISBV_STD_10 = new BranchInfo(AKISBV, "Std-10");
+		protected internal static readonly BranchInfo AKISBV_STD_10 = new BranchInfo(AKISBV, "Std-10");
 		protected static readonly BranchInfo AKISBV_5_0_35 = new BranchInfo(AKISBV, "5.0.35");
 		protected static readonly BranchInfo AKISBV_5_0_40 = new BranchInfo(AKISBV, "5.0.40");
 		protected static readonly BranchInfo AKISBV_5_0_60 = new BranchInfo(AKISBV, "1.2.3");
@@ -29,6 +29,7 @@ namespace BranchingModuleTest.Base
 		protected static readonly string SERVER_BASEPATH_AKISBV_5_0_40 = ReleasebranchConventionDummy.GetServerBasePath(AKISBV_5_0_40);
 		protected static readonly string SERVER_PATH_AKISBV_5_0_40 = ReleasebranchConventionDummy.GetServerPath(AKISBV_5_0_40);
 		protected static readonly string SERVER_PATH_AKISBV_MAIN = MainbranchConventionDummy.GetServerPath(AKISBV_MAIN);
+		protected static readonly string SERVER_PATH_AKISBV_STD_10 = DevelopmentbranchConventionDummy.GetServerPath(AKISBV_STD_10);
 		protected static readonly string BUILDSERVER_DUMP_AKISBV_5_0_35	 = ReleasebranchConventionDummy.GetBuildserverDump(AKISBV_5_0_35);
 		protected static readonly string BUILDSERVER_DUMP_AKISBV_MAIN	 = MainbranchConventionDummy.GetBuildserverDump(AKISBV_MAIN);
 		protected static readonly string ABLAGE_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetAblagePath(AKISBV_5_0_35);

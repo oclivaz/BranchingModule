@@ -134,6 +134,14 @@ namespace BranchingModule.Logic
 			return item.CheckinDate;
 		}
 
+		public DateTime GetLatestCheckingDate(string strItem)
+		{
+			Item item = this.VersionControlServer.GetItem(strItem, VersionSpec.Latest);
+			if(item == null) throw new Exception(string.Format("{0} nicht gefunden", strItem));
+
+			return item.CheckinDate;
+		}
+
 		public void CreateBranch(string strSourceBranch, string strTargetBranch, string strVersionSpec)
 		{
 			this.VersionControlServer.CreateBranch(strSourceBranch, strTargetBranch, VersionSpec.ParseSingleSpec(strVersionSpec, null));
