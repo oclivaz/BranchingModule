@@ -7,8 +7,6 @@ namespace BranchingModule.Logic
 	{
 		#region Constants
 		internal const string DEVELOPMENT = "Development";
-
-		private const string REGEX_THREE_NUMBERS_WITH_PERIOD_IN_BETWEEN = @"^[0-9]+\.[0-9]+\.[0-9]+$";
 		#endregion
 
 		#region Properties
