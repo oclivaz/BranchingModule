@@ -182,7 +182,7 @@ namespace BranchingModuleTest.Logic.Services
 		public void TestRestore_Mainbranch()
 		{
 			// Arrange
-			this.FileSystem.Exists(LOCAL_PATH_AKISBV_MAIN).Returns(false);
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_MAIN).Returns(false);
 			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_MAIN).Returns(true);
 
 			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
@@ -193,6 +193,41 @@ namespace BranchingModuleTest.Logic.Services
 			// Assert
 			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_MAIN, LOCAL_DUMP_AKISBV_MAIN);
 			this.DumpRepository.Received().CopyDump(AKISBV_MAIN, LOCAL_DUMP_AKISBV_MAIN);
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestore_Development_Branch_Dump_on_Buildserver()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_STD_10).Returns(false);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_STD_10).Returns(true);
+
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_STD_10);
+
+			// Assert
+			this.FileSystem.Received().Copy(BUILDSERVER_DUMP_AKISBV_STD_10, LOCAL_DUMP_AKISBV_STD_10);
+			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestRestore_Development_Branch_no_Dump_on_Buildserver()
+		{
+			// Arrange
+			this.FileSystem.Exists(LOCAL_DUMP_AKISBV_STD_10).Returns(false);
+			this.FileSystem.Exists(BUILDSERVER_DUMP_AKISBV_STD_10).Returns(false);
+
+			this.FileSystem.ReadAllText(Arg.Is<string>(filename => filename.Contains("Restore"))).Returns(RESTORE_DATABASE);
+
+			// Act
+			this.DatabaseService.Restore(AKISBV_STD_10);
+
+			// Assert
+			this.FileSystem.DidNotReceive().Copy(BUILDSERVER_DUMP_AKISBV_STD_10, LOCAL_DUMP_AKISBV_STD_10);
+			this.DumpRepository.Received().CopyDump(AKISBV_STD_10, LOCAL_DUMP_AKISBV_STD_10);
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(script => script.Equals(RESTORE_DATABASE)), Arg.Any<string>());
 		}
 

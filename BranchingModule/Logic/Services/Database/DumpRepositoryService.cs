@@ -33,7 +33,7 @@ namespace BranchingModule.Logic
 		{
 			BranchType branchType = this.Convention.GetBranchType(branch);
 
-			DateTime dtBranchCreation = branchType == BranchType.Main
+			DateTime dtBranchCreation = branchType == BranchType.Main || branchType == BranchType.Development
 				? DateTime.MaxValue
 				: this.VersionControl.GetCreationTime(branch);
 

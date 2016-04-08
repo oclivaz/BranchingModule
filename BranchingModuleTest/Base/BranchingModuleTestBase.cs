@@ -22,6 +22,7 @@ namespace BranchingModuleTest.Base
 		protected static readonly string LOCAL_PATH_AKISBV_MAIN = MainbranchConventionDummy.GetLocalPath(AKISBV_MAIN);
 		protected static readonly string LOCAL_DUMP_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalDump(AKISBV_5_0_35);
 		protected static readonly string LOCAL_DUMP_AKISBV_MAIN = MainbranchConventionDummy.GetLocalDump(AKISBV_MAIN);
+		protected static readonly string LOCAL_DUMP_AKISBV_STD_10 = DevelopmentbranchConventionDummy.GetLocalDump(AKISBV_STD_10);
 		protected static readonly string LOCAL_SOLUTION_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetLocalPath(AKISBV_5_0_35);
 		protected static readonly string LOCAL_SOLUTION_FILE_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetSolutionFile(AKISBV_5_0_35);
 		protected static readonly string SERVER_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetServerPath(AKISBV_5_0_35);
@@ -32,6 +33,7 @@ namespace BranchingModuleTest.Base
 		protected static readonly string SERVER_PATH_AKISBV_STD_10 = DevelopmentbranchConventionDummy.GetServerPath(AKISBV_STD_10);
 		protected static readonly string BUILDSERVER_DUMP_AKISBV_5_0_35	 = ReleasebranchConventionDummy.GetBuildserverDump(AKISBV_5_0_35);
 		protected static readonly string BUILDSERVER_DUMP_AKISBV_MAIN	 = MainbranchConventionDummy.GetBuildserverDump(AKISBV_MAIN);
+		protected static readonly string BUILDSERVER_DUMP_AKISBV_STD_10	 = DevelopmentbranchConventionDummy.GetBuildserverDump(AKISBV_STD_10);
 		protected static readonly string ABLAGE_PATH_AKISBV_5_0_35 = ReleasebranchConventionDummy.GetAblagePath(AKISBV_5_0_35);
 		protected const string ANY_STRING = "ANY STRING";
 		protected const string COMMENT = "schubidu";

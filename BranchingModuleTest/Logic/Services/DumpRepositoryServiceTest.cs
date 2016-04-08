@@ -102,6 +102,35 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
+		public void TestCopyDump_Development_Branch()
+		{
+			// Arrange
+			this.VersionControl.GetCreationTime(AKISBV_STD_10).Returns(A_LONG_TIME_AGO.At(06, 14));
+			this.Settings.DumpRepositoryPath.Returns(@"Y:\DumpRepository");
+			this.Settings.TempDirectory.Returns(@"c:\tempDir");
+			this.Settings.GetTeamProjectSettings("AkisBV").Returns(TeamProjectSettings("egal", ASK));
+
+			IFileInfo[] dumpArchives =
+			{
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_1.zip", MONDAY.At(09, 15)),
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_2.zip", MONDAY.At(09, 22)),
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_3.zip", MONDAY.At(09, 37)),
+				FileInfo(@"Y:\DumpRepository\ASK_20150810_4.zip", MONDAY.At(09, 38))
+			};
+
+			this.FileSystem.GetFiles(@"Y:\DumpRepository").Returns(dumpArchives);
+
+			// Act
+			this.DumpRepository.CopyDump(AKISBV_STD_10, LOCAL_DUMP);
+
+			// Assert
+			this.FileSystem.Received().Copy(@"Y:\DumpRepository\ASK_20150810_4.zip", @"c:\tempDir\ASK_20150810_4.zip");
+			this.FileSystem.Received().ExtractZip(@"c:\tempDir\ASK_20150810_4.zip", @"c:\tempDir");
+			this.FileSystem.Received().Move(@"c:\tempDir\ASK.bak", LOCAL_DUMP);
+			this.FileSystem.Received().DeleteFile(@"c:\tempDir\ASK_20150810_4.zip");
+		}
+
+		[TestMethod]
 		public void TestCopyDump_no_Dump_before_branch_creation()
 		{
 			// Arrange
