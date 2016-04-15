@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace BranchingModule.Logic
@@ -12,16 +13,25 @@ namespace BranchingModule.Logic
 		#region Properties
 		private ISettings Settings { get; set; }
 
+		private ITextOutputService TextOutput { get; set; }
+
 		private SqlConnection SqlConnection
 		{
-			get { return _sqlConnection ?? (_sqlConnection = OpenConnection()); }
+			get
+			{
+				if(_sqlConnection != null && _sqlConnection.State == ConnectionState.Open) return _sqlConnection;
+				if(_sqlConnection != null) _sqlConnection.Dispose();
+
+				return (_sqlConnection = OpenConnection());
+			}
 		}
 		#endregion
 
 		#region Constructors
-		public MssqlServerAdapter(ISettings settings)
+		public MssqlServerAdapter(ISettings settings, ITextOutputService textOutput)
 		{
 			this.Settings = settings;
+			this.TextOutput = textOutput;
 		}
 		#endregion
 
@@ -46,6 +56,8 @@ namespace BranchingModule.Logic
 		#region Privates
 		private SqlConnection OpenConnection()
 		{
+			this.TextOutput.WriteVerbose(string.Format("Creating new Connection: {0}", this.Settings.SQLConnectionString));
+
 			SqlConnection connection = new SqlConnection(this.Settings.SQLConnectionString);
 			connection.Open();
 
