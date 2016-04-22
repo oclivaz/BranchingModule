@@ -18,6 +18,7 @@ namespace BranchingModule.Logic
 
 		#region Properties
 		private ISQLServerAdapter SQLServer { get; set; }
+		private IAdeNetService AdeNet { get; set; }
 		private ITextOutputService TextOutput { get; set; }
 		private IDumpRepositoryService DumpRepository { get; set; }
 		private IFileSystemAdapter FileSystem { get; set; }
@@ -26,12 +27,20 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public DatabaseService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IConvention convention, ISettings settings,
-		                       ITextOutputService textOutputService)
+		public DatabaseService(IDumpRepositoryService dumpRepositoryService, IFileSystemAdapter fileSystemAdapter, ISQLServerAdapter sqlServerAdapter, IAdeNetService adeNetService, IConvention convention, ISettings settings, ITextOutputService textOutputService)
 		{
+			if(dumpRepositoryService == null) throw new ArgumentNullException("dumpRepositoryService");
+			if(fileSystemAdapter == null) throw new ArgumentNullException("fileSystemAdapter");
+			if(sqlServerAdapter == null) throw new ArgumentNullException("sqlServerAdapter");
+			if(adeNetService == null) throw new ArgumentNullException("adeNetService");
+			if(convention == null) throw new ArgumentNullException("convention");
+			if(settings == null) throw new ArgumentNullException("settings");
+			if(textOutputService == null) throw new ArgumentNullException("textOutputService");
+
 			this.DumpRepository = dumpRepositoryService;
 			this.FileSystem = fileSystemAdapter;
 			this.SQLServer = sqlServerAdapter;
+			this.AdeNet = adeNetService;
 			this.Convention = convention;
 			this.Settings = settings;
 			this.TextOutput = textOutputService;
@@ -41,7 +50,7 @@ namespace BranchingModule.Logic
 		#region Publics
 		public void Create(BranchInfo branch)
 		{
-			this.SQLServer.ExecuteScript(GetCreateDatabaseScript(this.Settings.GetTeamProjectSettings(branch.TeamProject).LocalDB), MASTER);
+			this.AdeNet.CreateDatabase(branch);
 		}
 
 		public void Backup(BranchInfo branch)

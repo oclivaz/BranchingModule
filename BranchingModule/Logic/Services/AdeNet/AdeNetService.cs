@@ -57,6 +57,11 @@ namespace BranchingModule.Logic
 			this.TextOutput.WriteVerbose(string.Format("Starting Internet Explorer. Add a build configuration for {0}", branch));
 			this.FileExecution.StartProcess(Executables.INTERNET_EXPLORER, this.Settings.BuildConfigurationUrl);
 		}
+
+		public void CreateDatabase(BranchInfo branch)
+		{
+			this.FileExecution.ExecuteInCmd(this.Settings.AdeNetExePath, string.Format("-createdb {0}", this.Convention.GetLocalPath(branch)));
+		}
 		#endregion
 
 		#region Privates

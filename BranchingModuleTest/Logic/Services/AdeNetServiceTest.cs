@@ -29,7 +29,6 @@ namespace BranchingModuleTest.Logic.Services
 			this.Settings = Substitute.For<ISettings>();
 			this.Settings.AdeNetExePath.Returns(ADENET_EXE_PATH);
 			this.Settings.BuildConfigurationUrl.Returns(BUILDCONFIGURATION_URL);
-
 			this.FileExecution = Substitute.For<IFileExecutionService>();
 
 			this.AdeNetService = new AdeNetService(this.FileExecution, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
@@ -93,6 +92,16 @@ AskFB: 3.1.0.1-Schubidu
 
 			// Assert
 			this.FileExecution.Received().StartProcess(Executables.INTERNET_EXPLORER, BUILDCONFIGURATION_URL);
+		}
+
+		[TestMethod]
+		public void TestCreateDatabase()
+		{
+			// Act
+			this.AdeNetService.CreateDatabase(AKISBV_5_0_35);
+
+			// Assert
+			this.FileExecution.Received().ExecuteInCmd(ADENET_EXE_PATH, string.Format(@"-createdb {0}", LOCAL_PATH_AKISBV_5_0_35));
 		}
 		#endregion
 	}
