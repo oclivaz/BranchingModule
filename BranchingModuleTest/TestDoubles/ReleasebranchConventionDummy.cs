@@ -19,9 +19,66 @@ namespace BranchingModuleTest.TestDoubles
 			return string.Format(@"ReleasebranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
-		public string GetLocalDatabase(BranchInfo branch)
+		public static string GetServerPath(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return string.Format(@"ReleasebranchConventionDummy.GetServerPath {0}", branch);
+		}
+
+		public static string GetLocalDatabase(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetLocalDatabase {0}", branch);
+		}
+
+		public static string GetAblagePath(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetAblagePath {0}", branch);
+		}
+
+		public static string GetServerBasePath(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath/{0}/{1}", branch.TeamProject, branch.Name);
+		}
+
+		public static string GetBuildserverDump(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetBuildserverDump {0}", branch);
+		}
+
+		public static string GetLocalDump(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetLocalDump {0}", branch);
+		}
+
+		public static string GetApplicationName(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetApplicationName {0}", branch);
+		}
+
+		public static string GetSolutionFile(BranchInfo branch)
+		{
+			return string.Format(@"ReleasebranchConventionDummy.GetSolutionFile {0}", branch);
+		}
+
+		public static bool ServerPathFollowsConvention(string strServerpath)
+		{
+			throw new NotSupportedException("Create a mock please");
+		}
+
+		public static bool BranchnameFollowsConvention(string strBranchname)
+		{
+			return strBranchname != MainbranchConventionDummy.MAIN && strBranchname != BranchingModuleTestBase.AKISBV_STD_10.Name;
+		}
+
+		public static BranchInfo CreateBranchInfoByServerPath(string strServerpath)
+		{
+			return new BranchInfo("ReleasebranchConventionDummy", "ReleasebranchConventionDummy");
+		}
+		#endregion
+
+		#region IBranchConvention Members
+		string IBranchConvention.GetLocalDatabase(BranchInfo branch)
+		{
+			return GetLocalDatabase(branch);
 		}
 
 		string IBranchConvention.GetServerSourcePath(BranchInfo branch)
@@ -77,56 +134,6 @@ namespace BranchingModuleTest.TestDoubles
 		string IBranchConvention.GetLocalPath(BranchInfo branch)
 		{
 			return GetLocalPath(branch);
-		}
-
-		public static string GetServerPath(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetServerPath {0}", branch);
-		}
-
-		public static string GetAblagePath(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetAblagePath {0}", branch);
-		}
-
-		public static string GetServerBasePath(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetServerBasePath/{0}/{1}", branch.TeamProject, branch.Name);
-		}
-
-		public static string GetBuildserverDump(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetBuildserverDump {0}", branch);
-		}
-
-		public static string GetLocalDump(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetLocalDump {0}", branch);
-		}
-
-		public static string GetApplicationName(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetApplicationName {0}", branch);
-		}
-
-		public static string GetSolutionFile(BranchInfo branch)
-		{
-			return string.Format(@"ReleasebranchConventionDummy.GetSolutionFile {0}", branch);
-		}
-
-		public static bool ServerPathFollowsConvention(string strServerpath)
-		{
-			throw new NotSupportedException("Create a mock please");
-		}
-
-		public static bool BranchnameFollowsConvention(string strBranchname)
-		{
-			return strBranchname != MainbranchConventionDummy.MAIN && strBranchname != BranchingModuleTestBase.AKISBV_STD_10.Name;
-		}
-
-		public static BranchInfo CreateBranchInfoByServerPath(string strServerpath)
-		{
-			return new BranchInfo("ReleasebranchConventionDummy", "ReleasebranchConventionDummy");
 		}
 		#endregion
 	}

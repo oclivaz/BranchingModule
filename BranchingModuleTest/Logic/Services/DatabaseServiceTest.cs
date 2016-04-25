@@ -338,13 +338,23 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		public void TestDropDatabase()
+		public void TestDropDatabase_Main()
+		{
+			// Act
+			this.DatabaseService.Drop(AKISBV_MAIN);
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript(string.Format("DROP DATABASE {0}", LOCAL_DATABASE_AKISBV_MAIN), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestDropDatabase_Release()
 		{
 			// Act
 			this.DatabaseService.Drop(AKISBV_5_0_35);
 
 			// Assert
-			this.SQLServer.Received().ExecuteScript("DROP DATABASE AkisBV", Arg.Any<string>());
+			this.SQLServer.Received().ExecuteScript(string.Format("DROP DATABASE {0}", LOCAL_DATABASE_AKISBV_5_0_35), Arg.Any<string>());
 		}
 		#endregion
 

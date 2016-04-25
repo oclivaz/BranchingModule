@@ -320,20 +320,20 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetLocalDatabase_Main()
 		{
 			// Act
-			string strAblagePath = this.MSConvention.GetLocalDatabase(AKISBV_MAIN);
+			string strDatabase = this.MSConvention.GetLocalDatabase(AKISBV_MAIN);
 
 			// Assert
-			Assert.AreEqual(@"AkisBVDev", strAblagePath);
+			Assert.AreEqual(@"AkisBV", strDatabase);
 		}
 
 		[TestMethod]
 		public void TestGetLocalDatabase_Development()
 		{
 			// Act
-			string strAblagePath = this.MSConvention.GetLocalDatabase(AKISBV_STD_10);
+			string strDatabase = this.MSConvention.GetLocalDatabase(AKISBV_STD_10);
 
 			// Assert
-			Assert.AreEqual(@"cAkisBV_STD-10", strAblagePath);
+			Assert.AreEqual(@"AkisBV_Std-10", strDatabase);
 		}
 		#endregion
 

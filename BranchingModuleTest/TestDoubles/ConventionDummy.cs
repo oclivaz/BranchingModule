@@ -67,7 +67,7 @@ namespace BranchingModuleTest.TestDoubles
 
 		public string GetLocalDatabase(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			return Convention(branch).GetLocalDatabase(branch);
 		}
 
 		public string GetServerPath(BranchInfo branch)
