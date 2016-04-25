@@ -9,9 +9,8 @@ namespace BranchingModule.Logic
 		#region Constants
 		private const string MASTER = "master";
 
-		private const string SCRIPT_CREATE_DATABASE = "CreateDatabase.sql";
 		private const string SCRIPT_BACKUP_DATABASE = "BackupDatabase.sql";
-		private const string SCRIPT_RESTORE_DATABASE = "RemoveDatabase.sql";
+		private const string SCRIPT_RESTORE_DATABASE = "RestoreDatabase.sql";
 		private const string SCRIPT_KILL_CONNECTIONS = "KillConnections.sql";
 		private const string SCRIPT_POST_RESTORE_UPDATES = "PostRestoreUpdates.sql";
 		#endregion
