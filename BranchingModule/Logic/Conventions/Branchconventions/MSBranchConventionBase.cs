@@ -10,6 +10,11 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Publics
+		public string GetLocalDatabase(BranchInfo branch)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetServerSourcePath(BranchInfo branch)
 		{
 			return String.Format(@"{0}/Source", GetServerBasePath(branch));

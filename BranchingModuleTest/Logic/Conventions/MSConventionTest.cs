@@ -305,6 +305,36 @@ namespace BranchingModuleTest.Logic.Conventions
 			// Assert
 			Assert.AreEqual(@"c:\temp\ablage\AkisBVDev", strAblagePath, true);
 		}
+
+		[TestMethod]
+		public void TestGetLocalDatabase_Release()
+		{
+			// Act
+			string strAblagePath = this.MSConvention.GetLocalDatabase(AKISBV_5_0_35);
+
+			// Assert
+			Assert.AreEqual("AkisBV_5_0_35", strAblagePath);
+		}
+
+		[TestMethod]
+		public void TestGetLocalDatabase_Main()
+		{
+			// Act
+			string strAblagePath = this.MSConvention.GetLocalDatabase(AKISBV_MAIN);
+
+			// Assert
+			Assert.AreEqual(@"AkisBVDev", strAblagePath);
+		}
+
+		[TestMethod]
+		public void TestGetLocalDatabase_Development()
+		{
+			// Act
+			string strAblagePath = this.MSConvention.GetLocalDatabase(AKISBV_STD_10);
+
+			// Assert
+			Assert.AreEqual(@"cAkisBV_STD-10", strAblagePath);
+		}
 		#endregion
 
 		#region Privates
