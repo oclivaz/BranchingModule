@@ -11,7 +11,7 @@ namespace BranchingModule.Logic
 
 		private const string SCRIPT_CREATE_DATABASE = "CreateDatabase.sql";
 		private const string SCRIPT_BACKUP_DATABASE = "BackupDatabase.sql";
-		private const string SCRIPT_RESTORE_DATABASE = "RestoreDatabase.sql";
+		private const string SCRIPT_RESTORE_DATABASE = "RemoveDatabase.sql";
 		private const string SCRIPT_KILL_CONNECTIONS = "KillConnections.sql";
 		private const string SCRIPT_POST_RESTORE_UPDATES = "PostRestoreUpdates.sql";
 		#endregion
@@ -96,6 +96,11 @@ namespace BranchingModule.Logic
 			{
 				this.FileSystem.DeleteFile(this.Convention.GetLocalDump(branch));
 			}
+		}
+
+		public void Drop(BranchInfo branch)
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 

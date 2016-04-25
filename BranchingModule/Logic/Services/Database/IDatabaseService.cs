@@ -12,5 +12,7 @@
 
 		void InstallBuildserverDump(BranchInfo branch);
 		void DeleteLocalDump(BranchInfo branch);
+		
+		void Drop(BranchInfo branch);
 	}
 }
