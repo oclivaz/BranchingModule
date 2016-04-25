@@ -20,6 +20,11 @@ namespace BranchingModuleTest.TestDoubles
 			return string.Format(@"MainbranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
+		public string GetLocalDatabase(BranchInfo branch)
+		{
+			throw new NotImplementedException();
+		}
+
 		string IBranchConvention.GetServerSourcePath(BranchInfo branch)
 		{
 			return GetServerPath(branch);
