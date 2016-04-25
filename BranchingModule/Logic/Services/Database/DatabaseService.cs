@@ -170,12 +170,6 @@ namespace BranchingModule.Logic
 			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
 		}
 
-		private string GetCreateDatabaseScript(string strDB)
-		{
-			string strScriptPath = GetScriptPath(SCRIPT_CREATE_DATABASE);
-			return Smart.Format(this.FileSystem.ReadAllText(strScriptPath), new { Database = strDB });
-		}
-
 		private string GetBackupDatabaseScript(string strDump, string strDB)
 		{
 			string strScriptPath = GetScriptPath(SCRIPT_BACKUP_DATABASE);

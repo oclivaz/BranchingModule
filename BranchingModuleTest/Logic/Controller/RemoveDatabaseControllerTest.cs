@@ -32,7 +32,7 @@ namespace BranchingModuleTest.Logic.Controller
 
 		#region Tests
 		[TestMethod]
-		public void TestRestore_with_no_Ablage_yet()
+		public void TestRemoveDatabase()
 		{
 			// Act
 			this.RemoveDatabaseController.RemoveDatabase(AKISBV_5_0_35);
