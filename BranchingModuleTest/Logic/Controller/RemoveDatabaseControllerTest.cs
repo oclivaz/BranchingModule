@@ -26,7 +26,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.Database = Substitute.For<IDatabaseService>();
 			this.Ablage = Substitute.For<IAblageService>();
 
-			this.RemoveDatabaseController = new RemoveDatabaseController(this.Database, this.Ablage, new TextOutputServiceDummy());
+			this.RemoveDatabaseController = new RemoveDatabaseController(this.Database, this.Ablage);
 		}
 		#endregion
 
