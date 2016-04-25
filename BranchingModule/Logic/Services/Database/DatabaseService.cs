@@ -99,7 +99,7 @@ namespace BranchingModule.Logic
 
 		public void Drop(BranchInfo branch)
 		{
-			const string strDB = "AkisBV";
+			string strDB = this.Convention.GetLocalDatabase(branch);
 
 			Retry.Do(() =>
 			{

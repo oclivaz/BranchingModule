@@ -77,6 +77,11 @@ namespace BranchingModule.Logic
 			return Convention(branch).GetLocalPath(branch);
 		}
 
+		public string GetLocalDatabase(BranchInfo branch)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetServerPath(BranchInfo branch)
 		{
 			return Convention(branch).GetServerSourcePath(branch);
