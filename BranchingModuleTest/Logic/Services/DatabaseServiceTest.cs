@@ -2,7 +2,6 @@
 using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
-using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -339,7 +338,7 @@ namespace BranchingModuleTest.Logic.Services
 		}
 
 		[TestMethod]
-		public void TestDrop()
+		public void TestDropDatabase()
 		{
 			// Act
 			this.DatabaseService.Drop(AKISBV_5_0_35);
