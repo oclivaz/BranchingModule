@@ -99,7 +99,15 @@ namespace BranchingModule.Logic
 
 		public void Drop(BranchInfo branch)
 		{
-			throw new NotImplementedException();
+			const string strDB = "AkisBV";
+
+			Retry.Do(() =>
+			{
+				this.TextOutput.WriteVerbose(string.Format("Dropping Database {0}", strDB));
+
+				this.SQLServer.ExecuteScript(GetKillConnectionsScript(strDB), MASTER);
+				this.SQLServer.ExecuteScript(string.Format("DROP DATABASE {0}", strDB), MASTER);
+			}, new TimeSpan(0, 0, 0, 0, this.Settings.RetryInterval));
 		}
 		#endregion
 

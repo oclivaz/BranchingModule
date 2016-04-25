@@ -2,6 +2,7 @@
 using BranchingModule.Logic;
 using BranchingModuleTest.Base;
 using BranchingModuleTest.TestDoubles;
+using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -335,6 +336,16 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(s => s.Contains("my_special_bak_file") && s.Contains("Backup")), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestDrop()
+		{
+			// Act
+			this.DatabaseService.Drop(AKISBV_5_0_35);
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript("DROP DATABASE AkisBV", Arg.Any<string>());
 		}
 		#endregion
 
