@@ -97,6 +97,13 @@ namespace BranchingModuleTest.DependencyInjection
 			// Act
 			ControllerFactory.Get<ResetIndivConfigController>();
 		}
+
+		[TestMethod]
+		public void TestCreate_RemoveDatabaseController()
+		{
+			// Act
+			ControllerFactory.Get<RemoveDatabaseController>();
+		}
 		#endregion
 	}
 }
