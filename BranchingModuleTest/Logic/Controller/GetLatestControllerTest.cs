@@ -29,7 +29,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.Database = Substitute.For<IDatabaseService>();
 			this.Ablage = Substitute.For<IAblageService>();
 			this.Environment = Substitute.For<IEnvironmentService>();
-			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Database, this.Ablage, this.Environment, new ConventionDummy(),
+			this.GetLatestController = new GetLatestController(this.VersionControl, this.AdeNet, this.BuildEngine, this.Ablage, this.Environment, new ConventionDummy(),
 			                                                   new TextOutputServiceDummy());
 		}
 		#endregion
@@ -45,7 +45,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.VersionControl.Received().GetLatest(AKISBV_5_0_35);
 			this.AdeNet.Received().InstallPackages(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
-			this.Database.Received().Restore(AKISBV_5_0_35);
+			this.Database.DidNotReceive().Restore(AKISBV_5_0_35);
 			this.Ablage.Received().Reset(AKISBV_5_0_35);
 		}
 

@@ -8,7 +8,6 @@ namespace BranchingModule.Logic
 		private IAblageService Ablage { get; set; }
 		private IConvention Convention { get; set; }
 		private IBuildEngineService BuildEngine { get; set; }
-		private IDatabaseService Database { get; set; }
 		private IVersionControlService VersionControl { get; set; }
 		private IAdeNetService AdeNet { get; set; }
 		private IEnvironmentService Environment { get; set; }
@@ -16,7 +15,7 @@ namespace BranchingModule.Logic
 		#endregion
 
 		#region Constructors
-		public GetLatestController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService, IDatabaseService databaseService,
+		public GetLatestController(IVersionControlService versionControlService, IAdeNetService adeNetService, IBuildEngineService buildEngineService,
 		                           IAblageService ablageService, IEnvironmentService environmentService, IConvention convention, ITextOutputService textOutputService)
 		{
 			if(versionControlService == null) throw new ArgumentNullException("versionControlService");
@@ -28,7 +27,6 @@ namespace BranchingModule.Logic
 			this.VersionControl = versionControlService;
 			this.AdeNet = adeNetService;
 			this.BuildEngine = buildEngineService;
-			this.Database = databaseService;
 			this.Ablage = ablageService;
 			this.Environment = environmentService;
 			this.Convention = convention;
@@ -44,9 +42,6 @@ namespace BranchingModule.Logic
 
 			this.TextOutput.WriteVerbose("Installing Packages");
 			this.AdeNet.InstallPackages(branch);
-
-			this.TextOutput.WriteVerbose("Restoring Dump");
-			this.Database.Restore(branch);
 
 			this.TextOutput.WriteVerbose("Building Solution");
 			this.BuildEngine.Build(branch);
