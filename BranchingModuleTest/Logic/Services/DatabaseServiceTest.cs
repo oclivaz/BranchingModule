@@ -21,14 +21,11 @@ namespace BranchingModuleTest.Logic.Services
 
 		#region Properties
 		private IDatabaseService DatabaseService { get; set; }
-
 		private ISettings Settings { get; set; }
-
 		private IFileSystemAdapter FileSystem { get; set; }
-
 		private IDumpRepositoryService DumpRepository { get; set; }
-
 		private ISQLServerAdapter SQLServer { get; set; }
+		private IAdeNetService AdeNet { get; set; }
 		#endregion
 
 		#region Initialize and Cleanup
@@ -39,7 +36,8 @@ namespace BranchingModuleTest.Logic.Services
 			this.FileSystem = Substitute.For<IFileSystemAdapter>();
 			this.DumpRepository = Substitute.For<IDumpRepositoryService>();
 			this.SQLServer = Substitute.For<ISQLServerAdapter>();
-			this.DatabaseService = new DatabaseService(this.DumpRepository, this.FileSystem, this.SQLServer, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
+			this.AdeNet = Substitute.For<IAdeNetService>();
+			this.DatabaseService = new DatabaseService(this.DumpRepository, this.FileSystem, this.SQLServer, this.AdeNet, new ConventionDummy(), this.Settings, new TextOutputServiceDummy());
 		}
 		#endregion
 
@@ -54,7 +52,7 @@ namespace BranchingModuleTest.Logic.Services
 			this.DatabaseService.Create(AKISBV_5_0_35);
 
 			// Assert
-			this.SQLServer.Received().ExecuteScript("Create", Arg.Any<string>());
+			this.AdeNet.Received().CreateDatabase(AKISBV_5_0_35);
 		}
 
 		[TestMethod]
@@ -337,6 +335,26 @@ namespace BranchingModuleTest.Logic.Services
 
 			// Assert
 			this.SQLServer.Received().ExecuteScript(Arg.Is<string>(s => s.Contains("my_special_bak_file") && s.Contains("Backup")), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestDropDatabase_Main()
+		{
+			// Act
+			this.DatabaseService.Drop(AKISBV_MAIN);
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript(string.Format("DROP DATABASE {0}", LOCAL_DATABASE_AKISBV_MAIN), Arg.Any<string>());
+		}
+
+		[TestMethod]
+		public void TestDropDatabase_Release()
+		{
+			// Act
+			this.DatabaseService.Drop(AKISBV_5_0_35);
+
+			// Assert
+			this.SQLServer.Received().ExecuteScript(string.Format("DROP DATABASE {0}", LOCAL_DATABASE_AKISBV_5_0_35), Arg.Any<string>());
 		}
 		#endregion
 

@@ -51,7 +51,7 @@ namespace BranchingModule.Logic
 			this.TextOutput.WriteVerbose("Deleting Solution");
 			this.FileSystem.DeleteDirectory(this.Convention.GetLocalPath(branch));
 
-			this.TextOutput.WriteVerbose("Removing local dump file");
+			this.TextOutput.WriteVerbose("Removing local dump file (if any)");
 			this.Database.DeleteLocalDump(branch);
 
 			this.TextOutput.WriteVerbose("Removing Ablage");

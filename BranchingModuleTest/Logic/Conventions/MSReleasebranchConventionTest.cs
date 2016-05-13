@@ -44,6 +44,16 @@ namespace BranchingModuleTest.Logic.Conventions
 		}
 
 		[TestMethod]
+		public void TestGetLocalDatabase()
+		{
+			// Act
+			string strLocalDatabase = this.MSReleasebranchConvention.GetLocalDatabase(AKISBV_5_0_35);
+
+			// Assert
+			Assert.AreEqual("AkisBV_5_0_35", strLocalDatabase);
+		}
+
+		[TestMethod]
 		public void TestGetSeverBasePath()
 		{
 			// Act

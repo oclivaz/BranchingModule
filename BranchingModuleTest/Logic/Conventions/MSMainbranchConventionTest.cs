@@ -27,17 +27,27 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetLocalPath()
 		{
 			// Act
-			string strLocalPath = this.MSMainbranchConvention.GetLocalPath(AKISBV_5_0_35);
+			string strLocalPath = this.MSMainbranchConvention.GetLocalPath(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"C:\inetpub\wwwroot\AkisBVDev", strLocalPath, true);
 		}
 
 		[TestMethod]
+		public void TestGetLocalDatabase()
+		{
+			// Act
+			string strLocalDatabase = this.MSMainbranchConvention.GetLocalDatabase(AKISBV_MAIN);
+
+			// Assert
+			Assert.AreEqual("AkisBV", strLocalDatabase);
+		}
+
+		[TestMethod]
 		public void TestGetSeverPath()
 		{
 			// Act
-			string strServerPath = this.MSMainbranchConvention.GetServerSourcePath(AKISBV_5_0_35);
+			string strServerPath = this.MSMainbranchConvention.GetServerSourcePath(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Main/Source", strServerPath, true);
@@ -47,7 +57,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSeverBasePath()
 		{
 			// Act
-			string strServerPath = this.MSMainbranchConvention.GetServerBasePath(AKISBV_5_0_35);
+			string strServerPath = this.MSMainbranchConvention.GetServerBasePath(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"$/AkisBV/Main", strServerPath, true);
@@ -57,7 +67,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetBuildserverDump()
 		{
 			// Act
-			string strBuildserverDump = this.MSMainbranchConvention.GetBuildserverDump(AKISBV_5_0_35);
+			string strBuildserverDump = this.MSMainbranchConvention.GetBuildserverDump(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"\\build\backup\AkisBV.bak", strBuildserverDump, true);
@@ -70,7 +80,7 @@ namespace BranchingModuleTest.Logic.Conventions
 			this.Settings.GetTeamProjectSettings(AKISBV_5_0_35.TeamProject).Returns(TeamProjectSettings("TheLocalDBName", "dump"));
 
 			// Act
-			string strBuildserverDump = this.MSMainbranchConvention.GetLocalDump(AKISBV_5_0_35);
+			string strBuildserverDump = this.MSMainbranchConvention.GetLocalDump(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"c:\database\TheLocalDBName\AkisBV.bak", strBuildserverDump, true);
@@ -80,7 +90,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetApplicationName()
 		{
 			// Act
-			string strApplicationName = this.MSMainbranchConvention.GetApplicationName(AKISBV_5_0_35);
+			string strApplicationName = this.MSMainbranchConvention.GetApplicationName(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual("AkisBVDev", strApplicationName);
@@ -90,7 +100,7 @@ namespace BranchingModuleTest.Logic.Conventions
 		public void TestGetSolutionFile()
 		{
 			// Act
-			string strSolutionFile = this.MSMainbranchConvention.GetSolutionFile(AKISBV_5_0_35);
+			string strSolutionFile = this.MSMainbranchConvention.GetSolutionFile(AKISBV_MAIN);
 
 			// Assert
 			Assert.AreEqual(@"c:\inetpub\wwwroot\AkisBVDev\AkisBV.sln", strSolutionFile, true);

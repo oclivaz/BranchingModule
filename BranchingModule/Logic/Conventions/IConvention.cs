@@ -9,6 +9,7 @@
 		string GetReleaseBranchesPath(string strTeamProject);
 
 		string GetLocalPath(BranchInfo branch);
+		string GetLocalDatabase(BranchInfo branch);
 		string GetServerPath(BranchInfo branch);
 		string GetServerBasePath(BranchInfo branch);
 		string GetBuildserverDump(BranchInfo branch);

@@ -46,6 +46,11 @@ namespace BranchingModule.Logic
 			return String.Format(@"c:\Database\{0}\{1}.bak", teamProjectSettings.LocalDB, branch.TeamProject);
 		}
 
+		public override string GetLocalDatabase(BranchInfo branch)
+		{
+			return branch.TeamProject;
+		}
+
 		public override string GetApplicationName(BranchInfo branch)
 		{
 			return String.Format("{0}Dev", branch.TeamProject);

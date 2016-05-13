@@ -51,7 +51,7 @@ namespace BranchingModuleTest.Logic.Controller
 			this.AdeNet.Received().BuildWebConfig(AKISBV_5_0_35);
 			this.BuildEngine.Received().Build(AKISBV_5_0_35);
 			this.AdeNet.Received().InitializeIIS(AKISBV_5_0_35);
-			this.Database.Received().Restore(AKISBV_5_0_35);
+			this.Database.DidNotReceive().Restore(AKISBV_5_0_35);
 			this.Ablage.Received().Reset(AKISBV_5_0_35);
 		}
 

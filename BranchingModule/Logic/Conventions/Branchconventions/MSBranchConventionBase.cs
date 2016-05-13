@@ -38,6 +38,8 @@ namespace BranchingModule.Logic
 
 		public abstract string GetLocalDump(BranchInfo branch);
 
+		public abstract string GetLocalDatabase(BranchInfo branch);
+
 		public abstract string GetApplicationName(BranchInfo branch);
 
 		public abstract bool ServerPathFollowsConvention(string strServerpath);

@@ -5,6 +5,7 @@
 		BranchType BranchType { get; }
 
 		string GetLocalPath(BranchInfo branch);
+		string GetLocalDatabase(BranchInfo branch);
 		string GetServerSourcePath(BranchInfo branch);
 		string GetServerBasePath(BranchInfo branch);
 		string GetBuildserverDump(BranchInfo branch);

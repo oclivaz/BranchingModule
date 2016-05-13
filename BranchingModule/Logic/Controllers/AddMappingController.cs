@@ -74,9 +74,6 @@ namespace BranchingModule.Logic
 			this.TextOutput.WriteVerbose("Initializing IIS");
 			this.AdeNet.InitializeIIS(branch);
 
-			this.TextOutput.WriteVerbose("Restoring Dump");
-			this.Database.Restore(branch);
-
 			this.TextOutput.WriteVerbose("Resetting Ablage");
 			this.Ablage.Reset(branch);
 		}

@@ -65,6 +65,11 @@ namespace BranchingModuleTest.TestDoubles
 			return Convention(branch).GetLocalPath(branch);
 		}
 
+		public string GetLocalDatabase(BranchInfo branch)
+		{
+			return Convention(branch).GetLocalDatabase(branch);
+		}
+
 		public string GetServerPath(BranchInfo branch)
 		{
 			return Convention(branch).GetServerSourcePath(branch);

@@ -19,6 +19,11 @@ namespace BranchingModuleTest.TestDoubles
 			return string.Format(@"ReleasebranchConventionDummy.GetLocalPath {0}", branch);
 		}
 
+		string IBranchConvention.GetLocalDatabase(BranchInfo branch)
+		{
+			return GetLocalDatabase(branch);
+		}
+
 		string IBranchConvention.GetServerSourcePath(BranchInfo branch)
 		{
 			return GetServerPath(branch);
@@ -74,6 +79,11 @@ namespace BranchingModuleTest.TestDoubles
 			return GetLocalPath(branch);
 		}
 
+		public static string GetLocalDatabase(BranchInfo branch)
+		{
+			return string.Format(@"DevelopmentbranchConventionDummy.GetLocalDatabase {0}", branch);
+		}
+		
 		public static string GetServerPath(BranchInfo branch)
 		{
 			return string.Format(@"DevelopmentbranchConventionDummy.GetServerPath {0}", branch);
